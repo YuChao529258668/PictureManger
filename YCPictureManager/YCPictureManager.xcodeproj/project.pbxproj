@@ -16,6 +16,7 @@
 		0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A59255BC920005358F0 /* YCTabBarVC.m */; };
 		0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */; };
 		0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A64255BCAA2005358F0 /* YCMineVC.m */; };
+		0DA22A6F255BD382005358F0 /* YCAssetListBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetListBaseVC.m; sourceTree = "<group>"; };
 		0DA22A63255BCAA2005358F0 /* YCMineVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMineVC.h; sourceTree = "<group>"; };
 		0DA22A64255BCAA2005358F0 /* YCMineVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMineVC.m; sourceTree = "<group>"; };
+		0DA22A6D255BD382005358F0 /* YCAssetListBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAssetListBaseCell.h; sourceTree = "<group>"; };
+		0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetListBaseCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +71,8 @@
 			isa = PBXGroup;
 			children = (
 				0DA22A61255BCA58005358F0 /* Others */,
-				0DA22A58255BC920005358F0 /* YCTabBarVC.h */,
-				0DA22A59255BC920005358F0 /* YCTabBarVC.m */,
-				0DA22A5D255BCA4B005358F0 /* YCAssetListBaseVC.h */,
-				0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */,
+				0DA22A6B255BD340005358F0 /* TabBar */,
+				0DA22A6A255BD329005358F0 /* AssetList */,
 				0DA22A63255BCAA2005358F0 /* YCMineVC.h */,
 				0DA22A64255BCAA2005358F0 /* YCMineVC.m */,
 			);
@@ -92,6 +93,34 @@
 				0DA22A4F255BC016005358F0 /* main.m */,
 			);
 			name = Others;
+			sourceTree = "<group>";
+		};
+		0DA22A6A255BD329005358F0 /* AssetList */ = {
+			isa = PBXGroup;
+			children = (
+				0DA22A6C255BD354005358F0 /* View */,
+				0DA22A5D255BCA4B005358F0 /* YCAssetListBaseVC.h */,
+				0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */,
+			);
+			path = AssetList;
+			sourceTree = "<group>";
+		};
+		0DA22A6B255BD340005358F0 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				0DA22A58255BC920005358F0 /* YCTabBarVC.h */,
+				0DA22A59255BC920005358F0 /* YCTabBarVC.m */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		0DA22A6C255BD354005358F0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0DA22A6D255BD382005358F0 /* YCAssetListBaseCell.h */,
+				0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DA22A6F255BD382005358F0 /* YCAssetListBaseCell.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,

@@ -6,6 +6,7 @@
 //
 
 #import "YCAssetListBaseVC.h"
+#import "YCAssetListBaseCell.h"
 
 #define kCellSpacing 2
 
@@ -47,7 +48,7 @@
     self.collectionView = cv;
     [self.view addSubview:cv];
     
-    [cv registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:@"Cell"];
+    [cv registerClass:YCAssetListBaseCell.class forCellWithReuseIdentifier:@"YCAssetListBaseCell"];
     cv.backgroundColor = [UIColor whiteColor];
 }
  
@@ -61,8 +62,8 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.contentView.backgroundColor = [UIColor blueColor];
+    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetListBaseCell" forIndexPath:indexPath];
+    cell.contentView.backgroundColor = [UIColor greenColor];
     return cell;
 }
 
