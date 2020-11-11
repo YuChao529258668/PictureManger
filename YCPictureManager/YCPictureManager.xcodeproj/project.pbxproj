@@ -17,6 +17,9 @@
 		0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */; };
 		0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A64255BCAA2005358F0 /* YCMineVC.m */; };
 		0DA22A6F255BD382005358F0 /* YCAssetListBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */; };
+		0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A75255BD7E8005358F0 /* PMAsset.m */; };
+		0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A79255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m */; };
+		0DA22A7E255BE359005358F0 /* YCUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A7D255BE359005358F0 /* YCUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,12 @@
 		0DA22A64255BCAA2005358F0 /* YCMineVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMineVC.m; sourceTree = "<group>"; };
 		0DA22A6D255BD382005358F0 /* YCAssetListBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAssetListBaseCell.h; sourceTree = "<group>"; };
 		0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetListBaseCell.m; sourceTree = "<group>"; };
+		0DA22A74255BD7E8005358F0 /* PMAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMAsset.h; sourceTree = "<group>"; };
+		0DA22A75255BD7E8005358F0 /* PMAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMAsset.m; sourceTree = "<group>"; };
+		0DA22A78255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlockAfterDelay.h"; sourceTree = "<group>"; };
+		0DA22A79255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlockAfterDelay.m"; sourceTree = "<group>"; };
+		0DA22A7C255BE359005358F0 /* YCUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCUtil.h; sourceTree = "<group>"; };
+		0DA22A7D255BE359005358F0 /* YCUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +79,7 @@
 		0DA22A3C255BC015005358F0 /* YCPictureManager */ = {
 			isa = PBXGroup;
 			children = (
+				0DA22A72255BD7D9005358F0 /* Lib */,
 				0DA22A61255BCA58005358F0 /* Others */,
 				0DA22A6B255BD340005358F0 /* TabBar */,
 				0DA22A6A255BD329005358F0 /* AssetList */,
@@ -121,6 +131,27 @@
 				0DA22A6E255BD382005358F0 /* YCAssetListBaseCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0DA22A72255BD7D9005358F0 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				0DA22A78255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.h */,
+				0DA22A79255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m */,
+				0DA22A73255BD7E8005358F0 /* PMAsset */,
+				0DA22A7C255BE359005358F0 /* YCUtil.h */,
+				0DA22A7D255BE359005358F0 /* YCUtil.m */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		0DA22A73255BD7E8005358F0 /* PMAsset */ = {
+			isa = PBXGroup;
+			children = (
+				0DA22A74255BD7E8005358F0 /* PMAsset.h */,
+				0DA22A75255BD7E8005358F0 /* PMAsset.m */,
+			);
+			path = PMAsset;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,8 +224,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DA22A6F255BD382005358F0 /* YCAssetListBaseCell.m in Sources */,
+				0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
+				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
+				0DA22A7E255BE359005358F0 /* YCUtil.m in Sources */,
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,
 				0DA22A50255BC016005358F0 /* main.m in Sources */,
