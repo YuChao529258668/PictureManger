@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A3E255BC015005358F0 /* AppDelegate.m */; };
 		0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A41255BC015005358F0 /* SceneDelegate.m */; };
-		0DA22A45255BC015005358F0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A44255BC015005358F0 /* ViewController.m */; };
 		0DA22A48255BC015005358F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DA22A46255BC015005358F0 /* Main.storyboard */; };
 		0DA22A4A255BC016005358F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DA22A49255BC016005358F0 /* Assets.xcassets */; };
 		0DA22A4D255BC016005358F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DA22A4B255BC016005358F0 /* LaunchScreen.storyboard */; };
 		0DA22A50255BC016005358F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A4F255BC016005358F0 /* main.m */; };
+		0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A59255BC920005358F0 /* YCTabBarVC.m */; };
+		0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */; };
+		0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A64255BCAA2005358F0 /* YCMineVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,13 +24,17 @@
 		0DA22A3E255BC015005358F0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0DA22A40255BC015005358F0 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		0DA22A41255BC015005358F0 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		0DA22A43255BC015005358F0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0DA22A44255BC015005358F0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0DA22A47255BC015005358F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0DA22A49255BC016005358F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0DA22A4C255BC016005358F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0DA22A4E255BC016005358F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DA22A4F255BC016005358F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0DA22A58255BC920005358F0 /* YCTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCTabBarVC.h; sourceTree = "<group>"; };
+		0DA22A59255BC920005358F0 /* YCTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCTabBarVC.m; sourceTree = "<group>"; };
+		0DA22A5D255BCA4B005358F0 /* YCAssetListBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAssetListBaseVC.h; sourceTree = "<group>"; };
+		0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetListBaseVC.m; sourceTree = "<group>"; };
+		0DA22A63255BCAA2005358F0 /* YCMineVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMineVC.h; sourceTree = "<group>"; };
+		0DA22A64255BCAA2005358F0 /* YCMineVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCMineVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,19 +67,31 @@
 		0DA22A3C255BC015005358F0 /* YCPictureManager */ = {
 			isa = PBXGroup;
 			children = (
+				0DA22A61255BCA58005358F0 /* Others */,
+				0DA22A58255BC920005358F0 /* YCTabBarVC.h */,
+				0DA22A59255BC920005358F0 /* YCTabBarVC.m */,
+				0DA22A5D255BCA4B005358F0 /* YCAssetListBaseVC.h */,
+				0DA22A5E255BCA4B005358F0 /* YCAssetListBaseVC.m */,
+				0DA22A63255BCAA2005358F0 /* YCMineVC.h */,
+				0DA22A64255BCAA2005358F0 /* YCMineVC.m */,
+			);
+			path = YCPictureManager;
+			sourceTree = "<group>";
+		};
+		0DA22A61255BCA58005358F0 /* Others */ = {
+			isa = PBXGroup;
+			children = (
 				0DA22A3D255BC015005358F0 /* AppDelegate.h */,
 				0DA22A3E255BC015005358F0 /* AppDelegate.m */,
 				0DA22A40255BC015005358F0 /* SceneDelegate.h */,
 				0DA22A41255BC015005358F0 /* SceneDelegate.m */,
-				0DA22A43255BC015005358F0 /* ViewController.h */,
-				0DA22A44255BC015005358F0 /* ViewController.m */,
 				0DA22A46255BC015005358F0 /* Main.storyboard */,
 				0DA22A49255BC016005358F0 /* Assets.xcassets */,
 				0DA22A4B255BC016005358F0 /* LaunchScreen.storyboard */,
 				0DA22A4E255BC016005358F0 /* Info.plist */,
 				0DA22A4F255BC016005358F0 /* main.m */,
 			);
-			path = YCPictureManager;
+			name = Others;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +163,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DA22A45255BC015005358F0 /* ViewController.m in Sources */,
+				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
+				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
+				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,
 				0DA22A50255BC016005358F0 /* main.m in Sources */,
 				0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */,

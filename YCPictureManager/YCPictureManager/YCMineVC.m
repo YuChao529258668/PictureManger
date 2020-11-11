@@ -1,17 +1,17 @@
 //
-//  ViewController.m
+//  YCMineVC.m
 //  YCPictureManager
 //
 //  Created by 余超 on 2020/11/11.
 //
 
-#import "ViewController.h"
+#import "YCMineVC.h"
 
-@interface ViewController ()
+@interface YCMineVC ()
 
 @end
 
-@implementation ViewController
+@implementation YCMineVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
