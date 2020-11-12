@@ -33,7 +33,8 @@
 
 - (void)config {
     UIImageView *iv = [UIImageView new];
-    iv.contentMode = UIViewContentModeScaleAspectFit;
+    iv.contentMode = UIViewContentModeScaleAspectFill;
+    iv.layer.masksToBounds = YES;
     self.imageView = iv;
     [self.contentView addSubview:iv];
     

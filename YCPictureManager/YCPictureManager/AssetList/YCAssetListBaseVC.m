@@ -6,8 +6,6 @@
 //
 
 #import "YCAssetListBaseVC.h"
-#import "YCAssetListBaseCell.h"
-#import "YCUtil.h"
 
 #define kCellSpacing 2
 
@@ -24,9 +22,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupCollectionView];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     [YCUtil powerPhotoWithVC:self callBack:^(BOOL succ) {
         if (succ) {
-            
+            [self readyForAssets];
+            [self getAssets];
         }
     }];
 }
@@ -39,6 +43,7 @@
     int count = swidth / 100;
 //    float itemWidth = (int)((swidth - (count - 1) * kCellSpacing)/count /2) * 2; // 间距不固定
     int itemWidth = (swidth - (count - 1) * kCellSpacing)/count;
+    self.imageSize = CGSizeMake(itemWidth, itemWidth);
     return itemWidth;
 }
 
@@ -52,6 +57,8 @@
     UICollectionView *cv = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     cv.dataSource = self;
     cv.delegate = self;
+    cv.alwaysBounceVertical = YES;
+    cv.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
     self.collectionView = cv;
     [self.view addSubview:cv];
     
@@ -65,13 +72,57 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+//    return 20;
+    return self.fetchResult.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetListBaseCell" forIndexPath:indexPath];
-//    cell.contentView.backgroundColor = [UIColor greenColor];
+    cell.contentView.backgroundColor = [UIColor greenColor];
+    
+//    cell.imageView.image = nil;
+    
+    PHAsset *asset = [self.fetchResult objectAtIndex:indexPath.item];
+    [self.imageManager requestImageForAsset:asset targetSize:self.imageSize contentMode:PHImageContentModeDefault options:self.imageOption resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        cell.imageView.image = result;
+//        NSLog(@"获取照片结束");
+    }];
     return cell;
+}
+
+
+
+#pragma mark -
+
+- (void)readyForAssets {
+    PHFetchOptions *options = [PHFetchOptions new];
+    options.fetchLimit = 100;
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    self.assetsOption = options;
+    
+    PHCachingImageManager *manager = [PHCachingImageManager new];
+    self.imageManager = manager;
+    
+    PHImageRequestOptions *imgOptions = [PHImageRequestOptions new];
+    imgOptions.networkAccessAllowed = NO;
+//    imgOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
+//    imgOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    imgOptions.resizeMode = PHImageRequestOptionsResizeModeNone;
+//    imgOptions.synchronous = NO;
+//    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    imgOptions.synchronous = YES;
+    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+//    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+
+    self.imageOption = imgOptions;
+}
+
+- (void)getAssets {
+    PHAssetMediaType type = PHAssetMediaTypeImage;
+    PHFetchResult *result = [PHAsset fetchAssetsWithMediaType:type options:self.assetsOption];
+    self.fetchResult = result;
+    
+    [self.collectionView reloadData];
 }
 
 @end
