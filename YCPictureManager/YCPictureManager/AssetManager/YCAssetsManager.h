@@ -14,6 +14,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetsManager : NSObject
 
++ (instancetype)shareManager;
+
++ (PHFetchResult<PHAsset *> *)fetchLowAssets;
+
+#pragma mark - Image
+
++ (PHImageRequestID)requestLowImage:(PHAsset *)asset size:(CGSize)targetSize handler:(void (^)(UIImage *_Nullable result, NSDictionary *_Nullable info))resultHandler;
+
++ (PHImageRequestID)requestHighImage:(PHAsset *)asset size:(CGSize)targetSize handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler;
+
++ (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode options:(nullable PHImageRequestOptions *)options handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler;
+
+
+#pragma mark -
+
 @end
 
 NS_ASSUME_NONNULL_END
