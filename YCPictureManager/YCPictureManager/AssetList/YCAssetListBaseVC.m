@@ -6,6 +6,8 @@
 //
 
 #import "YCAssetListBaseVC.h"
+#import "YCAssetListBaseCell.h"
+#import "YCUtil.h"
 
 #define kCellSpacing 2
 
@@ -29,7 +31,6 @@
     
     [YCUtil powerPhotoWithVC:self callBack:^(BOOL succ) {
         if (succ) {
-            [self readyForAssets];
             [self getAssets];
         }
     }];
@@ -77,51 +78,23 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetListBaseCell" forIndexPath:indexPath];
     cell.contentView.backgroundColor = [UIColor greenColor];
-    
-//    cell.imageView.image = nil;
-    
+        
     PHAsset *asset = [self.fetchResult objectAtIndex:indexPath.item];
-    [self.imageManager requestImageForAsset:asset targetSize:self.imageSize contentMode:PHImageContentModeDefault options:self.imageOption resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    [YCAssetsManager requestLowImage:asset size:self.imageSize handler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         cell.imageView.image = result;
-//        NSLog(@"获取照片结束");
     }];
+    
     return cell;
 }
 
 
-
 #pragma mark -
 
-- (void)readyForAssets {
-    PHFetchOptions *options = [PHFetchOptions new];
-    options.fetchLimit = 100;
-    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-    self.assetsOption = options;
-    
-    PHCachingImageManager *manager = [PHCachingImageManager new];
-    self.imageManager = manager;
-    
-    PHImageRequestOptions *imgOptions = [PHImageRequestOptions new];
-    imgOptions.networkAccessAllowed = NO;
-//    imgOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
-//    imgOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-    imgOptions.resizeMode = PHImageRequestOptionsResizeModeNone;
-//    imgOptions.synchronous = NO;
-//    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-    imgOptions.synchronous = YES;
-    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
-//    imgOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-
-    self.imageOption = imgOptions;
-}
-
 - (void)getAssets {
-    PHAssetMediaType type = PHAssetMediaTypeImage;
-    PHFetchResult *result = [PHAsset fetchAssetsWithMediaType:type options:self.assetsOption];
-    self.fetchResult = result;
-    
+    self.fetchResult = [YCAssetsManager fetchLowAssets];
     [self.collectionView reloadData];
 }
 

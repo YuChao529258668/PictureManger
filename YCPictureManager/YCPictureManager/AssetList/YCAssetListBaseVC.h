@@ -6,19 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YCAssetListBaseCell.h"
-#import "YCUtil.h"
+#import "YCAssetsManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetListBaseVC : UIViewController
 @property (nonatomic, strong) UICollectionView *collectionView;
-
-
 @property (nonatomic, strong) PHFetchResult *fetchResult;
-@property (nonatomic, strong) PHFetchOptions *assetsOption;
-@property (nonatomic, strong) PHCachingImageManager *imageManager;
-@property (nonatomic, strong) PHImageRequestOptions *imageOption;
 @property (nonatomic, assign) CGSize imageSize;
 
 @end
