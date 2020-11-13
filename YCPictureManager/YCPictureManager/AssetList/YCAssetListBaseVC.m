@@ -7,6 +7,7 @@
 
 #import "YCAssetListBaseVC.h"
 #import "YCAssetListBaseCell.h"
+#import "YCAssetPreviewVC.h"
 #import "YCUtil.h"
 
 #define kCellSpacing 2
@@ -88,6 +89,15 @@
     }];
     
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    PHAsset *asset = [self.fetchResult objectAtIndex:indexPath.item];
+    YCAssetPreviewVC *vc = [YCAssetPreviewVC new];
+    vc.index = indexPath.item;
+    vc.asset = asset;
+    vc.fetchResult = self.fetchResult;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

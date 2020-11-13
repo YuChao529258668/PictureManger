@@ -6,12 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Photos/Photos.h>
+#import "YCAssetsManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetPreviewVC : UIViewController
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, assign) NSInteger index;
 
 @property (nonatomic, strong) PHFetchResult *fetchResult;
 @end

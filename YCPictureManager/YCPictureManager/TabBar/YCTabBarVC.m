@@ -24,12 +24,16 @@
 
 - (void)setupViewControllers {
     YCAssetListBaseVC *alistVc = [YCAssetListBaseVC new];
-    alistVc.tabBarItem.title = @"图库";
     
     YCMineVC *mineVc = [YCMineVC new];
-    mineVc.tabBarItem.title = @"我的";
     
-    self.viewControllers = @[alistVc, mineVc];
+    UINavigationController *listNc = [[UINavigationController alloc] initWithRootViewController:alistVc];
+    listNc.tabBarItem.title = @"图库";
+
+    UINavigationController *mineNc = [[UINavigationController alloc] initWithRootViewController:mineVc];
+    mineNc.tabBarItem.title = @"我的";
+
+    self.viewControllers = @[listNc, mineNc];
 
 }
 
