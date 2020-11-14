@@ -46,13 +46,13 @@
             filePath = "YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "-handlePanGesture:"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - a7d17d713272bceb"
+                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - a7d17d713272b8a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -62,12 +62,12 @@
                   urlString = "file:///Users/yuchao/%E6%96%87%E7%A8%BF/PictureManger/YCPictureManager/YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "3700">
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "3448">
                </Location>
                <Location
-                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - 6ecf85cf3d35e77e"
+                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - 6ecf85cf3d35e3bf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -77,8 +77,8 @@
                   urlString = "file:///Users/yuchao/%E6%96%87%E7%A8%BF/PictureManger/YCPictureManager/YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "273"
-                  endingLineNumber = "273"
+                  startingLineNumber = "306"
+                  endingLineNumber = "306"
                   offsetFromSymbolStart = "36">
                </Location>
             </Locations>
@@ -87,16 +87,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "97E7E139-2CA9-46A2-82C6-ADD7EE0CFBF8"
+            uuid = "0C0D3FD4-306C-499B-B932-91572929683F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "-handlePanGesture:"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-viewDidLayoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

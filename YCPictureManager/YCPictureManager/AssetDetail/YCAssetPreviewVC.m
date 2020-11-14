@@ -19,6 +19,57 @@
 
 @implementation YCAssetPreviewVC
 
+- (void)appearAnimation {
+    if (!self.isFitstTime) {
+        return;
+    }
+    
+    UIImageView *snapView = [UIImageView new];
+    PHAsset *asset = [self.fetchResult objectAtIndex:self.index];
+    UIView *targetView = [self.delegate targetViewForAsset:asset];
+    
+    // 起始位置
+    CGRect frame = [targetView.superview convertRect:targetView.frame toView:self.view];
+    snapView.frame = frame;
+
+    // 结束位置
+    YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
+    CGRect endFrame = [cell.imageView.superview convertRect:cell.imageView.yc_imageRect toView:self.view];
+    
+    // 图片内容
+    snapView.layer.masksToBounds = YES;
+    snapView.contentMode = targetView.contentMode;
+    snapView.backgroundColor = [UIColor redColor];
+
+    [YCAssetsManager requestHighImage:asset size:self.imageSize handler:^(UIImage * _Nullable result, BOOL isLow, PHAsset * _Nonnull asset, NSDictionary * _Nullable info) {
+        snapView.image = result;
+    }];
+    
+    
+    // 动画
+    self.collectionView.hidden = YES;
+    [self.view addSubview:snapView];
+
+    NSTimeInterval duration = 0.44;
+    self.view.backgroundColor = [UIColor clearColor];
+//    [UIView animateWithDuration:duration animations:^{
+////            self.view.backgroundColor = [UIColor blackColor];
+//        self.view.backgroundColor = [UIColor whiteColor];
+//    }];
+
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.76 initialSpringVelocity:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        snapView.frame = endFrame;
+//            self.view.backgroundColor = [UIColor blackColor]; // 变黑之后会瞬间变白再变黑，bug
+        self.view.backgroundColor = [UIColor whiteColor];
+
+        
+    } completion:^(BOOL finished) {
+        [snapView removeFromSuperview];
+        self.collectionView.hidden = NO;
+    }];
+
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -28,9 +79,11 @@
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor clearColor];
     
     CGSize size = [UIScreen mainScreen].bounds.size;
     int itemWidth = MAX(size.width, size.height);
@@ -44,6 +97,9 @@
     [super viewDidAppear:animated];
     
 //    [self test];// yctest
+    [self appearAnimation];
+    
+    self.isFitstTime = NO;
 }
 
 - (void)test {
@@ -76,10 +132,17 @@
     [super viewWillAppear:animated];
     
     if (self.isFitstTime) {
-        self.isFitstTime = NO;
         NSIndexPath *ip = [NSIndexPath indexPathForItem:self.index inSection:0];
         [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        
+//        [self appearAnimation];
     }
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+//    [self appearAnimation];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -105,6 +168,7 @@
     layout.minimumInteritemSpacing = 0;
     
     UICollectionView *cv = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    cv.hidden = YES;
     cv.dataSource = self;
     cv.delegate = self;
     cv.alwaysBounceHorizontal = YES;
