@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */; };
 		0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A3E255BC015005358F0 /* AppDelegate.m */; };
 		0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A41255BC015005358F0 /* SceneDelegate.m */; };
 		0DA22A48255BC015005358F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DA22A46255BC015005358F0 /* Main.storyboard */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YCImageView.m"; sourceTree = "<group>"; };
+		0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YCImageView.h"; sourceTree = "<group>"; };
 		0DA22A3A255BC015005358F0 /* YCPictureManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCPictureManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DA22A3D255BC015005358F0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0DA22A3E255BC015005358F0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -69,6 +72,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D9AF95C255FE807006F6B9B /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */,
+				0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		0DA22A31255BC015005358F0 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +104,7 @@
 				0DA22A6A255BD329005358F0 /* AssetList */,
 				0DA22A80255D2886005358F0 /* AssetDetail */,
 				0DA22A72255BD7D9005358F0 /* Lib */,
+				0D9AF95C255FE807006F6B9B /* Category */,
 				0DA22A61255BCA58005358F0 /* Others */,
 				0DA22A6B255BD340005358F0 /* TabBar */,
 				0DA22A63255BCAA2005358F0 /* YCMineVC.h */,
@@ -269,6 +282,7 @@
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
 				0DA22A88255D2B3E005358F0 /* YCAssetPreviewCell.m in Sources */,
+				0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */,
 				0DA22A7E255BE359005358F0 /* YCUtil.m in Sources */,
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,

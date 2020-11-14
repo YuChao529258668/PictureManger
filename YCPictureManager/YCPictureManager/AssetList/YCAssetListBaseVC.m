@@ -13,8 +13,9 @@
 #define kCellSpacing 2
 
 @interface YCAssetListBaseVC ()
-<UICollectionViewDelegate, UICollectionViewDataSource>
-
+<UICollectionViewDelegate, UICollectionViewDataSource, YCAssetPreviewVCDelegate>
+//@property (nonatomic, strong) YCAssetListBaseCell *selectCell;
+//@property (nonatomic, strong) PHAsset *selectAsset;
 @end
 
 @implementation YCAssetListBaseVC
@@ -74,7 +75,6 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return 20;
     return self.fetchResult.count;
 }
 
@@ -92,12 +92,23 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+//    cell.imageView.hidden = YES;
+//    self.selectCell = cell;
+    
     PHAsset *asset = [self.fetchResult objectAtIndex:indexPath.item];
+//    self.selectAsset = asset;
+    
     YCAssetPreviewVC *vc = [YCAssetPreviewVC new];
     vc.index = indexPath.item;
     vc.asset = asset;
     vc.fetchResult = self.fetchResult;
-    [self.navigationController pushViewController:vc animated:YES];
+    vc.delegate = self;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:nc animated:NO completion:nil];
 }
 
 
@@ -107,5 +118,33 @@
     self.fetchResult = [YCAssetsManager fetchLowAssets];
     [self.collectionView reloadData];
 }
+
+
+#pragma mark - YCAssetPreviewVCDelegate
+
+- (void)panDownAsset:(PHAsset *)asset {
+    NSUInteger index = [self.fetchResult indexOfObject:asset];
+    NSIndexPath *ip = [NSIndexPath indexPathForItem:index inSection:0];
+    
+    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:ip];
+    cell.imageView.hidden = YES;
+    
+    [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+}
+
+- (void)panDownAssetFinish:(PHAsset *)asset {
+    NSUInteger index = [self.fetchResult indexOfObject:asset];
+    NSIndexPath *ip = [NSIndexPath indexPathForItem:index inSection:0];
+    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:ip];
+    cell.imageView.hidden = NO;
+}
+
+- (UIView *)targetViewForAsset:(PHAsset *)asset {
+    NSUInteger index = [self.fetchResult indexOfObject:asset];
+    NSIndexPath *ip = [NSIndexPath indexPathForItem:index inSection:0];
+    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:ip];
+    return cell.imageView;
+}
+
 
 @end
