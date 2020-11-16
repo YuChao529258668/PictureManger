@@ -81,7 +81,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetListBaseCell" forIndexPath:indexPath];
-    cell.contentView.backgroundColor = [UIColor greenColor];
+//    cell.contentView.backgroundColor = [UIColor greenColor];
         
     PHAsset *asset = [self.fetchResult objectAtIndex:indexPath.item];
     [YCAssetsManager requestLowImage:asset size:self.imageSize handler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {

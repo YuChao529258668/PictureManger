@@ -25,8 +25,8 @@
     self.imageView = iv;
     [self.contentView addSubview:iv];
     
-    self.backgroundColor = [UIColor yellowColor];
-    iv.backgroundColor = [UIColor blueColor];
+//    self.backgroundColor = [UIColor yellowColor];
+//    iv.backgroundColor = [UIColor blueColor];
 }
 
 - (void)layoutSubviews {

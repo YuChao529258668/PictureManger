@@ -39,7 +39,7 @@
     // 图片内容
     snapView.layer.masksToBounds = YES;
     snapView.contentMode = targetView.contentMode;
-    snapView.backgroundColor = [UIColor redColor];
+//    snapView.backgroundColor = [UIColor redColor];
 
     [YCAssetsManager requestHighImage:asset size:self.imageSize handler:^(UIImage * _Nullable result, BOOL isLow, PHAsset * _Nonnull asset, NSDictionary * _Nullable info) {
         snapView.image = result;
@@ -196,7 +196,7 @@
     YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetPreviewCell" forIndexPath:indexPath];
     
     cell.imageView.image = nil;
-    cell.contentView.backgroundColor = [UIColor greenColor];
+//    cell.contentView.backgroundColor = [UIColor greenColor];
         
     PHAsset *as = [self.fetchResult objectAtIndex:indexPath.item];
     
