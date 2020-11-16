@@ -87,6 +87,7 @@
     PHAssetCollection *album = [self.fetchResult objectAtIndex:indexPath.item];
     YCAssetListBaseVC *vc = [YCAssetListBaseVC new];
     vc.album = album;
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

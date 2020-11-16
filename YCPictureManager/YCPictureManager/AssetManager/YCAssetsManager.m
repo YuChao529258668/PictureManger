@@ -90,7 +90,7 @@ static YCAssetsManager *manager;
 }
 
 
-#pragma mark -
+#pragma mark - Image
 
 + (PHImageRequestID)requestLowImage:(PHAsset *)asset size:(CGSize)targetSize handler:(void (^)(UIImage *_Nullable result, NSDictionary *_Nullable info))resultHandler {
     return [self requestImageForAsset:asset
@@ -138,7 +138,7 @@ static YCAssetsManager *manager;
 }
 
 
-#pragma mark - AssetCollection
+#pragma mark - Asset Collection
 
 + (PHFetchResult<PHAssetCollection *> *)fetchAssetCollections {
 //    PHAssetCollectionType type = PHAssetCollectionTypeAlbum; // PHAssetCollectionTypeSmartAlbum
