@@ -13,82 +13,96 @@
 
 #pragma mark - 照片权限
 
-+ (void)powerPhotoWithVC:(UIViewController *)avc callBack:(void (^)(BOOL succ))callback {
-    PHAuthorizationStatus authStatus;
-    
-    if (@available(iOS 14.0, *)) {
-        PHAccessLevel level = PHAccessLevelReadWrite;
-        authStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:level];
++ (BOOL)isPhotoAuthorized {
+    PHAuthorizationStatus status = [self getPhotoAuthorizationStatus];
+
+    if (status == PHAuthorizationStatusAuthorized) {
+        return YES;
     } else {
-        authStatus = [PHPhotoLibrary authorizationStatus];
-    }
-    
-    switch (authStatus) {
-        case PHAuthorizationStatusAuthorized:
-            SB(callback,YES);
-            break;
-        case PHAuthorizationStatusLimited:
-        {
-            SB(callback,YES);
-            break;
-        }
-        case PHAuthorizationStatusNotDetermined:
-        {
-            if (@available(iOS 14.0, *)) {
-                
-                [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status) {
-                    [self doUIBlock:^{
-                        if (status == PHAuthorizationStatusAuthorized || status == PHAuthorizationStatusLimited) {
-                            SB(callback, YES);
-                        } else {
-                            SB(callback, NO);
-                        }
-                    }];
-                }];
-            }else {
-                [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-                    [self doUIBlock:^{
-                        if (status == PHAuthorizationStatusAuthorized) {
-                            SB(callback, YES);
-                        } else {
-                            SB(callback, NO);
-                        }
-                    }];
-                }];
+        
+        if (@available(ios 14.0, *)) {
+            if (status == PHAuthorizationStatusLimited) {
+                return YES;
             }
         }
-            break;
-        case PHAuthorizationStatusDenied:
-        case PHAuthorizationStatusRestricted:
-        {
-            SB(callback,NO);
-
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"权限申请" message:@"请允许访问所有照片" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"前往设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
-            }]];
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            
-            [avc presentViewController:vc animated:YES completion:nil];
-
-        }
-            break;
-            
-        default:
-            callback(NO);
-            break;
+        
+        return NO;
     }
 }
 
-+ (BOOL)isPhotoLimitAuAuthorization {
-    if (@available(iOS 14.0, *)) {
-        PHAccessLevel level = PHAccessLevelReadWrite;
-        PHAuthorizationStatus authStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:level];
-        return  authStatus == PHAuthorizationStatusLimited;
++ (PHAuthorizationStatus)getPhotoAuthorizationStatus {
+    PHAuthorizationStatus status;
+    if (@available(ios 14.0, *)) {
+        status = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelReadWrite];
+    } else {
+        status = [PHPhotoLibrary authorizationStatus];
     }
-    return NO;;
+    return status;
+}
+
++ (void)powerPhotoWithVC:(UIViewController *)avc callBack:(void (^)(BOOL succ))callback {
+
+    // 已授权
+    if ([self isPhotoAuthorized]) {
+        SB(callback,YES);
+        return;
+    }
+    
+    PHAuthorizationStatus authStatus = [self getPhotoAuthorizationStatus];
+
+    // 请求权限
+    if (authStatus == PHAuthorizationStatusNotDetermined) {
+        if (@available(iOS 14.0, *)) {
+            
+            [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status) {
+                [self doUIBlock:^{
+                    if (status == PHAuthorizationStatusAuthorized || status == PHAuthorizationStatusLimited) {
+                        SB(callback, YES);
+                    } else {
+                        SB(callback, NO);
+                    }
+                }];
+            }];
+        }else {
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                [self doUIBlock:^{
+                    if (status == PHAuthorizationStatusAuthorized) {
+                        SB(callback, YES);
+                    } else {
+                        SB(callback, NO);
+                    }
+                }];
+            }];
+        }
+        return;
+    }
+    
+    // 前往设置
+    if (authStatus == PHAuthorizationStatusDenied || authStatus == PHAuthorizationStatusRestricted) {
+        SB(callback,NO);
+
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"权限申请" message:@"请允许访问所有照片" preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"前往设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            }
+        }]];
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+        
+        [avc presentViewController:vc animated:YES completion:nil];
+        return;
+    }
+}
+
++ (BOOL)isPhotoLimitAuthorization {
+    if (@available(iOS 14.0, *)) {
+        return  [self getPhotoAuthorizationStatus] == PHAuthorizationStatusLimited;
+    }
+    return NO;
 }
 
 + (void)presentLimitPhotoLibraryWithController:(UIViewController *)controller {

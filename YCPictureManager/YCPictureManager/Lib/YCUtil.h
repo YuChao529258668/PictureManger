@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCUtil : NSObject
 
++ (BOOL)isPhotoAuthorized;
+
 + (void)powerPhotoWithVC:(UIViewController *)avc callBack:(void (^)(BOOL succ))callback;
 
 @end

@@ -63,6 +63,7 @@
 		0DA22A8D255D397A005358F0 /* YCAssetsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetsManager.m; sourceTree = "<group>"; };
 		0DA26FE525622D5F0096B5BB /* YCAlbumListBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAlbumListBaseCell.h; sourceTree = "<group>"; };
 		0DA26FE625622D5F0096B5BB /* YCAlbumListBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAlbumListBaseCell.m; sourceTree = "<group>"; };
+		0DA26FF0256278470096B5BB /* BugList.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BugList.md; sourceTree = "<group>"; };
 		0DAE261B25622A07001C7D5A /* YCAlbumListBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAlbumListBaseVC.h; sourceTree = "<group>"; };
 		0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAlbumListBaseVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +107,7 @@
 		0DA22A3C255BC015005358F0 /* YCPictureManager */ = {
 			isa = PBXGroup;
 			children = (
+				0DA26FF0256278470096B5BB /* BugList.md */,
 				0DAE261F25622A0C001C7D5A /* AlbumList */,
 				0DA22A91255D3987005358F0 /* AssetManager */,
 				0DA22A6A255BD329005358F0 /* AssetList */,
