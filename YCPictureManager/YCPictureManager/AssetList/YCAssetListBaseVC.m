@@ -16,6 +16,8 @@
 <UICollectionViewDelegate, UICollectionViewDataSource, YCAssetPreviewVCDelegate>
 //@property (nonatomic, strong) YCAssetListBaseCell *selectCell;
 //@property (nonatomic, strong) PHAsset *selectAsset;
+@property (nonatomic, assign) int fetchCount;
+
 @end
 
 @implementation YCAssetListBaseVC
@@ -25,17 +27,25 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupCollectionView];
-    
+    [self getAssets];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)getPower {
+    if (self.fetchCount) {
+        return;
+    }
     
     [YCUtil powerPhotoWithVC:self callBack:^(BOOL succ) {
         if (succ) {
             [self getAssets];
         }
     }];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self getPower];
 }
 
 
@@ -115,7 +125,20 @@
 #pragma mark -
 
 - (void)getAssets {
-    self.fetchResult = [YCAssetsManager fetchLowAssets];
+    if (![YCUtil isPhotoAuthorized]) {
+        return;
+    } else {
+        self.fetchCount ++;
+    }
+    
+    NSLog(@"getAssets");
+    
+    if (self.album) {
+        self.fetchResult = [YCAssetsManager fetchAssetsInCollection:self.album];
+    } else {
+        self.fetchResult = [YCAssetsManager fetchLowAssets];
+    }
+    
     [self.collectionView reloadData];
 }
 

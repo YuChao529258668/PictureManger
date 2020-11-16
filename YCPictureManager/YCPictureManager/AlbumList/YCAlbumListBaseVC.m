@@ -8,6 +8,7 @@
 #import "YCAlbumListBaseVC.h"
 #import "YCAssetsManager.h"
 #import "YCAlbumListBaseCell.h"
+#import "YCAssetListBaseVC.h"
 
 @interface YCAlbumListBaseVC ()
 <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -82,24 +83,11 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-//    cell.imageView.hidden = YES;
-//    self.selectCell = cell;
     
     PHAssetCollection *album = [self.fetchResult objectAtIndex:indexPath.item];
-//    self.selectAsset = asset;
-    
-//    YCAssetPreviewVC *vc = [YCAssetPreviewVC new];
-//    vc.index = indexPath.item;
-//    vc.asset = asset;
-//    vc.fetchResult = self.fetchResult;
-//    vc.delegate = self;
-    
-//    [self.navigationController pushViewController:vc animated:YES];
-    
-//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-//    nc.modalPresentationStyle = UIModalPresentationOverFullScreen;
-//    [self presentViewController:nc animated:NO completion:nil];
+    YCAssetListBaseVC *vc = [YCAssetListBaseVC new];
+    vc.album = album;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

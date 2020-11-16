@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) PHFetchResult *fetchResult;
 @property (nonatomic, assign) CGSize imageSize;
 
+@property (nonatomic, strong) PHAssetCollection *album;
+
 @end
 
 NS_ASSUME_NONNULL_END

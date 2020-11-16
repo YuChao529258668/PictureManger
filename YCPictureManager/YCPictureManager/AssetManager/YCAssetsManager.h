@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (PHFetchResult<PHAssetCollection *> *)fetchAssetCollections;
 + (PHAsset *)fetchFirstAssetInCollection:(PHAssetCollection *)collection;
++ (PHFetchResult<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection;
 
 
 #pragma mark -

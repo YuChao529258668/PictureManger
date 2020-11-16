@@ -166,4 +166,9 @@ static YCAssetsManager *manager;
     return asset;
 }
 
++ (PHFetchResult<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection {
+    PHFetchResult<PHAsset *> *result = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+    return result;
+}
+
 @end
