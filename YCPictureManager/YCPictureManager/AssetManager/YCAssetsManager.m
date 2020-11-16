@@ -9,9 +9,10 @@
 
 @interface YCAssetsManager ()
 
-@property (nonatomic, strong) PHFetchResult *assetResult;
-@property (nonatomic, strong) PHFetchResult *assetCollectionResult;
+//@property (nonatomic, strong) PHFetchResult *assetResult;
+//@property (nonatomic, strong) PHFetchResult *assetCollectionResult;
 @property (nonatomic, strong) PHFetchOptions *assetsFetchOption;
+@property (nonatomic, strong) PHFetchOptions *oneFetchOption; // 只拿 1 个
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 @property (nonatomic, strong) PHImageRequestOptions *lowImgOptions; // 低质量小图片
 @property (nonatomic, strong) PHImageRequestOptions *highImgOptions; // 高质量大图片
@@ -50,6 +51,10 @@ static YCAssetsManager *manager;
 - (void)readyForAssets {
     self.imageManager = [PHCachingImageManager new];
 
+    PHFetchOptions *opts = [PHFetchOptions new];
+    opts.fetchLimit = 1;
+    self.oneFetchOption = opts;
+    
     PHFetchOptions *options = [PHFetchOptions new];
     options.fetchLimit = 1000;
 //    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
@@ -110,6 +115,13 @@ static YCAssetsManager *manager;
 
 + (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode options:(nullable PHImageRequestOptions *)options handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler {
     
+    if (!asset) {
+        if (resultHandler) {
+            resultHandler(nil, NO, asset, nil);
+        }
+        return 0;
+    }
+    
     PHImageRequestID rid = [manager.imageManager
                             requestImageForAsset:asset
                             targetSize:targetSize
@@ -123,6 +135,35 @@ static YCAssetsManager *manager;
         }
     }];
     return rid;
+}
+
+
+#pragma mark - AssetCollection
+
++ (PHFetchResult<PHAssetCollection *> *)fetchAssetCollections {
+//    PHAssetCollectionType type = PHAssetCollectionTypeAlbum; // PHAssetCollectionTypeSmartAlbum
+//    PHAssetCollectionSubtype subtype = PHAssetCollectionSubtypeAlbumRegular; // 很多类型
+//    PHFetchOptions *options = [PHFetchOptions new]; // sortDescriptors
+    
+    PHFetchResult<PHAssetCollection *> *collections =
+    [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                             subtype:PHAssetCollectionSubtypeAlbumRegular
+                                             options:nil];
+    return collections;
+}
+
+//+ (PHFetchResult<PHAssetCollection *> *)fetchAssetCollectionsWithType:(PHAssetCollectionType)type
+//                                                              subtype:(PHAssetCollectionSubtype)subtype
+//                                                              options:(PHFetchOptions *)options {
+
+
+//+ (PHFetchResult<PHAsset *> *)fetchAssetsInAssetCollection:(PHAssetCollection *)assetCollection
+//                                                   options:(PHFetchOptions *)options;
+
++ (PHAsset *)fetchFirstAssetInCollection:(PHAssetCollection *)collection {
+    PHFetchResult<PHAsset *> *result = [PHAsset fetchAssetsInAssetCollection:collection options:manager.oneFetchOption];
+    PHAsset *asset = result.firstObject;
+    return asset;
 }
 
 @end

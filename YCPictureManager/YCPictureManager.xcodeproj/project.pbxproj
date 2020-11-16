@@ -24,6 +24,8 @@
 		0DA22A83255D29E6005358F0 /* YCAssetPreviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A82255D29E6005358F0 /* YCAssetPreviewVC.m */; };
 		0DA22A88255D2B3E005358F0 /* YCAssetPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A87255D2B3E005358F0 /* YCAssetPreviewCell.m */; };
 		0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A8D255D397A005358F0 /* YCAssetsManager.m */; };
+		0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA26FE625622D5F0096B5BB /* YCAlbumListBaseCell.m */; };
+		0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,10 @@
 		0DA22A87255D2B3E005358F0 /* YCAssetPreviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetPreviewCell.m; sourceTree = "<group>"; };
 		0DA22A8C255D397A005358F0 /* YCAssetsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAssetsManager.h; sourceTree = "<group>"; };
 		0DA22A8D255D397A005358F0 /* YCAssetsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetsManager.m; sourceTree = "<group>"; };
+		0DA26FE525622D5F0096B5BB /* YCAlbumListBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAlbumListBaseCell.h; sourceTree = "<group>"; };
+		0DA26FE625622D5F0096B5BB /* YCAlbumListBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAlbumListBaseCell.m; sourceTree = "<group>"; };
+		0DAE261B25622A07001C7D5A /* YCAlbumListBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAlbumListBaseVC.h; sourceTree = "<group>"; };
+		0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAlbumListBaseVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,7 @@
 		0DA22A3C255BC015005358F0 /* YCPictureManager */ = {
 			isa = PBXGroup;
 			children = (
+				0DAE261F25622A0C001C7D5A /* AlbumList */,
 				0DA22A91255D3987005358F0 /* AssetManager */,
 				0DA22A6A255BD329005358F0 /* AssetList */,
 				0DA22A80255D2886005358F0 /* AssetDetail */,
@@ -206,6 +213,17 @@
 			path = AssetManager;
 			sourceTree = "<group>";
 		};
+		0DAE261F25622A0C001C7D5A /* AlbumList */ = {
+			isa = PBXGroup;
+			children = (
+				0DA26FE525622D5F0096B5BB /* YCAlbumListBaseCell.h */,
+				0DA26FE625622D5F0096B5BB /* YCAlbumListBaseCell.m */,
+				0DAE261B25622A07001C7D5A /* YCAlbumListBaseVC.h */,
+				0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */,
+			);
+			path = AlbumList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,6 +297,8 @@
 				0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
 				0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */,
+				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
+				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
 				0DA22A88255D2B3E005358F0 /* YCAssetPreviewCell.m in Sources */,

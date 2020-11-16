@@ -7,6 +7,7 @@
 
 #import "YCTabBarVC.h"
 #import "YCAssetListBaseVC.h"
+#import "YCAlbumListBaseVC.h"
 #import "YCMineVC.h"
 
 @interface YCTabBarVC ()
@@ -26,15 +27,21 @@
 - (void)setupViewControllers {
     YCAssetListBaseVC *alistVc = [YCAssetListBaseVC new];
     
+    YCAlbumListBaseVC *albumListVc = [YCAlbumListBaseVC new];
+    
     YCMineVC *mineVc = [YCMineVC new];
     
     UINavigationController *listNc = [[UINavigationController alloc] initWithRootViewController:alistVc];
     listNc.tabBarItem.title = @"图库";
+    
+    UINavigationController *albumNc = [[UINavigationController alloc] initWithRootViewController:albumListVc];
+    albumNc.tabBarItem.title = @"相册";
 
     UINavigationController *mineNc = [[UINavigationController alloc] initWithRootViewController:mineVc];
     mineNc.tabBarItem.title = @"我的";
 
-    self.viewControllers = @[listNc, mineNc];
+    self.viewControllers = @[listNc, albumNc, mineNc];
+//    self.viewControllers = @[listNc, albumNc, mineNc];
 
 }
 

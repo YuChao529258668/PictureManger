@@ -52,7 +52,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - a7d17d713272b8a8"
+                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - a7d17d713272b834"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -62,12 +62,12 @@
                   urlString = "file:///Users/yuchao/%E6%96%87%E7%A8%BF/PictureManger/YCPictureManager/YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "305"
-                  endingLineNumber = "305"
-                  offsetFromSymbolStart = "3448">
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "5180">
                </Location>
                <Location
-                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - 6ecf85cf3d35e3bf"
+                  uuid = "F2D9F045-577C-415B-9A74-CB00B5D40C9D - 6ecf85cf3d35e3c2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -77,9 +77,9 @@
                   urlString = "file:///Users/yuchao/%E6%96%87%E7%A8%BF/PictureManger/YCPictureManager/YCPictureManager/AssetDetail/YCAssetPreviewVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "306"
-                  endingLineNumber = "306"
-                  offsetFromSymbolStart = "36">
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "15">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -97,6 +97,22 @@
             startingLineNumber = "143"
             endingLineNumber = "143"
             landmarkName = "-viewDidLayoutSubviews"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2EE2ABC6-270B-4DF2-B8F3-B5738E56D6CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YCPictureManager/AlbumList/YCAlbumListBaseVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

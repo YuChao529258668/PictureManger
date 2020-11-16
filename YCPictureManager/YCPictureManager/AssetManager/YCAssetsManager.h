@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shareManager;
 
+
+#pragma mark - Asset
+
 + (PHFetchResult<PHAsset *> *)fetchLowAssets;
 
 #pragma mark - Image
@@ -25,6 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (PHImageRequestID)requestHighImage:(PHAsset *)asset size:(CGSize)targetSize handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler;
 
 + (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode options:(nullable PHImageRequestOptions *)options handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler;
+
+
+
+#pragma mark - AssetCollection
+
++ (PHFetchResult<PHAssetCollection *> *)fetchAssetCollections;
++ (PHAsset *)fetchFirstAssetInCollection:(PHAssetCollection *)collection;
 
 
 #pragma mark -
