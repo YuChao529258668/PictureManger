@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetPreviewCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
 

@@ -11,6 +11,9 @@
 @implementation UIImageView (YCImageView)
 
 - (CGRect)yc_imageRect {
+    if (self.frame.size.height == 0 || self.frame.size.width == 0) {
+        return CGRectZero;
+    }
 
     if (self.contentMode == UIViewContentModeScaleAspectFill
         || self.contentMode == UIViewContentModeScaleToFill) {

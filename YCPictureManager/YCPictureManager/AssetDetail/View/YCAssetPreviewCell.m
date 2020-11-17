@@ -6,8 +6,18 @@
 //
 
 #import "YCAssetPreviewCell.h"
+#import "UIImageView+YCImageView.h"
+
+@interface YCAssetPreviewCell ()<UIScrollViewDelegate>
+@property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@end
 
 @implementation YCAssetPreviewCell
+
+- (void)dealloc
+{
+    [_imageView removeObserver:self forKeyPath:@"image"];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -19,20 +29,140 @@
 }
 
 - (void)config {
-    UIImageView *iv = [UIImageView new];
-    iv.contentMode = UIViewContentModeScaleAspectFit;
-//    iv.layer.masksToBounds = YES;
-    self.imageView = iv;
-    [self.contentView addSubview:iv];
+    // scroll view
+    UIScrollView *sv = [UIScrollView new];
+    sv.minimumZoomScale = 1;
+    sv.maximumZoomScale = 2.4;
+    sv.delegate = self;
+    self.scrollView = sv;
+    [self.contentView addSubview:sv];
+    sv.backgroundColor = [UIColor lightGrayColor];
     
-//    self.backgroundColor = [UIColor yellowColor];
-//    iv.backgroundColor = [UIColor blueColor];
+    // image view
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
+    iv.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageView = iv;
+    [self.scrollView addSubview:iv];
+    // kvo. 设置 image 后重新布局
+    [iv addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+    
+    // 双击手势
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
+    doubleTap.numberOfTapsRequired = 2;
+    self.doubleTap = doubleTap;
+//    self.imageView.userInteractionEnabled = YES;
+//    [self.imageView addGestureRecognizer:doubleTap];
+    [self.scrollView addGestureRecognizer:doubleTap];
+
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"image"]) {
+        self.imageView.frame = self.imageView.yc_imageRect;
+        CGSize size = self.scrollView.frame.size;
+        self.imageView.center = CGPointMake(size.width/2, size.height/2);
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.imageView.frame = self.bounds;
+    self.scrollView.frame = self.bounds;
+
+    if (self.scrollView.zoomScale == 1) {
+        if (self.imageView.image) {
+            self.imageView.frame = self.imageView.yc_imageRect;
+        } else {
+            self.imageView.frame = self.frame;
+        }
+        self.imageView.frame = self.imageView.yc_imageRect;
+        CGSize size = self.scrollView.frame.size;
+        self.imageView.center = CGPointMake(size.width/2, size.height/2);
+
+    } else {
+        if (!self.scrollView.isZooming) {
+            CGSize size = self.bounds.size;
+            self.imageView.center = CGPointMake(size.width/2, size.height/2);
+        }
+    }
 }
+
+#pragma mark - UIScrollViewDelegate
+
+- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.imageView;
+//    return self.scaleView;
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
+    if (view == self.imageView) {
+//        NSLog(@"缩放1 %@", NSStringFromCGPoint(self.imageView.center));
+//        NSLog(@"缩放1 %@", NSStringFromCGRect(self.imageView.frame));
+        
+//        CGPoint location = [scrollView.pinchGestureRecognizer locationInView:self.imageView];
+//        if (!CGPointEqualToPoint(CGPointZero, location)) {
+            [self modifyAnchorPointWithGesture:scrollView.pinchGestureRecognizer];
+//        }
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale {
+    if (view == self.imageView) {
+//        NSLog(@"缩放2 %@", NSStringFromCGPoint(self.imageView.center));
+        // 恢复锚点
+        [self modifyAnchorPointWithGesture:nil];
+    }
+}
+
+
+#pragma mark -
+
+- (void)handleDoubleTap {
+//    [self modifyAnchorPointWithGesture:self.doubleTap];
+    
+//    float scale = (self.scrollView.zoomScale != self.scrollView.maximumZoomScale)? self.scrollView.maximumZoomScale: self.scrollView.minimumZoomScale;
+//
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.imageView.transform = CGAffineTransformMakeScale(scale, scale);
+//    } completion:^(BOOL finished) {
+//        [self modifyAnchorPointWithGesture:nil];
+//
+//        self.imageView.transform = CGAffineTransformMakeScale(0, 0);
+//        [self.scrollView setZoomScale:scale animated:NO];
+////        self.scrollView.contentSize = self.imageView.yc_imageRect.size;
+//    }];
+            
+    if (self.scrollView.zoomScale != self.scrollView.maximumZoomScale) {
+        [self.scrollView setZoomScale:self.scrollView.maximumZoomScale animated:YES];
+    } else {
+        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
+    }
+}
+
+// 修改锚点，用于缩放
+- (void)modifyAnchorPointWithGesture:(UIGestureRecognizer *)gesture {
+    // 修改
+    if (gesture) {
+        CGSize size = self.imageView.frame.size;
+        CGPoint location = [gesture locationInView:self.imageView];
+        float x = location.x/size.width;
+        float y = location.y/size.height;
+        CGRect frame = self.imageView.frame;
+        self.imageView.layer.anchorPoint = CGPointMake(x, y);
+//        self.imageView.layer.anchorPoint = CGPointMake(0.3, 0.3);
+        self.imageView.frame = frame;
+        
+    } else {
+        // 恢复锚点
+        CGRect frame = self.imageView.frame;
+        self.imageView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        self.imageView.frame = frame;
+    }
+    NSLog(@"锚点 %@", NSStringFromCGPoint(self.imageView.layer.anchorPoint));
+}
+
+
 
 @end
