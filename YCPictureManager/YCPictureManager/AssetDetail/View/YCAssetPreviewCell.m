@@ -37,6 +37,9 @@
     self.scrollView = sv;
     [self.contentView addSubview:sv];
     sv.backgroundColor = [UIColor lightGrayColor];
+    if (@available(iOS 11.0, *)) {
+        sv.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     
     // image view
     UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
