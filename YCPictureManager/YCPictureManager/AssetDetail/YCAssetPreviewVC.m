@@ -247,15 +247,31 @@
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer == self.panGesture) {
-        UIPanGestureRecognizer *pan = self.panGesture;
-        CGPoint v = [pan velocityInView:self.collectionView];
-        if (v.y > 0 && fabs(v.x) < fabs(v.y)) {
-//            NSLog(@"向下 pan");
-            return YES;
+        // 是否下滑
+        CGPoint v = [self.panGesture velocityInView:self.collectionView];
+        BOOL panDown = v.y > 0 && fabs(v.x) < fabs(v.y);
+        if (!panDown) {
+            return NO;
         }
-        return NO;
+        
+        // 是否放大的平移
+        CGPoint location = [self.panGesture locationInView:self.collectionView];
+        NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
+        YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
+        if (cell.scrollView.contentOffset.y >= 0) {
+            return NO;
+        }
+        
+        return YES;
     }
     return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (gestureRecognizer == self.panGesture) {
+        return YES;
+    }
+    return NO;
 }
 
 
