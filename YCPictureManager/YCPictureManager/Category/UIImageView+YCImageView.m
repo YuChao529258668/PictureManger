@@ -23,7 +23,8 @@
     UIImage *image = self.image;
     
     if (!image) {
-        return CGRectZero;
+//        return CGRectZero;
+        return self.bounds;
     }
     
     float hfactor = image.size.width / self.frame.size.width;

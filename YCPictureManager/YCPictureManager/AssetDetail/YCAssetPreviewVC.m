@@ -128,6 +128,11 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    UIScrollView *sv = [(YCAssetPreviewCell *)cell scrollView];
+    [sv setZoomScale:sv.minimumZoomScale animated:NO];
+}
+
 
 #pragma mark - 下滑手势
 
