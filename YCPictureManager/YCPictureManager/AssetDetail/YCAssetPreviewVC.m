@@ -401,14 +401,32 @@
     UIImageView *snapView = [UIImageView new];
     PHAsset *asset = [self.fetchResult objectAtIndex:self.index];
     UIView *targetView = [self.delegate targetViewForAsset:asset];
-    
+    YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
+
     // 起始位置
     CGRect frame = [targetView.superview convertRect:targetView.frame toView:self.view];
     snapView.frame = frame;
 
     // 结束位置
-    YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
-    CGRect endFrame = [cell.imageView.superview convertRect:cell.imageView.yc_imageRect toView:self.view];
+    CGRect endFrame;
+
+//    if (targetView.contentMode == UIViewContentModeScaleAspectFit) {
+//        endFrame = cell.imageView.frame;
+//    } else {
+////        CGRect cellImageViewFrame = cell.imageView.frame;
+//        CGRect cellImageViewFrame = cell.scrollView.bounds;
+//        float hfactor = asset.pixelWidth / cellImageViewFrame.size.width;
+//        float vfactor = asset.pixelHeight / cellImageViewFrame.size.height;
+//        float factor = fmax(hfactor, vfactor);
+//        float newWidth = asset.pixelWidth / factor;
+//        float newHeight = asset.pixelHeight / factor;
+//        float x = (cellImageViewFrame.size.width - newWidth) /2;
+//        float y = (cellImageViewFrame.size.height - newHeight)/2;
+//
+//        endFrame = CGRectMake(x, y, newWidth, newHeight);
+//    }
+    endFrame = cell.imageView.frame;
+    endFrame = [cell.imageView.superview convertRect:endFrame toView:self.view];
     
     // 图片内容
     snapView.layer.masksToBounds = YES;
