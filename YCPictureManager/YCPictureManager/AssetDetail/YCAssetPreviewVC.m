@@ -13,6 +13,7 @@
 <UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate>
 @property (nonatomic, assign) CGSize imageSize;
 @property (nonatomic, assign) BOOL isFitstTime;
+@property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
 @end
@@ -53,7 +54,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-//    [self test];// yctest
     [self appearAnimation];
     self.isFitstTime = NO;
 }
@@ -105,7 +105,6 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return 20;
     return self.fetchResult.count;
 }
 
@@ -128,20 +127,21 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    UIScrollView *sv = [(YCAssetPreviewCell *)cell scrollView];
-    [sv setZoomScale:sv.minimumZoomScale animated:NO];
+//- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+//
+//}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    [(YCAssetPreviewCell *)cell didEndDisplaying];
 }
 
 
-#pragma mark - 下滑手势
+#pragma mark - 手势
 
 - (void)setupGesture {
     UIPanGestureRecognizer *pan = [UIPanGestureRecognizer new];
     [pan addTarget:self action:@selector(handlePanGesture:)];
     pan.delegate = self;
-//    [pan requireGestureRecognizerToFail:self.collectionView.panGestureRecognizer];
-
     [self.collectionView addGestureRecognizer:pan];
     self.panGesture = pan;
 }
@@ -150,9 +150,97 @@
 #pragma mark - Actions
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)pan {
+    CGPoint v = [self.panGesture velocityInView:self.collectionView];
+    
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        self.isPanDown = v.y > 0;
+    }
+    
+    if (self.isPanDown) {
+        [self handlePanDown:pan];
+    } else {
+        [self handlePanUp:pan];
+    }
+}
+
+- (void)handlePanUp:(UIPanGestureRecognizer *)pan {
     float height = self.view.frame.size.height;
     
     if (pan.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"手势 handlePanUp");
+
+        // 创建手势拖放的 view
+        UIImageView *snapView = [UIImageView new];
+        snapView.layer.masksToBounds = YES;
+        {
+            CGPoint location = [pan locationInView:pan.view];
+            NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
+            YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
+            snapView.image = cell.imageView.image;
+            CGRect frame = cell.imageView.frame;
+            frame = [cell.imageView.superview convertRect:frame toView:self.view];
+            snapView.frame = frame;
+
+            self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+            self.collectionView.hidden = YES;
+            [self.view addSubview:snapView];
+            self.snapView = snapView;
+        }
+
+        
+        // 设置锚点
+        CGPoint location = [pan locationInView:self.view];
+        CGSize size = self.view.frame.size;
+        float x = location.x / size.width;
+        float y = location.y / size.height;
+        CGRect frame = snapView.frame;
+        snapView.layer.anchorPoint = CGPointMake(x, y);
+        snapView.frame = frame;
+        
+    }else if (pan.state == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [pan translationInView:self.view];
+
+        float alpha = 1 - fabs(translation.y)*2 / height;
+        float scale = 1 - fabs(translation.y) / height;
+        self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
+        
+//        位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
+//        先缩放再平移，和先平移再缩放，效果完全不一样。
+        self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 2, translation.y);
+        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
+        
+    } else if (pan.state == UIGestureRecognizerStateEnded) {
+        CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
+        
+        // 0.21, 0.16
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            self.snapView.frame = targetFrame;
+            self.view.backgroundColor = [UIColor clearColor];
+        } completion:^(BOOL finished) {
+            self.snapView.hidden = YES;
+            self.collectionView.hidden = NO;
+            [self.snapView removeFromSuperview];
+            self.snapView = nil;
+        }];
+        
+        
+    } else if (pan.state == UIGestureRecognizerStateCancelled) {
+        // todo
+//        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
+//        self.collectionView.hidden = NO;
+//        [self.snapView removeFromSuperview];
+//        self.snapView = nil;
+    }
+
+}
+
+- (void)handlePanDown:(UIPanGestureRecognizer *)pan {
+    
+    float height = self.view.frame.size.height;
+    
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"手势 handlePanDown");
+
         // 显示状态栏
 //        self.shouldHideStatusBar = NO;
 //        [self setNeedsStatusBarAppearanceUpdate];
@@ -207,7 +295,7 @@
         [self.delegate panDownAsset:self.selectedAsset];
         
         
-    }else if (pan.state == UIGestureRecognizerStateChanged) {
+    } else if (pan.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [pan translationInView:self.view];
 
         float alpha = 1 - fabs(translation.y)*2 / height;
@@ -240,6 +328,7 @@
         
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
+        // todo
         self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
         self.collectionView.hidden = NO;
         [self.snapView removeFromSuperview];
@@ -251,29 +340,51 @@
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (gestureRecognizer == self.panGesture) {
-        // 是否下滑
-        CGPoint v = [self.panGesture velocityInView:self.collectionView];
-        BOOL panDown = v.y > 0 && fabs(v.x) < fabs(v.y);
-        if (!panDown) {
-            return NO;
-        }
-        
-        // 是否放大的平移
-        CGPoint location = [self.panGesture locationInView:self.collectionView];
-        NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
-        YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
-        if (cell.scrollView.contentOffset.y >= 0) {
-            return NO;
-        }
-        
-        return YES;
+    if (gestureRecognizer != self.panGesture) {
+        return NO;
     }
-    return YES;
+    
+    CGPoint v = [self.panGesture velocityInView:self.collectionView];
+    
+    // 左右滑
+    if (fabs(v.x) > fabs(v.y)) {
+        return NO;
+    }
+
+    //    NSLog(@"手势 v.y = %lf, fabs(v.x) = %lf", v.y, fabs(v.x));
+
+    // 是否放大的平移
+    CGPoint location = [self.panGesture locationInView:self.collectionView];
+    NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
+    YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
+//
+//    NSLog(@"手势 iv.frame = %@", NSStringFromCGRect(cell.imageView.frame));
+//    NSLog(@"手势 contentSize = %@", NSStringFromCGSize(cell.scrollView.contentSize));
+//    NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(cell.scrollView.contentOffset));
+//    NSLog(@"----------------------------------");
+    
+    if (v.y > 0) {
+        // 下滑
+        if (cell.scrollView.contentOffset.y > 0) {
+            return NO;
+        } else {
+            return YES;
+        }
+
+    } else {
+        // 上滑
+        UIScrollView *sv = cell.scrollView;
+        if (sv.contentSize.height > sv.frame.size.height + sv.contentOffset.y) {
+            return NO;
+        } else {
+            return YES;
+        }
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if (gestureRecognizer == self.panGesture) {
+    // 上滑、下滑，平移、缩放，旋转、长按
+    if ([otherGestureRecognizer isKindOfClass:UIPanGestureRecognizer.class] && [otherGestureRecognizer.view isKindOfClass:UIScrollView.class]) {
         return YES;
     }
     return NO;
@@ -360,6 +471,61 @@
         iv.frame = CGRectMake(20, 300, 200, 200);
         iv.contentMode = UIViewContentModeScaleAspectFill;
     }];
+}
+
+- (void)testTableView {
+    CGRect rect = self.view.bounds;
+//    rect.origin.y = 50;
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:rect];
+    
+    CGRect frame = self.view.bounds;
+    frame.size.height = 1000;
+//    frame.origin.y = 100;
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view.tag = 11;
+    
+    [sv addSubview:view];
+    sv.contentSize = frame.size;
+    sv.alwaysBounceVertical = YES;
+    sv.backgroundColor = [UIColor lightGrayColor];
+    view.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:sv];
+    
+    sv.delegate = self;
+//    sv.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
+//    sv.contentInset = UIEdgeInsetsMake(100, 0, 0, -100);
+    sv.contentInset = UIEdgeInsetsMake(100, 0, 200, 0);
+//    sv.adjustedContentInset = UIEdgeInsetsMake(200, 0, 0, 0);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    UIView *view = [scrollView viewWithTag:11];
+    
+    UIScrollView *sv = scrollView;
+    CGPoint v = [sv.panGestureRecognizer velocityInView:sv.panGestureRecognizer.view];
+    if (v.y > 0) {
+        if (sv.contentOffset.y <= -(sv.adjustedContentInset.top)) {
+            NSLog(@"内容下滑到顶");
+            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
+            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
+            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
+            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
+            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
+            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
+            NSLog(@"-----------------");
+        }
+    } else {
+        if (sv.contentOffset.y + sv.frame.size.height >= sv.adjustedContentInset.bottom + sv.contentSize.height) {
+            NSLog(@"内容上滑到顶");
+            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
+            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
+            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
+            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
+            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
+            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
+            NSLog(@"-----------------");
+        }
+    }
 }
 
 

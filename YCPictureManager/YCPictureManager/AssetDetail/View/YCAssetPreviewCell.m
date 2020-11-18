@@ -168,4 +168,16 @@
 
 
 
+#pragma mark -
+
+- (void)didEndDisplaying {
+    UIScrollView *sv = self.scrollView;
+    [sv setZoomScale:sv.minimumZoomScale animated:NO];
+    sv.contentSize = CGSizeZero;
+    sv.contentOffset = CGPointZero;
+    self.imageView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+    self.imageView.frame = self.scrollView.bounds;
+}
+
+
 @end
