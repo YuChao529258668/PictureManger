@@ -56,9 +56,9 @@ static YCAssetsManager *manager;
     self.oneFetchOption = opts;
     
     PHFetchOptions *options = [PHFetchOptions new];
-    options.fetchLimit = 1000;
-//    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
+    options.fetchLimit = 10000;
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+//    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
     self.assetsFetchOption = options;
     
     // low

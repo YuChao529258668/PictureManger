@@ -36,7 +36,8 @@
     sv.delegate = self;
     self.scrollView = sv;
     [self.contentView addSubview:sv];
-    sv.backgroundColor = [UIColor lightGrayColor];
+//    sv.backgroundColor = [UIColor lightGrayColor];
+    sv.backgroundColor = [UIColor clearColor];
     if (@available(iOS 11.0, *)) {
         sv.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
