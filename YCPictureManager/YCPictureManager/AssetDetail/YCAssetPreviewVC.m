@@ -8,6 +8,7 @@
 #import "YCAssetPreviewVC.h"
 #import "YCAssetPreviewCell.h"
 #import "UIImageView+YCImageView.h"
+#import "YCPreviewTransitionLayout.h"
 
 @interface YCAssetPreviewVC ()
 <UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate>
@@ -16,6 +17,7 @@
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
+@property (nonatomic, strong) YCPreviewTransitionLayout *tranLayout;
 @end
 
 @implementation YCAssetPreviewVC
@@ -71,7 +73,10 @@
     [super viewWillLayoutSubviews];
         
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    layout.itemSize = self.view.frame.size;
+    if ([layout isKindOfClass:UICollectionViewFlowLayout.class]) {
+        layout.itemSize = self.view.frame.size;
+    }
+    
     self.collectionView.frame = self.view.bounds;
 }
 
@@ -83,6 +88,7 @@
     layout.itemSize = self.view.frame.size;
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
+    
     
     UICollectionView *cv = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     cv.hidden = YES;
@@ -97,6 +103,9 @@
     
     [cv registerClass:YCAssetPreviewCell.class forCellWithReuseIdentifier:@"YCAssetPreviewCell"];
     cv.backgroundColor = [UIColor whiteColor];
+    
+    
+    self.tranLayout = [[YCPreviewTransitionLayout alloc] initWithCurrentLayout:layout nextLayout:layout];
 }
  
 
@@ -135,6 +144,9 @@
     [(YCAssetPreviewCell *)cell didEndDisplaying];
 }
 
+- (UICollectionViewTransitionLayout *)collectionView:(UICollectionView *)collectionView transitionLayoutForOldLayout:(UICollectionViewLayout *)fromLayout newLayout:(UICollectionViewLayout *)toLayout {
+    return self.tranLayout;
+}
 
 #pragma mark - 手势
 
@@ -182,9 +194,17 @@
             snapView.frame = frame;
 
             self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
-            self.collectionView.hidden = YES;
+//            self.collectionView.hidden = YES;
             [self.view addSubview:snapView];
             self.snapView = snapView;
+            
+            self.tranLayout.indexPath = ip;
+            [self.collectionView startInteractiveTransitionToCollectionViewLayout:self.collectionView.collectionViewLayout completion:^(BOOL completed, BOOL finished) {
+                NSLog(@"过渡");
+                [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+
+            }];
+            [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
         }
 
         
@@ -209,6 +229,10 @@
         self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 2, translation.y);
         self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
         
+        self.tranLayout.transitionProgress = fabs(translation.y/height) * 2;
+//        [self.collectionView reloadData];
+//        [self.collectionView.collectionViewLayout invalidateLayout];
+        
     } else if (pan.state == UIGestureRecognizerStateEnded) {
         CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
         
@@ -217,14 +241,21 @@
             self.snapView.frame = targetFrame;
             self.view.backgroundColor = [UIColor clearColor];
         } completion:^(BOOL finished) {
-            self.snapView.hidden = YES;
             self.collectionView.hidden = NO;
             [self.snapView removeFromSuperview];
             self.snapView = nil;
         }];
         
+//        self.tranLayout.transitionProgress = 1;
+        [self.collectionView finishInteractiveTransition];
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
+//        self.tranLayout.transitionProgress = 0;
+        [self.collectionView cancelInteractiveTransition];
+        self.collectionView.hidden = NO;
+        [self.snapView removeFromSuperview];
+        self.snapView = nil;
+
         // todo
 //        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
 //        self.collectionView.hidden = NO;
@@ -517,33 +548,33 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    UIView *view = [scrollView viewWithTag:11];
-    
-    UIScrollView *sv = scrollView;
-    CGPoint v = [sv.panGestureRecognizer velocityInView:sv.panGestureRecognizer.view];
-    if (v.y > 0) {
-        if (sv.contentOffset.y <= -(sv.adjustedContentInset.top)) {
-            NSLog(@"内容下滑到顶");
-            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
-            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
-            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
-            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
-            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
-            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
-            NSLog(@"-----------------");
-        }
-    } else {
-        if (sv.contentOffset.y + sv.frame.size.height >= sv.adjustedContentInset.bottom + sv.contentSize.height) {
-            NSLog(@"内容上滑到顶");
-            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
-            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
-            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
-            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
-            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
-            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
-            NSLog(@"-----------------");
-        }
-    }
+//    UIView *view = [scrollView viewWithTag:11];
+//
+//    UIScrollView *sv = scrollView;
+//    CGPoint v = [sv.panGestureRecognizer velocityInView:sv.panGestureRecognizer.view];
+//    if (v.y > 0) {
+//        if (sv.contentOffset.y <= -(sv.adjustedContentInset.top)) {
+//            NSLog(@"内容下滑到顶");
+//            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
+//            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
+//            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
+//            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
+//            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
+//            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
+//            NSLog(@"-----------------");
+//        }
+//    } else {
+//        if (sv.contentOffset.y + sv.frame.size.height >= sv.adjustedContentInset.bottom + sv.contentSize.height) {
+//            NSLog(@"内容上滑到顶");
+//            NSLog(@"手势 view.frame = %@", NSStringFromCGRect(view.frame));
+//            NSLog(@"手势 srollView.frame = %@", NSStringFromCGRect(scrollView.frame));
+//            NSLog(@"手势 contentSize = %@", NSStringFromCGSize(scrollView.contentSize));
+//            NSLog(@"手势 contentOffset = %@", NSStringFromCGPoint(scrollView.contentOffset));
+//            NSLog(@"手势 contentInset = %@", NSStringFromUIEdgeInsets(scrollView.contentInset));
+//            NSLog(@"手势 adjustedContentInset = %@", NSStringFromUIEdgeInsets(scrollView.adjustedContentInset));
+//            NSLog(@"-----------------");
+//        }
+//    }
 }
 
 

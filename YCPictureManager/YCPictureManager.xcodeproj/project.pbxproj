@@ -26,6 +26,7 @@
 		0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A8D255D397A005358F0 /* YCAssetsManager.m */; };
 		0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA26FE625622D5F0096B5BB /* YCAlbumListBaseCell.m */; };
 		0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */; };
+		0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DF41D3E256663B600CFFFDE /* YCPreviewTransitionLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		0DA26FF0256278470096B5BB /* BugList.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BugList.md; sourceTree = "<group>"; };
 		0DAE261B25622A07001C7D5A /* YCAlbumListBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAlbumListBaseVC.h; sourceTree = "<group>"; };
 		0DAE261C25622A07001C7D5A /* YCAlbumListBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAlbumListBaseVC.m; sourceTree = "<group>"; };
+		0DF41D3D256663B600CFFFDE /* YCPreviewTransitionLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewTransitionLayout.h; sourceTree = "<group>"; };
+		0DF41D3E256663B600CFFFDE /* YCPreviewTransitionLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewTransitionLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,8 @@
 			children = (
 				0DA22A86255D2B3E005358F0 /* YCAssetPreviewCell.h */,
 				0DA22A87255D2B3E005358F0 /* YCAssetPreviewCell.m */,
+				0DF41D3D256663B600CFFFDE /* YCPreviewTransitionLayout.h */,
+				0DF41D3E256663B600CFFFDE /* YCPreviewTransitionLayout.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -299,6 +304,7 @@
 				0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
 				0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */,
+				0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
 				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
