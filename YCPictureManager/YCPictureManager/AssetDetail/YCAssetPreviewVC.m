@@ -8,7 +8,6 @@
 #import "YCAssetPreviewVC.h"
 #import "YCAssetPreviewCell.h"
 #import "UIImageView+YCImageView.h"
-#import "YCPreviewTransitionLayout.h"
 
 @interface YCAssetPreviewVC ()
 <UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate>
@@ -17,7 +16,6 @@
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
-@property (nonatomic, strong) YCPreviewTransitionLayout *tranLayout;
 @end
 
 @implementation YCAssetPreviewVC
@@ -104,8 +102,6 @@
     [cv registerClass:YCAssetPreviewCell.class forCellWithReuseIdentifier:@"YCAssetPreviewCell"];
     cv.backgroundColor = [UIColor whiteColor];
     
-    
-    self.tranLayout = [[YCPreviewTransitionLayout alloc] initWithCurrentLayout:layout nextLayout:layout];
 }
  
 
@@ -144,9 +140,9 @@
     [(YCAssetPreviewCell *)cell didEndDisplaying];
 }
 
-- (UICollectionViewTransitionLayout *)collectionView:(UICollectionView *)collectionView transitionLayoutForOldLayout:(UICollectionViewLayout *)fromLayout newLayout:(UICollectionViewLayout *)toLayout {
-    return self.tranLayout;
-}
+//- (UICollectionViewTransitionLayout *)collectionView:(UICollectionView *)collectionView transitionLayoutForOldLayout:(UICollectionViewLayout *)fromLayout newLayout:(UICollectionViewLayout *)toLayout {
+//    return self.tranLayout;
+//}
 
 #pragma mark - 手势
 
@@ -198,13 +194,7 @@
             [self.view addSubview:snapView];
             self.snapView = snapView;
             
-            self.tranLayout.indexPath = ip;
-            [self.collectionView startInteractiveTransitionToCollectionViewLayout:self.collectionView.collectionViewLayout completion:^(BOOL completed, BOOL finished) {
-                NSLog(@"过渡");
-                [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-
-            }];
-            [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+//            [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
         }
 
         
@@ -229,10 +219,6 @@
         self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 2, translation.y);
         self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
         
-        self.tranLayout.transitionProgress = fabs(translation.y/height) * 2;
-//        [self.collectionView reloadData];
-//        [self.collectionView.collectionViewLayout invalidateLayout];
-        
     } else if (pan.state == UIGestureRecognizerStateEnded) {
         CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
         
@@ -246,12 +232,8 @@
             self.snapView = nil;
         }];
         
-//        self.tranLayout.transitionProgress = 1;
-        [self.collectionView finishInteractiveTransition];
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
-//        self.tranLayout.transitionProgress = 0;
-        [self.collectionView cancelInteractiveTransition];
         self.collectionView.hidden = NO;
         [self.snapView removeFromSuperview];
         self.snapView = nil;
