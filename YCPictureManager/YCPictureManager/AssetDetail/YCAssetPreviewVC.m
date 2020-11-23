@@ -176,7 +176,7 @@
     
     if (pan.state == UIGestureRecognizerStateBegan) {
         NSLog(@"手势 handlePanUp");
-
+        
         // 创建手势拖放的 view
         UIImageView *snapView = [UIImageView new];
         snapView.layer.masksToBounds = YES;
@@ -184,17 +184,40 @@
             CGPoint location = [pan locationInView:pan.view];
             NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
             YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
-            snapView.image = cell.imageView.image;
+            
             CGRect frame = cell.imageView.frame;
             frame = [cell.imageView.superview convertRect:frame toView:self.view];
             snapView.frame = frame;
+            snapView.image = cell.imageView.image;
+            [self.view addSubview:snapView];
+            self.snapView = snapView;
+
 
             self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
 //            self.collectionView.hidden = YES;
-            [self.view addSubview:snapView];
-            self.snapView = snapView;
             
-//            [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+            // 毛玻璃
+            UIView *maskView = [[UIView alloc] initWithFrame:self.view.bounds];
+            maskView.tag = 222;
+            [self.view insertSubview:maskView belowSubview:snapView];
+            UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+            effectview.frame = maskView.bounds;
+            [maskView addSubview:effectview];
+            
+            
+            // 处理 collection view 滚动
+            if (self.fetchResult.count > 1) {
+                NSInteger index = ip.item;
+                if (index == self.fetchResult.count - 1) {
+                    index -= 1;
+                } else {
+                    index += 1;
+                }
+                NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
+                self.collectionView.scrollEnabled = NO;
+                [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+            }
         }
 
         
@@ -214,6 +237,9 @@
         float scale = 1 - fabs(translation.y) / height;
         self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
         
+        UIView *maskView = [self.view viewWithTag:222];
+        maskView.alpha = alpha;
+        
 //        位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
 //        先缩放再平移，和先平移再缩放，效果完全不一样。
         self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 2, translation.y);
@@ -221,20 +247,28 @@
         
     } else if (pan.state == UIGestureRecognizerStateEnded) {
         CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
-        
+        UIView *maskView = [self.view viewWithTag:222];
+
         // 0.21, 0.16
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.snapView.frame = targetFrame;
-            self.view.backgroundColor = [UIColor clearColor];
+//            self.view.backgroundColor = [UIColor clearColor];
+            maskView.alpha = 0;
+
         } completion:^(BOOL finished) {
             self.collectionView.hidden = NO;
             [self.snapView removeFromSuperview];
             self.snapView = nil;
+            [maskView removeFromSuperview];
         }];
+        
+        self.collectionView.scrollEnabled = YES;
         
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
         self.collectionView.hidden = NO;
+        self.collectionView.scrollEnabled = YES;
+        
         [self.snapView removeFromSuperview];
         self.snapView = nil;
 
