@@ -9,6 +9,8 @@
 #import "YCAssetListBaseCell.h"
 #import "YCAssetPreviewVC.h"
 #import "YCUtil.h"
+#import "YCLikeTestVC.h"
+
 
 #define kCellSpacing 2
 
@@ -46,6 +48,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self getPower];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        YCLikeTestVC *vc = [YCLikeTestVC new];
+        [self presentViewController:vc animated:YES completion:nil];
+    });
 }
 
 

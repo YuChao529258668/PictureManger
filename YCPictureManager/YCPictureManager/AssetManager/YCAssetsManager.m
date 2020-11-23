@@ -56,7 +56,6 @@ static YCAssetsManager *manager;
     self.oneFetchOption = opts;
     
     PHFetchOptions *options = [PHFetchOptions new];
-    options.fetchLimit = 10000;
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
 //    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
     self.assetsFetchOption = options;
@@ -84,6 +83,11 @@ static YCAssetsManager *manager;
 }
 
 + (PHFetchResult<PHAsset *> *)fetchLowAssets {
+    return [self fetchLowAssetsWithCount:10000];
+}
+
++ (PHFetchResult<PHAsset *> *)fetchLowAssetsWithCount:(NSUInteger)count {
+    manager.assetsFetchOption.fetchLimit = count;
     PHAssetMediaType type = PHAssetMediaTypeImage;
     PHFetchResult *result = [PHAsset fetchAssetsWithMediaType:type options:manager.assetsFetchOption];
     return result;

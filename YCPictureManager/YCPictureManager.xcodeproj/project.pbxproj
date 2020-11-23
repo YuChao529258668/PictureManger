@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */; };
+		0D85C98B256BE67C0044C0F5 /* YCImageCompare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C987256BE6790044C0F5 /* YCImageCompare.mm */; };
+		0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */; };
+		0D85C98D256BE67C0044C0F5 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D85C989256BE67C0044C0F5 /* opencv2.framework */; };
 		0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */; };
 		0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A3E255BC015005358F0 /* AppDelegate.m */; };
 		0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A41255BC015005358F0 /* SceneDelegate.m */; };
@@ -33,6 +36,11 @@
 /* Begin PBXFileReference section */
 		0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCLikeTestVC.h; sourceTree = "<group>"; };
 		0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLikeTestVC.m; sourceTree = "<group>"; };
+		0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCGetSimilarity.h; sourceTree = "<group>"; };
+		0D85C987256BE6790044C0F5 /* YCImageCompare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YCImageCompare.mm; sourceTree = "<group>"; };
+		0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCGetSimilarity.m; sourceTree = "<group>"; };
+		0D85C989256BE67C0044C0F5 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		0D85C98A256BE67C0044C0F5 /* YCImageCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCImageCompare.h; sourceTree = "<group>"; };
 		0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YCImageView.m"; sourceTree = "<group>"; };
 		0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YCImageView.h"; sourceTree = "<group>"; };
 		0DA22A3A255BC015005358F0 /* YCPictureManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCPictureManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D85C98D256BE67C0044C0F5 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +186,11 @@
 		0DA22A72255BD7D9005358F0 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */,
+				0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */,
+				0D85C98A256BE67C0044C0F5 /* YCImageCompare.h */,
+				0D85C987256BE6790044C0F5 /* YCImageCompare.mm */,
+				0D85C989256BE67C0044C0F5 /* opencv2.framework */,
 				0DA22A78255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.h */,
 				0DA22A79255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m */,
 				0DA22A73255BD7E8005358F0 /* PMAsset */,
@@ -310,10 +324,12 @@
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
 				0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */,
 				0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */,
+				0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
 				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
 				0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */,
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
+				0D85C98B256BE67C0044C0F5 /* YCImageCompare.mm in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
 				0DA22A88255D2B3E005358F0 /* YCAssetPreviewCell.m in Sources */,
 				0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */,
@@ -383,6 +399,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -442,6 +459,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -467,6 +485,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L5KTD45Z4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YCPictureManager/Lib",
+				);
 				INFOPLIST_FILE = YCPictureManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -485,6 +507,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L5KTD45Z4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YCPictureManager/Lib",
+				);
 				INFOPLIST_FILE = YCPictureManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -7,9 +7,12 @@
 
 #import "YCLikeTestVC.h"
 #import "YCAssetsManager.h"
+#import "YCImageCompare.h"
 
 @interface YCLikeTestVC ()
 @property (nonatomic, strong) PHFetchResult<PHAsset *> *result;
+@property (nonatomic, assign) CGSize size;
+@property (nonatomic, strong) NSMutableArray<NSArray *> *allLikeArray;
 @end
 
 @implementation YCLikeTestVC
@@ -17,6 +20,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.7];
+    self.size = CGSizeMake(125, 125);
+    
+    self.result = [YCAssetsManager fetchLowAssetsWithCount:50];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self test];
+    });
 
 }
 
@@ -30,10 +41,10 @@
     PHAsset *pre;
     PHAsset *next;
     NSMutableArray *allLikeArray = [NSMutableArray array];
-    NSMutableArray *oneLikeArray = [NSMutableArray array];
+    NSMutableArray *oneLikeArray = nil;
     
     for (NSUInteger i = 0; i + 1 < count; i++) {
-        
+        NSLog(@"i = %@", @(i));
         pre = [self.result objectAtIndex:i];
         next = [self.result objectAtIndex:i+1];
         
@@ -50,11 +61,40 @@
             oneLikeArray = nil;
         }
     }
+    
+    self.allLikeArray = allLikeArray;
+    NSLog(@"%@", self.allLikeArray);
 }
 
 - (BOOL)isLikePre:(PHAsset *)pre withNext:(PHAsset *)next {
+    if (!pre || !next) {
+        return NO;
+    }
     
-    return YES;
+    __block BOOL error;
+    __block UIImage *preImage;
+    __block UIImage *nextImage;
+    
+    [YCAssetsManager requestLowImage:pre size:self.size handler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        error = result? NO: YES;
+        preImage = result;
+    }];
+    
+    if (error) {
+        return NO;
+    }
+    
+    [YCAssetsManager requestLowImage:next size:self.size handler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        error = result? NO: YES;
+        nextImage = result;
+    }];
+    
+    if (error) {
+        return NO;
+    }
+
+    BOOL like = [YCImageCompare isImage:preImage likeImage:nextImage];
+    return like;
 }
 
 

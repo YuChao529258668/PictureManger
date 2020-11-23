@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Asset
 
 + (PHFetchResult<PHAsset *> *)fetchLowAssets;
++ (PHFetchResult<PHAsset *> *)fetchLowAssetsWithCount:(NSUInteger)count;
 
 #pragma mark - Image
 
