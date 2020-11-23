@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */; };
 		0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */; };
 		0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A3E255BC015005358F0 /* AppDelegate.m */; };
 		0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A41255BC015005358F0 /* SceneDelegate.m */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCLikeTestVC.h; sourceTree = "<group>"; };
+		0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLikeTestVC.m; sourceTree = "<group>"; };
 		0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YCImageView.m"; sourceTree = "<group>"; };
 		0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YCImageView.h"; sourceTree = "<group>"; };
 		0DA22A3A255BC015005358F0 /* YCPictureManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCPictureManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +113,8 @@
 		0DA22A3C255BC015005358F0 /* YCPictureManager */ = {
 			isa = PBXGroup;
 			children = (
+				0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */,
+				0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */,
 				0DA26FF0256278470096B5BB /* BugList.md */,
 				0DAE261F25622A0C001C7D5A /* AlbumList */,
 				0DA22A91255D3987005358F0 /* AssetManager */,
@@ -307,6 +312,7 @@
 				0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
 				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
+				0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */,
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				0DA22A65255BCAA2005358F0 /* YCMineVC.m in Sources */,
 				0DA22A88255D2B3E005358F0 /* YCAssetPreviewCell.m in Sources */,
