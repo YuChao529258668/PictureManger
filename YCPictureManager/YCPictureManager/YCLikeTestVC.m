@@ -44,26 +44,29 @@
     NSMutableArray *oneLikeArray = nil;
     
     for (NSUInteger i = 0; i + 1 < count; i++) {
-        NSLog(@"i = %@", @(i));
-        pre = [self.result objectAtIndex:i];
-        next = [self.result objectAtIndex:i+1];
-        
-        if ([self isLikePre:pre withNext:next]) {
-            if (!oneLikeArray) {
-                oneLikeArray = [NSMutableArray array];
-                [allLikeArray addObject:oneLikeArray];
+        @autoreleasepool {
+            NSLog(@"i = %@", @(i));
+            pre = [self.result objectAtIndex:i];
+            next = [self.result objectAtIndex:i+1];
+            
+            if ([self isLikePre:pre withNext:next]) {
+                if (!oneLikeArray) {
+                    oneLikeArray = [NSMutableArray array];
+                    [allLikeArray addObject:oneLikeArray];
+                }
+                if (![oneLikeArray.lastObject isEqual:pre]) {
+                    [oneLikeArray addObject:pre];
+                }
+                [oneLikeArray addObject:next];
+            } else {
+                oneLikeArray = nil;
             }
-            if (![oneLikeArray.lastObject isEqual:pre]) {
-                [oneLikeArray addObject:pre];
-            }
-            [oneLikeArray addObject:next];
-        } else {
-            oneLikeArray = nil;
         }
     }
     
     self.allLikeArray = allLikeArray;
     NSLog(@"%@", self.allLikeArray);
+    NSLog(@"相同照片组数：%@", @(self.allLikeArray.count));
 }
 
 - (BOOL)isLikePre:(PHAsset *)pre withNext:(PHAsset *)next {
