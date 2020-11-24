@@ -14,8 +14,8 @@ typedef double Similarity;
 @interface YCGetSimilarity : NSObject
 
 - (void)setImgWithImgA:(UIImage*)imgA ImgB:(UIImage*)imgB;
-- (void)setImgAWidthImg:(UIImage*)img;
-- (void)setImgBWidthImg:(UIImage*)img;
+//- (void)setImgAWidthImg:(UIImage*)img;
+//- (void)setImgBWidthImg:(UIImage*)img;
 
 - (Similarity)getSimilarityValue; 
 + (Similarity)getSimilarityValueWithImgA:(UIImage*)imga ImgB:(UIImage*)imgb;

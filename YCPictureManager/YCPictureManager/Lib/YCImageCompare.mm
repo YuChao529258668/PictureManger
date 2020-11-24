@@ -225,28 +225,30 @@
     // 裁剪后的图片
     IplImage *cropImage;
     for (int j=0; j<srcIpl1->width-srcIpl->width; j++) {
-        // 裁剪图片
-        cvSetImageROI(srcIpl1, cvRect(j, 0, srcIpl->width, srcIpl->height));
-        cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
-        cvCopy(srcIpl1, cropImage);
-        cvResetImageROI(srcIpl1);
-        
-        // 匹配图片
-        double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
-        printf("匹配结果为:%f\n",dbRst1);
-        cvReleaseImage(&cropImage);
+        @autoreleasepool {
+            // 裁剪图片
+            cvSetImageROI(srcIpl1, cvRect(j, 0, srcIpl->width, srcIpl->height));
+            cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
+            cvCopy(srcIpl1, cropImage);
+            cvResetImageROI(srcIpl1);
+            
+            // 匹配图片
+            double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
+            printf("匹配结果为:%f\n",dbRst1);
+            cvReleaseImage(&cropImage);
 
-        if (dbRst1<=0.01) {
-            // 匹配成功
-            tfFound = 1;
-            break;
-        }
-        else if(dbRst==1.0 || dbRst1<dbRst) {
-            // 本次匹配有进步，更新结果
-            dbRst = dbRst1;
-        }
-        else if(dbRst1>dbRst) {
+            if (dbRst1<=0.01) {
+                // 匹配成功
+                tfFound = 1;
+                break;
+            }
+            else if(dbRst==1.0 || dbRst1<dbRst) {
+                // 本次匹配有进步，更新结果
+                dbRst = dbRst1;
+            }
+            else if(dbRst1>dbRst) {
 
+            }
         }
     }
     
@@ -261,28 +263,30 @@
     // 裁剪后的图片
     IplImage *cropImage;
     for (int j=0; j<srcIpl1->height-srcIpl->height; j++) {
-        // 裁剪图片
-        cvSetImageROI(srcIpl1, cvRect(0, j, srcIpl->height, srcIpl->height));
-        cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
-        cvCopy(srcIpl1, cropImage);
-        cvResetImageROI(srcIpl1);
-        
-        // 匹配图片
-        double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
-        printf("匹配结果为:%f\n",dbRst1);
-        cvReleaseImage(&cropImage);
-
-        if (dbRst1<=0.01) {
-            // 匹配成功
-            tfFound = 1;
-            break;
-        }
-        else if(dbRst==1.0 || dbRst1<dbRst) {
-            // 本次匹配有进步，更新结果
-            dbRst = dbRst1;
-        }
-        else if(dbRst1>dbRst) {
+        @autoreleasepool {
+            // 裁剪图片
+            cvSetImageROI(srcIpl1, cvRect(0, j, srcIpl->height, srcIpl->height));
+            cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
+            cvCopy(srcIpl1, cropImage);
+            cvResetImageROI(srcIpl1);
             
+            // 匹配图片
+            double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
+            printf("匹配结果为:%f\n",dbRst1);
+            cvReleaseImage(&cropImage);
+
+            if (dbRst1<=0.01) {
+                // 匹配成功
+                tfFound = 1;
+                break;
+            }
+            else if(dbRst==1.0 || dbRst1<dbRst) {
+                // 本次匹配有进步，更新结果
+                dbRst = dbRst1;
+            }
+            else if(dbRst1>dbRst) {
+                
+            }
         }
     }
     
@@ -302,60 +306,65 @@
     // 遍历方式：先竖后横
     for (int j=0; j<srcIpl1->width-srcIpl->width; j++) {
         for (int i=ySub; i<srcIpl1->height-srcIpl->height; i++) {
-            // 裁剪图片
-            cvSetImageROI(srcIpl1, cvRect(j, i, srcIpl->width, srcIpl->height));
-            cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
-            cvCopy(srcIpl1, cropImage);
-            cvResetImageROI(srcIpl1);
-            
-            // 匹配图片
-            double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
-            printf("(x=%d,y=%d),竖直匹配结果为:%f\n",j,i,dbRst1);
-            cvReleaseImage(&cropImage);
+            @autoreleasepool {
+                // 裁剪图片
+                cvSetImageROI(srcIpl1, cvRect(j, i, srcIpl->width, srcIpl->height));
+                cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
+                cvCopy(srcIpl1, cropImage);
+                cvResetImageROI(srcIpl1);
+                
+                // 匹配图片
+                double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
+                printf("(x=%d,y=%d),竖直匹配结果为:%f\n",j,i,dbRst1);
+                cvReleaseImage(&cropImage);
 
-            if (dbRst1<=0.0375) {
-                // 匹配成功
-                tfFound = 1;
-                break;
-            } else if(dbRst==1.0 || dbRst1<dbRst) {
-                // 本次匹配有进步，更新结果
-                dbRst = dbRst1;
-            } else if(dbRst1>dbRst) {
-                // 竖直移动到点了,该水平移动了
-                ySub = i-1;
-                for (int k=j+1;k<srcIpl1->width-srcIpl->width; k++) {
-                    // 裁切图片
-                    cvSetImageROI(srcIpl1, cvRect(k, i, srcIpl->width, srcIpl->height));
-                    cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
-                    cvCopy(srcIpl1, cropImage);
-                    cvResetImageROI(srcIpl1);
-                    
-                    // 匹配图片
-                    double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
-                    printf("(x=%d,y=%d),水平移动匹配结果为:%f\n",k,i,dbRst1);
-                    cvReleaseImage(&cropImage);
+                if (dbRst1<=0.0375) {
+                    // 匹配成功
+                    tfFound = 1;
+                    break;
+                } else if(dbRst==1.0 || dbRst1<dbRst) {
+                    // 本次匹配有进步，更新结果
+                    dbRst = dbRst1;
+                } else if(dbRst1>dbRst) {
+                    // 竖直移动到点了,该水平移动了
+                    ySub = i-1;
+                    for (int k=j+1;k<srcIpl1->width-srcIpl->width; k++) {
+                        @autoreleasepool {
+                            // 裁切图片
+                            cvSetImageROI(srcIpl1, cvRect(k, i, srcIpl->width, srcIpl->height));
+                            cropImage = cvCreateImage(cvGetSize(srcIpl), IPL_DEPTH_8U, 3);
+                            cvCopy(srcIpl1, cropImage);
+                            cvResetImageROI(srcIpl1);
+                            
+                            // 匹配图片
+                            double dbRst1 =[self CompareHist:srcIpl withParam2:cropImage];
+                            printf("(x=%d,y=%d),水平移动匹配结果为:%f\n",k,i,dbRst1);
+                            cvReleaseImage(&cropImage);
 
-                    if (dbRst1<=0.0375) {
-                        // 匹配成功
-                        tfFound = 1;
-                        xSub = k;
-                        break;
-                    } else if(dbRst1<dbRst) {
-                        // 本次匹配有进步，更新结果
-                        xSub = k;
-                        j = xSub;
-                        dbRst = dbRst1;
-                    } else {
-                        xSub = k;
-                        j = xSub;
-                        break;
+                            if (dbRst1<=0.0375) {
+                                // 匹配成功
+                                tfFound = 1;
+                                xSub = k;
+                                break;
+                            } else if(dbRst1<dbRst) {
+                                // 本次匹配有进步，更新结果
+                                xSub = k;
+                                j = xSub;
+                                dbRst = dbRst1;
+                            } else {
+                                xSub = k;
+                                j = xSub;
+                                break;
+                            }
+                        }
                     }
+                }
+
+                if (tfFound==1 || tfFound==0) {
+                    break;
                 }
             }
             
-            if (tfFound==1 || tfFound==0) {
-                break;
-            }
         }
         
         if (tfFound==1 || tfFound==0) {

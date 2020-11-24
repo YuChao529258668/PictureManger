@@ -26,27 +26,27 @@ typedef enum workday {
 
 @implementation YCGetSimilarity
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.imga = [[UIImage alloc] init];
-        self.imgb = [[UIImage alloc] init];
-    }
-    return self;
-}
+//- (instancetype)init {
+//    self = [super init];
+//    if (self) {
+//        self.imga = [[UIImage alloc] init];
+//        self.imgb = [[UIImage alloc] init];
+//    }
+//    return self;
+//}
 
 - (void)setImgWithImgA:(UIImage*)imgA ImgB:(UIImage*)imgB {
     _imga = imgA;
     _imgb = imgB;
 }
 
-- (void)setImgAWidthImg:(UIImage*)img {
-    self.imga = img;
-}
-
-- (void)setImgBWidthImg:(UIImage*)img {
-    self.imgb = img;
-}
+//- (void)setImgAWidthImg:(UIImage*)img {
+//    self.imga = img;
+//}
+//
+//- (void)setImgBWidthImg:(UIImage*)img {
+//    self.imgb = img;
+//}
 
 - (Similarity)getSimilarityValue {
     self.similarity = MAX([self getSimilarityValueWithType:SizeA], [self getSimilarityValueWithType:SizeB]);
