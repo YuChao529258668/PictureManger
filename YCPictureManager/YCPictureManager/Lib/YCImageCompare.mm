@@ -16,6 +16,10 @@
     IplImage *iplimage1 = [self convertToIplImage:[self OriginImage:image1 scaleToSize:CGSizeMake(320, 320)]];
     IplImage *iplimage2 = [self convertToIplImage:[self OriginImage:image2 scaleToSize:CGSizeMake(320, 320)]];
     double sililary = [self ComparePPKHist:iplimage1 withParam2:iplimage2];
+    
+    cvReleaseImage(&iplimage1);
+    cvReleaseImage(&iplimage2);
+
     if (sililary < 0.1) {
         return YES;
     }
@@ -74,8 +78,15 @@
     cvCvtColor(image2, gray_plane2, CV_BGR2GRAY);
     CvHistogram *gray_hist2 = cvCreateHist(1, &hist_size, CV_HIST_ARRAY);
     cvCalcHist(&gray_plane2, gray_hist2);
-
-    return cvCompareHist(gray_hist, gray_hist2, CV_COMP_BHATTACHARYYA);
+    
+    double hist = cvCompareHist(gray_hist, gray_hist2, CV_COMP_BHATTACHARYYA);
+    
+    cvReleaseImage(&gray_plane);
+    cvReleaseImage(&gray_plane2);
+    cvReleaseHist(&gray_hist);
+    cvReleaseHist(&gray_hist2);
+    
+    return hist;
 }
 
 
@@ -93,6 +104,7 @@
     cvCvtColor(iplImage, ret, CV_RGB2BGR);
     cvReleaseImage(&iplImage);
     
+    // 这个 ret 会在外部释放
     return ret;
 }
 
