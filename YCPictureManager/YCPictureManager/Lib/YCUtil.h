@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCUtil : NSObject
 
+// 毛玻璃
++ (void)addBlurTo:(UIView *)view style:(UIBlurEffectStyle)style;
+
 + (BOOL)isPhotoAuthorized;
 
 + (void)powerPhotoWithVC:(UIViewController *)avc callBack:(void (^)(BOOL succ))callback;

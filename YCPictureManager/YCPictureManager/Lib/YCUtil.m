@@ -10,6 +10,13 @@
 
 @implementation YCUtil
 
+// 毛玻璃
++ (void)addBlurTo:(UIView *)view style:(UIBlurEffectStyle)style {
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:style];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.frame = view.bounds;
+    [view addSubview:effectview];
+}
 
 #pragma mark - 照片权限
 
