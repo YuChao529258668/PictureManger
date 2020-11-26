@@ -1,45 +1,13 @@
 //
-//  YCPreviewGesture.m
+//  YCPreviewGestureHintNext.m
 //  YCPictureManager
 //
 //  Created by 余超 on 2020/11/26.
 //
 
-#import "YCPreviewGesture.h"
-//#import "YCAssetPreviewVC.h"
-#import "YCAssetPreviewCell.h"
-#import "UIImageView+YCImageView.h"
+#import "YCPreviewGestureHintNext.h"
 
-
-@interface YCPreviewGesture ()
-
-@end
-
-
-@implementation YCPreviewGesture
-
-//+ (instancetype)gestureWithVC:(YCAssetPreviewVC *)vc {
-//    typeof(self) gesture = [self alloc] init
-//}
-
-- (void)setVc:(YCAssetPreviewVC *)vc {
-    _vc = vc;
-    
-    self.collectionView = vc.collectionView;
-    self.view = vc.view;
-    self.delegate = vc.delegate;
-}
-
-#pragma mark - 手势
-
-- (void)setupGesture {
-    UIPanGestureRecognizer *pan = [UIPanGestureRecognizer new];
-    [pan addTarget:self action:@selector(handlePanGesture:)];
-    pan.delegate = self;
-    [self.collectionView addGestureRecognizer:pan];
-    self.panGesture = pan;
-}
-
+@implementation YCPreviewGestureHintNext
 
 #pragma mark - Actions
 

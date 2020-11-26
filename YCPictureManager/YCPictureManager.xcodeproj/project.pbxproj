@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
+		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
+		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
 		0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */; };
 		0D85C98B256BE67C0044C0F5 /* YCImageCompare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C987256BE6790044C0F5 /* YCImageCompare.mm */; };
 		0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */; };
@@ -37,6 +39,10 @@
 /* Begin PBXFileReference section */
 		0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGesture.h; sourceTree = "<group>"; };
 		0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGesture.m; sourceTree = "<group>"; };
+		0D5456D7256FD76E00CE20DE /* YCPreviewGestureScaleNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureScaleNext.h; sourceTree = "<group>"; };
+		0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureScaleNext.m; sourceTree = "<group>"; };
+		0D5456DC256FD8B500CE20DE /* YCPreviewGestureHintNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureHintNext.h; sourceTree = "<group>"; };
+		0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureHintNext.m; sourceTree = "<group>"; };
 		0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCLikeTestVC.h; sourceTree = "<group>"; };
 		0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLikeTestVC.m; sourceTree = "<group>"; };
 		0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCGetSimilarity.h; sourceTree = "<group>"; };
@@ -97,6 +103,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D5456E1256FD99E00CE20DE /* Gesture */ = {
+			isa = PBXGroup;
+			children = (
+				0D5456DC256FD8B500CE20DE /* YCPreviewGestureHintNext.h */,
+				0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */,
+				0D5456D7256FD76E00CE20DE /* YCPreviewGestureScaleNext.h */,
+				0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */,
+				0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */,
+				0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */,
+			);
+			path = Gesture;
+			sourceTree = "<group>";
+		};
 		0D9AF95C255FE807006F6B9B /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,11 +234,10 @@
 		0DA22A80255D2886005358F0 /* AssetDetail */ = {
 			isa = PBXGroup;
 			children = (
-				0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */,
-				0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */,
 				0DA22A81255D29E6005358F0 /* YCAssetPreviewVC.h */,
 				0DA22A82255D29E6005358F0 /* YCAssetPreviewVC.m */,
 				0DA22A8A255D2B45005358F0 /* View */,
+				0D5456E1256FD99E00CE20DE /* Gesture */,
 			);
 			path = AssetDetail;
 			sourceTree = "<group>";
@@ -342,8 +360,10 @@
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
 				0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,
+				0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */,
 				0DA22A50255BC016005358F0 /* main.m in Sources */,
 				0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */,
+				0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */,
 				0DA22A83255D29E6005358F0 /* YCAssetPreviewVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

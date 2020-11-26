@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
 #import "YCAssetPreviewVC.h"
-
-//@class YCAssetPreviewVC;
-@class YCAssetPreviewCell;
+#import "YCAssetPreviewCell.h"
+#import "UIImageView+YCImageView.h"
 
 
 
@@ -22,12 +21,15 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, weak) id<YCAssetPreviewVCDelegate> delegate;
 
+@property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, strong) PHFetchResult *fetchResult;
+@property (nonatomic, strong) PHAsset *selectedAsset;
+
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
 
-@property (nonatomic, strong) PHFetchResult *fetchResult;
-@property (nonatomic, strong) PHAsset *selectedAsset;
 
 @end
 
