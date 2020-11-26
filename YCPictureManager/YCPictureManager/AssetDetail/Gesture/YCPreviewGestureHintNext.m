@@ -7,7 +7,40 @@
 
 #import "YCPreviewGestureHintNext.h"
 
+@interface YCPreviewGestureHintNext ()
+@property (nonatomic, strong) UIView *hintView;
+
+@end
+
+
 @implementation YCPreviewGestureHintNext
+
+- (void)setupHintView {
+    if (self.hintView) {
+        return;
+    }
+    
+    UIView *view = [UIView new];
+//    view.backgroundColor = [UIColor whiteColor];
+    self.hintView = view;
+    [self.view addSubview:view];
+    [YCUtil addBlurTo:view style:UIBlurEffectStyleDark];// UIBlurEffectStyleDark UIBlurEffectStyleRegular
+
+    UILabel *lable = [UILabel new];
+    lable.textColor = [UIColor darkTextColor];
+    lable.font = [UIFont systemFontOfSize:15];
+    lable.text = @"上滑选中图片";
+    lable.textAlignment = NSTextAlignmentCenter;
+    [view addSubview:lable];
+    
+    CGRect frame = self.view.bounds;
+    view.frame = frame;
+    frame.origin.y = 80;
+    frame.size.height = 30;
+    lable.frame = frame;
+    
+    
+}
 
 #pragma mark - Actions
 
@@ -31,6 +64,11 @@
     if (pan.state == UIGestureRecognizerStateBegan) {
         NSLog(@"手势 handlePanUp");
         
+        self.collectionView.scrollEnabled = NO;
+
+        [self setupHintView];
+        self.hintView.hidden = NO;
+
         // 创建手势拖放的 view
         UIImageView *snapView = [UIImageView new];
         snapView.layer.masksToBounds = YES;
@@ -38,40 +76,43 @@
             CGPoint location = [pan locationInView:pan.view];
             NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
             YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
+            cell.imageView.hidden = YES;
             
             CGRect frame = cell.imageView.frame;
             frame = [cell.imageView.superview convertRect:frame toView:self.view];
             snapView.frame = frame;
             snapView.image = cell.imageView.image;
-            [self.view addSubview:snapView];
+            [self.hintView addSubview:snapView];
+            
             self.snapView = snapView;
-
-
             self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+            self.selectIndexPath = ip;
+            self.selectImageView = cell.imageView;
+
 //            self.collectionView.hidden = YES;
             
             // 毛玻璃
-            UIView *maskView = [[UIView alloc] initWithFrame:self.view.bounds];
-            maskView.tag = 222;
-            [self.view insertSubview:maskView belowSubview:snapView];
-            UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-            UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-            effectview.frame = maskView.bounds;
-            [maskView addSubview:effectview];
+//            UIView *maskView = [[UIView alloc] initWithFrame:self.view.bounds];
+//            maskView.tag = 222;
+//            [self.view insertSubview:maskView belowSubview:snapView];
+//            UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//            UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+//            effectview.frame = maskView.bounds;
+//            [maskView addSubview:effectview];
             
             
             // 处理 collection view 滚动
-            if (self.fetchResult.count > 1) {
-                NSInteger index = ip.item;
-                if (index == self.fetchResult.count - 1) {
-                    index -= 1;
-                } else {
-                    index += 1;
-                }
-                NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
-                self.collectionView.scrollEnabled = NO;
-                [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-            }
+//            if (self.fetchResult.count > 1) {
+//                NSInteger index = ip.item;
+//                if (index == self.fetchResult.count - 1) {
+//                    index -= 1;
+//                } else {
+//                    index += 1;
+//                }
+//                NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
+//                self.collectionView.scrollEnabled = NO;
+//                [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+//            }
         }
 
         
@@ -89,23 +130,30 @@
 
         float alpha = 1 - fabs(translation.y)*2 / height;
         float scale = 1 - fabs(translation.y) / height;
-        self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
+//        self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
         
         UIView *maskView = [self.view viewWithTag:222];
         maskView.alpha = alpha;
         
+        self.snapView.alpha = alpha;
+        
 //        位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
 //        先缩放再平移，和先平移再缩放，效果完全不一样。
-        self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 2, translation.y);
-        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
+        self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
+//        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
         
     } else if (pan.state == UIGestureRecognizerStateEnded) {
-        CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
+//        CGRect targetFrame = CGRectMake(self.view.frame.size.width - 50, 0, 0, 0);
+        CGRect targetFrame = self.snapView.frame;
+        targetFrame.origin.y = - self.view.frame.size.height;
+//        CGRect targetFrame = CGRectMake(0, -1000, 100, 100);
         UIView *maskView = [self.view viewWithTag:222];
 
         // 0.21, 0.16
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
             self.snapView.frame = targetFrame;
+            self.snapView.alpha = 0;
+            self.hintView.alpha = 0;
 //            self.view.backgroundColor = [UIColor clearColor];
             maskView.alpha = 0;
 
@@ -114,10 +162,25 @@
             [self.snapView removeFromSuperview];
             self.snapView = nil;
             [maskView removeFromSuperview];
+            self.hintView.hidden = YES;
+            self.hintView.alpha = 1;
+            self.selectImageView.hidden = NO;
         }];
         
         self.collectionView.scrollEnabled = YES;
         
+        // 处理 collection view 滚动
+        if (self.fetchResult.count > 1) {
+            NSInteger index = self.selectIndexPath.item;
+            if (index == self.fetchResult.count - 1) {
+                index -= 1;
+            } else {
+                index += 1;
+            }
+            NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
+            [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+        }
+
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
         self.collectionView.hidden = NO;
@@ -125,6 +188,13 @@
         
         [self.snapView removeFromSuperview];
         self.snapView = nil;
+
+        self.hintView.hidden = YES;
+        self.selectImageView.hidden = NO;
+        self.hintView.alpha = 1;
+        self.snapView.alpha = 1;
+        
+        self.collectionView.scrollEnabled = YES;
 
         // todo
 //        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);

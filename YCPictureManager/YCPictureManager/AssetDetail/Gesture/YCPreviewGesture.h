@@ -11,7 +11,7 @@
 #import "YCAssetPreviewVC.h"
 #import "YCAssetPreviewCell.h"
 #import "UIImageView+YCImageView.h"
-
+#import "YCUtil.h"
 
 
 @interface YCPreviewGesture : NSObject <UIGestureRecognizerDelegate>
@@ -25,6 +25,8 @@
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, strong) PHFetchResult *fetchResult;
 @property (nonatomic, strong) PHAsset *selectedAsset;
+@property (nonatomic, strong) NSIndexPath *selectIndexPath;
+@property (nonatomic, weak) UIImageView *selectImageView;
 
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
