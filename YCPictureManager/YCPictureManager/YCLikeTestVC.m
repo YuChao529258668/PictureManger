@@ -12,7 +12,7 @@
 @interface YCLikeTestVC ()
 @property (nonatomic, strong) PHFetchResult<PHAsset *> *result;
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) NSMutableArray<NSArray *> *allLikeArray;
+@property (nonatomic, strong) NSMutableArray<NSMutableArray *> *allLikeArray;
 @end
 
 @implementation YCLikeTestVC
@@ -23,7 +23,7 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.7];
     self.size = CGSizeMake(125, 125);
     
-    self.result = [YCAssetsManager fetchLowAssetsWithCount:50];
+    self.result = [YCAssetsManager fetchLowAssetsWithCount:1000];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self test];
@@ -65,7 +65,7 @@
     }
     
     self.allLikeArray = allLikeArray;
-    NSLog(@"%@", self.allLikeArray);
+//    NSLog(@"%@", self.allLikeArray);
     NSLog(@"相同照片组数：%@", @(self.allLikeArray.count));
 }
 
