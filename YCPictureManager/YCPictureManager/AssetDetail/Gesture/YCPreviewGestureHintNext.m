@@ -70,7 +70,7 @@
         frame = [cell.imageView.superview convertRect:frame toView:self.view];
         snapView.frame = frame;
                 
-        self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+        self.selectedAsset = [self.assetArray objectAtIndex:ip.item];
         self.selectIndexPath = ip;
         self.selectImageView = cell.imageView;
 
@@ -103,16 +103,20 @@
         self.collectionView.scrollEnabled = YES;
         
         // 处理 collection view 滚动
-        if (self.fetchResult.count > 1) {
-            NSInteger index = self.selectIndexPath.item;
-            if (index == self.fetchResult.count - 1) {
-                index -= 1;
-            } else {
-                index += 1;
-            }
-            NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
-            [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-        }
+//        if (self.fetchResult.count > 1) {
+//            NSInteger index = self.selectIndexPath.item;
+//            if (index == self.fetchResult.count - 1) {
+//                index -= 1;
+//            } else {
+//                index += 1;
+//            }
+//            NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
+//            [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+//        }
+        
+        [self.selectArray addObject:self.selectedAsset];
+        [self.assetArray removeObject:self.selectedAsset];
+        [self.collectionView deleteItemsAtIndexPaths:@[self.selectIndexPath]];
 
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
@@ -159,7 +163,7 @@
             YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
             snapView.image = cell.imageView.image;
             
-            self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+            self.selectedAsset = [self.assetArray objectAtIndex:ip.item];
             UIView *targetView = [self.delegate targetViewForAsset:self.selectedAsset];
             snapView.contentMode = targetView.contentMode;
             

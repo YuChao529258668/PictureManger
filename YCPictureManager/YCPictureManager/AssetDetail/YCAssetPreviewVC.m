@@ -84,6 +84,19 @@
     self.collectionView.frame = self.view.bounds;
 }
 
+- (void)setFetchResult:(PHFetchResult *)fetchResult {
+    _fetchResult = fetchResult;
+    
+    self.assetArray = [NSMutableArray arrayWithCapacity:fetchResult.count];
+    self.selectArray = [NSMutableArray array];
+    
+    [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.assetArray addObject:obj];
+    }];
+    
+    [self.collectionView reloadData];
+}
+
 #pragma mark - UICollectionView
 
 - (void)setupCollectionView {
@@ -116,17 +129,18 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.fetchResult.count;
+    return self.assetArray.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetPreviewCell" forIndexPath:indexPath];
     
+    cell.testL.text = [NSString stringWithFormat:@"%@", @(indexPath.item)];
     cell.imageView.image = nil;
 //    cell.contentView.backgroundColor = [UIColor greenColor];
         
-    PHAsset *as = [self.fetchResult objectAtIndex:indexPath.item];
+    PHAsset *as = [self.assetArray objectAtIndex:indexPath.item];
     
     [YCAssetsManager requestHighImage:as size:self.imageSize handler:^(UIImage * _Nullable result, BOOL isLow, PHAsset *asset, NSDictionary * _Nullable info) {
         
@@ -169,7 +183,7 @@
     }
     
     UIImageView *snapView = [UIImageView new];
-    PHAsset *asset = [self.fetchResult objectAtIndex:self.index];
+    PHAsset *asset = [self.assetArray objectAtIndex:self.index];
     UIView *targetView = [self.delegate targetViewForAsset:asset];
     YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
 

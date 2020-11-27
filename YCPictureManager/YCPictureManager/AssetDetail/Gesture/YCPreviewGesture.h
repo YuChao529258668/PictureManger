@@ -24,6 +24,8 @@
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, strong) PHFetchResult *fetchResult;
+@property (nonatomic, strong) NSMutableArray<PHAsset *> *assetArray; // 用于显示
+@property (nonatomic, strong) NSMutableArray<PHAsset *> *selectArray; // 选中的图片
 @property (nonatomic, strong) PHAsset *selectedAsset;
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
 @property (nonatomic, weak) UIImageView *selectImageView;

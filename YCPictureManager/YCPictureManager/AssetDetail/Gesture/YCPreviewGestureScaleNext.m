@@ -47,7 +47,7 @@
             self.snapView = snapView;
 
 
-            self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+            self.selectedAsset = [self.assetArray objectAtIndex:ip.item];
 //            self.collectionView.hidden = YES;
             
             // 毛玻璃
@@ -156,7 +156,7 @@
             YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
             snapView.image = cell.imageView.image;
             
-            self.selectedAsset = [self.fetchResult objectAtIndex:ip.item];
+            self.selectedAsset = [self.assetArray objectAtIndex:ip.item];
             UIView *targetView = [self.delegate targetViewForAsset:self.selectedAsset];
             snapView.contentMode = targetView.contentMode;
             

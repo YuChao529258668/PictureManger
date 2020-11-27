@@ -60,6 +60,11 @@
 //    [self.imageView addGestureRecognizer:doubleTap];
     [self.scrollView addGestureRecognizer:doubleTap];
 
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 50, 30)];
+    [self.contentView addSubview:label];
+    self.testL = label;
+    label.textColor = [UIColor blackColor];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {

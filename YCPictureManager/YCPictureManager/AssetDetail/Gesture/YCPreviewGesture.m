@@ -26,6 +26,8 @@
     self.view = vc.view;
     self.delegate = vc.delegate;
     self.fetchResult = vc.fetchResult;
+    self.assetArray = vc.assetArray;
+    self.selectArray = vc.selectArray;
     self.index = vc.index;
     self.asset = vc.asset;
     
@@ -42,6 +44,9 @@
     self.panGesture = pan;
 }
 
+- (void)handlePanGesture:(UIPanGestureRecognizer *)pan {
+    
+}
 
 
 @end

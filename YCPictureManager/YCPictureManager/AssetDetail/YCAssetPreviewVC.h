@@ -20,9 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger index;
 
 @property (nonatomic, strong) PHFetchResult *fetchResult;
+@property (nonatomic, strong) NSMutableArray<PHAsset *> *assetArray; // 用于显示
+@property (nonatomic, strong) NSMutableArray<PHAsset *> *selectArray; // 选中的图片
+
 @property (nonatomic, weak) id<YCAssetPreviewVCDelegate> delegate;
 @property (nonatomic, strong) PHAsset *selectedAsset;
-
 
 @end
 
