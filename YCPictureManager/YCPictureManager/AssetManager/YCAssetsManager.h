@@ -38,8 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (PHAsset *)fetchFirstAssetInCollection:(PHAssetCollection *)collection;
 + (PHFetchResult<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection;
 
+#pragma mark - Change
+
++ (void)deleteAssets:(id<NSFastEnumeration>)assets complete:(void(^)(BOOL success, NSError *error))block;
++ (void)deleteAssets:(id<NSFastEnumeration>)assets assetCollection:(PHAssetCollection *)collection complete:(void(^)(BOOL success, NSError *error))block;
 
 #pragma mark -
+
 
 @end
 

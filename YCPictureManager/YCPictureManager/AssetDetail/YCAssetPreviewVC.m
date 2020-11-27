@@ -11,6 +11,7 @@
 #import "YCPreviewGesture.h"
 #import "YCPreviewGestureScaleNext.h"
 #import "YCPreviewGestureHintNext.h"
+#import "YCResultSetBaseVC.h"
 
 #define kGestureKind 1
 
@@ -22,6 +23,8 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
 @property (nonatomic, strong) YCPreviewGesture *gesture;
+
+@property (nonatomic, strong) UIButton *selectCountBtn;
 @end
 
 @implementation YCAssetPreviewVC
@@ -47,6 +50,7 @@
 
     [self setupCollectionView];
     [self setupGesture];
+    [self setupNav];
     
     // 延伸到 bar
     if (@available(iOS 11.0, *)) {
@@ -82,6 +86,16 @@
     }
     
     self.collectionView.frame = self.view.bounds;
+}
+
+- (void)setupNav {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickRightBtn) forControlEvents:UIControlEventTouchUpInside];
+    self.selectCountBtn = btn;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)setFetchResult:(PHFetchResult *)fetchResult {
@@ -330,5 +344,23 @@
 //    }
 }
 
+
+
+#pragma mark - Actions
+
+- (void)clickRightBtn {
+    PHAssetCollection *ac = [PHAssetCollection transientAssetCollectionWithAssets:self.selectArray title:@"嘿嘿嘿"];
+    YCResultSetBaseVC *vc = [YCResultSetBaseVC new];
+    vc.album = ac;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)updateSelectCount:(NSInteger)count {
+//    if (count) {
+        [self.selectCountBtn setTitle:[NSString stringWithFormat:@"%ld", count] forState:UIControlStateNormal];
+//        return;
+//    }
+    
+}
 
 @end

@@ -175,4 +175,29 @@ static YCAssetsManager *manager;
     return result;
 }
 
+
+#pragma mark - Change
+
++ (void)deleteAssets:(id<NSFastEnumeration>)assets complete:(void(^)(BOOL success, NSError *error))block {
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [PHAssetChangeRequest deleteAssets:assets];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (block) {
+            block(success, error);
+        }
+    }];
+}
+
++ (void)deleteAssets:(id<NSFastEnumeration>)assets assetCollection:(PHAssetCollection *)collection complete:(void(^)(BOOL success, NSError *error))block {
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetCollectionChangeRequest *request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
+        [request removeAssets:assets];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (block) {
+            block(success, error);
+        }
+    }];
+
+}
+
 @end

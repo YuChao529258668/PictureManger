@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<YCAssetPreviewVCDelegate> delegate;
 @property (nonatomic, strong) PHAsset *selectedAsset;
 
+- (void)updateSelectCount:(NSInteger)count;
+
 @end
 
 

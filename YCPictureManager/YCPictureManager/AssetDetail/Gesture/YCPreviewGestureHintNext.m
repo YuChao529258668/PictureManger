@@ -115,6 +115,8 @@
 //        }
         
         [self.selectArray addObject:self.selectedAsset];
+        [self.vc updateSelectCount:self.selectArray.count];
+        
         [self.assetArray removeObject:self.selectedAsset];
         [self.collectionView deleteItemsAtIndexPaths:@[self.selectIndexPath]];
 
