@@ -7,6 +7,7 @@
 
 #import "YCAssetPreviewCell.h"
 #import "UIImageView+YCImageView.h"
+#import "UIImage+Size.h"
 
 @interface YCAssetPreviewCell ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
@@ -44,6 +45,7 @@
     
     // image view
     UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
+    NSLog(@"%p, 大小: %@ config", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
     iv.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView = iv;
     [self.scrollView addSubview:iv];
@@ -62,7 +64,10 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"image"]) {
-        self.imageView.frame = self.imageView.yc_imageRect;
+        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+//        self.imageView.frame = self.imageView.yc_imageRect;
+        self.imageView.frame = self.imageView.image.yc_rectForScreen;
+        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
         CGSize size = self.scrollView.frame.size;
         self.imageView.center = CGPointMake(size.width/2, size.height/2);
     } else {
@@ -75,13 +80,20 @@
     
     self.scrollView.frame = self.bounds;
 
+    NSLog(@"%p, 大小: %@ layoutSubviews", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+    
     if (self.scrollView.zoomScale == 1) {
         if (self.imageView.image) {
-            self.imageView.frame = self.imageView.yc_imageRect;
+//            self.imageView.frame = self.imageView.yc_imageRect;
+            self.imageView.frame = self.imageView.image.yc_rectForScreen;
+            NSLog(@"%p, 大小: %@ layoutSubviews222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
         } else {
             self.imageView.frame = self.frame;
+            NSLog(@"%p, 大小: %@ layoutSubviews333", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
         }
-        self.imageView.frame = self.imageView.yc_imageRect;
+//        self.imageView.frame = self.imageView.yc_imageRect;
         CGSize size = self.scrollView.frame.size;
         self.imageView.center = CGPointMake(size.width/2, size.height/2);
 
@@ -103,7 +115,7 @@
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
     if (view == self.imageView) {
 //        NSLog(@"缩放1 %@", NSStringFromCGPoint(self.imageView.center));
-//        NSLog(@"缩放1 %@", NSStringFromCGRect(self.imageView.frame));
+//        NSLog(@"缩放1 %@", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
         
 //        CGPoint location = [scrollView.pinchGestureRecognizer locationInView:self.imageView];
 //        if (!CGPointEqualToPoint(CGPointZero, location)) {
@@ -147,6 +159,8 @@
 
 // 修改锚点，用于缩放
 - (void)modifyAnchorPointWithGesture:(UIGestureRecognizer *)gesture {
+    NSLog(@"%p, 大小: %@  modifyAnchorPointWithGesture", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
     // 修改
     if (gesture) {
         CGSize size = self.imageView.frame.size;
@@ -157,12 +171,15 @@
         self.imageView.layer.anchorPoint = CGPointMake(x, y);
 //        self.imageView.layer.anchorPoint = CGPointMake(0.3, 0.3);
         self.imageView.frame = frame;
-        
+        NSLog(@"%p, 大小: %@  modifyAnchorPointWithGesture2222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
     } else {
         // 恢复锚点
         CGRect frame = self.imageView.frame;
         self.imageView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         self.imageView.frame = frame;
+        NSLog(@"%p, 大小: %@ modifyAnchorPointWithGesture33333", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
     }
     NSLog(@"锚点 %@", NSStringFromCGPoint(self.imageView.layer.anchorPoint));
 }
@@ -172,12 +189,16 @@
 #pragma mark -
 
 - (void)didEndDisplaying {
+    NSLog(@"%p, 大小: %@ didEndDisplaying", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
     UIScrollView *sv = self.scrollView;
     [sv setZoomScale:sv.minimumZoomScale animated:NO];
     sv.contentSize = CGSizeZero;
     sv.contentOffset = CGPointZero;
     self.imageView.layer.anchorPoint = CGPointMake(0.5, 0.5);
     self.imageView.frame = self.scrollView.bounds;
+    NSLog(@"%p, 大小: %@ didEndDisplaying2222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+
 }
 
 

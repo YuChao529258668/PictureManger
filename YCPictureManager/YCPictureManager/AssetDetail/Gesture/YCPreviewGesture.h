@@ -30,7 +30,7 @@
 
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
-@property (nonatomic, strong) UIImageView *snapView;
+@property (nonatomic, strong) UIView *snapView;
 
 
 @end

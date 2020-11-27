@@ -350,24 +350,8 @@
             filePath = "YCPictureManager/AssetDetail/Gesture/YCPreviewGestureHintNext.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "-handlePanUp:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "80BFDB2A-1B00-40A2-B8B2-4B5C8C0CC8E0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YCPictureManager/AssetDetail/Gesture/YCPreviewGestureHintNext.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "-handlePanUp:"
             landmarkType = "7">
          </BreakpointContent>

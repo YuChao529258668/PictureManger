@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D199D432570AD9C00E32E3E /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D199D422570AD9C00E32E3E /* UIImage+Size.m */; };
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
 		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
 		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
@@ -37,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D199D412570AD9C00E32E3E /* UIImage+Size.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
+		0D199D422570AD9C00E32E3E /* UIImage+Size.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGesture.h; sourceTree = "<group>"; };
 		0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGesture.m; sourceTree = "<group>"; };
 		0D5456D7256FD76E00CE20DE /* YCPreviewGestureScaleNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureScaleNext.h; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 			children = (
 				0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */,
 				0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */,
+				0D199D412570AD9C00E32E3E /* UIImage+Size.h */,
+				0D199D422570AD9C00E32E3E /* UIImage+Size.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
 				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
+				0D199D432570AD9C00E32E3E /* UIImage+Size.m in Sources */,
 				0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */,
 				0DA22A7A255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				0D85C98B256BE67C0044C0F5 /* YCImageCompare.mm in Sources */,

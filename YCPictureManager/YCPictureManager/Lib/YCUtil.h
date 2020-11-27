@@ -9,6 +9,7 @@
 #import <Photos/Photos.h>
 #import <PhotosUI/PHPhotoLibrary+PhotosUISupport.h>
 #import <UIKit/UIKit.h>
+#import "UIImage+Size.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

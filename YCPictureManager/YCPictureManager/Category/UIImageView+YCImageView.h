@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIImage+Size.h"
 
 @interface UIImageView (YCImageView)
+
 - (CGRect)yc_imageRect;
 - (CGRect)yc_imageRect2;
 
