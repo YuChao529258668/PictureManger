@@ -25,9 +25,88 @@
 @property (nonatomic, strong) YCPreviewGesture *gesture;
 
 @property (nonatomic, strong) UIButton *selectCountBtn;
+
+@property (nonatomic, strong) UIToolbar *bottomBar;
 @end
 
 @implementation YCAssetPreviewVC
+
+// 删除、分享、编辑、收藏，添加到、
+- (void)setupBottomBar {
+    UIToolbar *bar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
+    self.bottomBar = bar;
+    [self.view addSubview:bar];
+    
+//    UIMenuElement *element = [[UIMenuElement alloc] initWithCoder:nil];
+//    UIMenu *menu = [UIMenu menuWithTitle:@"my menu" children:@[element]];
+//    UIBarButtonItem *test = [[UIBarButtonItem alloc] initWithTitle:@"测试" menu:menu];
+    
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+//    UIBarButtonItem *delete = [self itemWithTitle:@"删除" cmd:@selector(clickDeleteBtn)];
+//    UIBarButtonItem *share = [self itemWithTitle:@"分享" cmd:@selector(clickShareBtn)];
+//    UIBarButtonItem *edit = [self itemWithTitle:@"编辑" cmd:@selector(clickEditBtn)];
+//    UIBarButtonItem *love = [self itemWithTitle:@"收藏" cmd:@selector(clickLoveBtn)];
+//    UIBarButtonItem *addTo = [self itemWithTitle:@"添加到" cmd:@selector(clickAddToBtn)];
+
+    UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clickDeleteBtn)];
+    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(clickShareBtn)];
+    UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(clickEditBtn)];
+//    UIBarButtonItem *love = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickLoveBtn)];
+//    UIBarButtonItem *addTo = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemClose target:self action:@selector(clickAddToBtn)];
+
+    [bar setItems:@[space, delete, space, share, space, edit, space] animated:YES];
+//    [bar setItems:@[ delete, space, share, space, edit] animated:YES];
+}
+
+//- (UIBarButtonItem *)itemWithTitle:(NSString *)title cmd:(SEL)cmd {
+//    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:cmd];
+//    return item;
+//}
+
+// 删除
+- (void)clickDeleteBtn {
+    CGPoint point = [self.view convertPoint:self.view.center toView:self.collectionView];
+    NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:point];
+    PHAsset *asset = self.assetArray[ip.item];
+    
+    [YCAssetsManager deleteAssets:@[asset] complete:^(BOOL success, NSError * _Nonnull error) {
+        // yctodo toast 失败
+        if (success) {
+            // self.fetchResult 需要更新吗？
+            [self.assetArray removeObject:asset];
+            [self.collectionView deleteItemsAtIndexPaths:@[ip]];
+        } else {
+            NSLog(@"删除失败 %@", error.localizedDescription);
+        }
+    }];
+}
+
+// 分享
+- (void)clickShareBtn {
+    
+}
+
+// 编辑
+- (void)clickEditBtn {
+    
+}
+
+// 收藏
+- (void)clickLoveBtn {
+    
+}
+
+// 添加到
+- (void)clickAddToBtn {
+    
+}
+
+
+
+
+#pragma mark -
+
 
 - (instancetype)init
 {
@@ -51,6 +130,7 @@
     [self setupCollectionView];
     [self setupGesture];
     [self setupNav];
+    [self setupBottomBar];
     
     // 延伸到 bar
     if (@available(iOS 11.0, *)) {
@@ -79,6 +159,9 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
+    
+    float barY = self.view.frame.size.height - 46;
+    self.bottomBar.frame = CGRectMake(0, barY, self.view.frame.size.width, 46);
         
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     if ([layout isKindOfClass:UICollectionViewFlowLayout.class]) {

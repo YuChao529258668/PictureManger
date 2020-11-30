@@ -183,7 +183,9 @@ static YCAssetsManager *manager;
         [PHAssetChangeRequest deleteAssets:assets];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (block) {
-            block(success, error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                block(success, error);
+            });
         }
     }];
 }
@@ -194,10 +196,28 @@ static YCAssetsManager *manager;
         [request removeAssets:assets];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (block) {
-            block(success, error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                block(success, error);
+            });
         }
     }];
 
 }
+
++ (void)addAssets:(id<NSFastEnumeration>)assets assetCollection:(PHAssetCollection *)collection complete:(void(^)(BOOL success, NSError *error))block {
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetCollectionChangeRequest *request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
+        [request addAssets:assets];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (block) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                block(success, error);
+            });
+        }
+    }];
+
+}
+
+
 
 @end
