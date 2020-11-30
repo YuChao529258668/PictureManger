@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D199D432570AD9C00E32E3E /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D199D422570AD9C00E32E3E /* UIImage+Size.m */; };
 		0D199D492570F44100E32E3E /* YCResultSetBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D199D482570F44100E32E3E /* YCResultSetBaseVC.m */; };
+		0D35777B2571F87F0097E0DF /* YCBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D35777A2571F87E0097E0DF /* YCBottomBar.m */; };
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
 		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
 		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
@@ -43,6 +44,8 @@
 		0D199D422570AD9C00E32E3E /* UIImage+Size.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		0D199D472570F44100E32E3E /* YCResultSetBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCResultSetBaseVC.h; sourceTree = "<group>"; };
 		0D199D482570F44100E32E3E /* YCResultSetBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCResultSetBaseVC.m; sourceTree = "<group>"; };
+		0D3577792571F87E0097E0DF /* YCBottomBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBottomBar.h; sourceTree = "<group>"; };
+		0D35777A2571F87E0097E0DF /* YCBottomBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBottomBar.m; sourceTree = "<group>"; };
 		0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGesture.h; sourceTree = "<group>"; };
 		0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGesture.m; sourceTree = "<group>"; };
 		0D5456D7256FD76E00CE20DE /* YCPreviewGestureScaleNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureScaleNext.h; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 			children = (
 				0D199D472570F44100E32E3E /* YCResultSetBaseVC.h */,
 				0D199D482570F44100E32E3E /* YCResultSetBaseVC.m */,
+				0D3577792571F87E0097E0DF /* YCBottomBar.h */,
+				0D35777A2571F87E0097E0DF /* YCBottomBar.m */,
 				0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */,
 				0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */,
 				0DA26FF0256278470096B5BB /* BugList.md */,
@@ -356,6 +361,7 @@
 				0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
 				0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */,
+				0D35777B2571F87F0097E0DF /* YCBottomBar.m in Sources */,
 				0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */,
 				0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
