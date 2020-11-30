@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetListBaseCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UILabel *infoL;
+@property (nonatomic, strong) UIView *blurView;
 @end
 
 NS_ASSUME_NONNULL_END

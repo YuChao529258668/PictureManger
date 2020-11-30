@@ -105,6 +105,7 @@
         cell.imageView.image = result;
     }];
     
+    cell.infoL.text = @"😂2.3M";
     return cell;
 }
 
