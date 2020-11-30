@@ -47,18 +47,19 @@
 //    UIBlurEffectStyleLight,
 //    UIBlurEffectStyleDark,
 
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    [self.contentView addSubview:effectview];
-    self.blurView = effectview;
-    effectview.alpha = 0.6;
+    // 加上掉帧严重，而且占内存。。。
+//    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+//    [self.contentView addSubview:effectview];
+//    self.blurView = effectview;
+//    effectview.alpha = 0.6;
 
-    UILabel *infoL = [UILabel new];
-    self.infoL = infoL;
-    [self.contentView addSubview:infoL];
-    infoL.textColor = [UIColor whiteColor];
-    infoL.font = [UIFont systemFontOfSize:13];
-    infoL.textAlignment = NSTextAlignmentRight;
+//    UILabel *infoL = [UILabel new];
+//    self.infoL = infoL;
+//    [self.contentView addSubview:infoL];
+//    infoL.textColor = [UIColor whiteColor];
+//    infoL.font = [UIFont systemFontOfSize:13];
+//    infoL.textAlignment = NSTextAlignmentRight;
 }
 
 - (void)layoutSubviews {
