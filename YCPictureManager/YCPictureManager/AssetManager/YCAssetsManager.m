@@ -142,6 +142,56 @@ static YCAssetsManager *manager;
 }
 
 
+#pragma mark - Image Data
+
++ (PHImageRequestID)requestAssetFileURL:(PHAsset *)asset done:(void(^)(NSURL *url))block {
+    if (!asset || !block) {
+        return 0;
+    }
+    
+    return [self requestImageDataWith:asset done:^(NSData *imageData, NSDictionary *info) {
+        // 可能为 nil
+        NSURL *fileUrl = [info objectForKey:@"PHImageFileURLKey"]; // file:///var/mobile/Media/DCIM/101APPLE/IMG_1188.PNG
+        if (fileUrl) {
+            block(fileUrl);
+            return;
+        }
+        
+        // 保存到临时目录
+        PHAssetResource *resource = [PHAssetResource assetResourcesForAsset:asset].firstObject;
+        NSString *temp = NSTemporaryDirectory();
+        NSString *directory = [temp stringByAppendingFormat:@"/YCAssetManager"];
+        NSString *path = [directory stringByAppendingFormat:@"/%@", resource.originalFilename];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:directory  withIntermediateDirectories:YES attributes:nil error:&error];
+        [imageData writeToFile:path atomically:YES];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            NSURL *url = [NSURL fileURLWithPath:path];
+            block(url);
+        } else {
+            block(nil);
+        }
+    }];
+}
+
++ (PHImageRequestID)requestImageDataWith:(PHAsset *)asset done:(void(^)(NSData *imageData, NSDictionary *info))block {
+    if (@available(iOS 13.0, *)) {
+        return [manager.imageManager requestImageDataAndOrientationForAsset:asset options:manager.highImgOptions resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, CGImagePropertyOrientation orientation, NSDictionary * _Nullable info) {
+            if (block) {
+                block(imageData, info);
+            }
+        }];
+        
+    } else {
+        return [manager.imageManager requestImageDataForAsset:asset options:manager.highImgOptions resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+            if (block) {
+                block(imageData, info);
+            }
+        }];
+    }
+}
+
+
 #pragma mark - Asset Collection
 
 + (PHFetchResult<PHAssetCollection *> *)fetchAssetCollections {

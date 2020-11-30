@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode options:(nullable PHImageRequestOptions *)options handler:(void (^)(UIImage *_Nullable result, BOOL isLow, PHAsset *asset, NSDictionary *_Nullable info))resultHandler;
 
 
+#pragma mark - Image Data
+
++ (PHImageRequestID)requestAssetFileURL:(PHAsset *)asset done:(void(^)(NSURL *url))block;
+
++ (PHImageRequestID)requestImageDataWith:(PHAsset *)asset done:(void(^)(NSData *imageData, NSDictionary *info))block;
 
 #pragma mark - AssetCollection
 
