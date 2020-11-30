@@ -162,6 +162,8 @@
         {
             CGPoint location = [pan locationInView:pan.view];
             NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
+            // yctodo 注意 ip 为空的情况
+            
             YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[self.collectionView cellForItemAtIndexPath:ip];
             snapView.image = cell.imageView.image;
             

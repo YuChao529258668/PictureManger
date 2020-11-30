@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "UIImage+Size.h"
 
+//#define IS_IPAD_DEVICE    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YCUtil : NSObject

@@ -145,10 +145,15 @@ static YCAssetsManager *manager;
 #pragma mark - Image Data
 
 + (PHImageRequestID)requestAssetFileURL:(PHAsset *)asset done:(void(^)(NSURL *url))block {
-    if (!asset || !block) {
+    if (!block) {
         return 0;
     }
     
+    if (!asset) {
+        block(nil);
+        return 0;
+    }
+
     return [self requestImageDataWith:asset done:^(NSData *imageData, NSDictionary *info) {
         // 可能为 nil
         NSURL *fileUrl = [info objectForKey:@"PHImageFileURLKey"]; // file:///var/mobile/Media/DCIM/101APPLE/IMG_1188.PNG
