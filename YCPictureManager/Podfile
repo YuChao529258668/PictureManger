@@ -1,0 +1,37 @@
+
+#target "YCPictureManager" do
+#    source 'https://github.com/CocoaPods/Specs.git'
+#    platform :ios, '7.0'
+#    pod 'AFNetworking', '~> 2.5'
+#end
+
+
+#source 'https://github.com/CocoaPods/Specs.git'
+#source 'https://gitclub.cn/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
+
+platform :ios, '9.0'
+
+#inhibit_all_warnings!
+
+## pod install --verbose --no-repo-update  pod update --verbose --no-repo-update
+## chmod 644 podfile
+
+def common_pods
+    pod 'FrameAccessor'
+    pod 'Masonry'
+end
+
+#def common_share_pods
+#    pod 'FrameAccessor', '~> 2.0'
+#    pod 'Masonry', '~> 1.1.0'
+#end
+
+#target 'YCPictureManager_inhouse' do
+#    common_pods
+#end
+
+target 'YCPictureManager' do
+    common_pods
+end
+
