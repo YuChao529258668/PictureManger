@@ -67,6 +67,7 @@
 		0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureScaleNext.m; sourceTree = "<group>"; };
 		0D5456DC256FD8B500CE20DE /* YCPreviewGestureHintNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureHintNext.h; sourceTree = "<group>"; };
 		0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureHintNext.m; sourceTree = "<group>"; };
+		0D5D152325791C63000AB15C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCLikeTestVC.h; sourceTree = "<group>"; };
 		0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLikeTestVC.m; sourceTree = "<group>"; };
 		0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCGetSimilarity.h; sourceTree = "<group>"; };
@@ -220,6 +221,7 @@
 				0DA22A4B255BC016005358F0 /* LaunchScreen.storyboard */,
 				0DA22A4E255BC016005358F0 /* Info.plist */,
 				0DA22A4F255BC016005358F0 /* main.m */,
+				0D5D152325791C63000AB15C /* PrefixHeader.pch */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -488,6 +490,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "/Users/yuchao/文稿/PictureManger/YCPictureManager/YCPictureManager/PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -546,6 +550,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "/Users/yuchao/文稿/PictureManger/YCPictureManager/YCPictureManager/PrefixHeader.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
