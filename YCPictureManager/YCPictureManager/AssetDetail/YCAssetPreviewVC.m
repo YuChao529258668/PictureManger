@@ -27,6 +27,8 @@
 @property (nonatomic, strong) UIButton *selectCountBtn;
 
 @property (nonatomic, strong) UIToolbar *bottomBar;
+
+@property (nonatomic, strong) UIColor *viewColor;
 @end
 
 @implementation YCAssetPreviewVC
@@ -126,7 +128,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor clearColor];
+    self.viewColor = [UIColor blackColor];
     
     CGSize size = [UIScreen mainScreen].bounds.size;
     int itemWidth = MAX(size.width, size.height);
@@ -221,7 +223,7 @@
     [self.view addSubview:cv];
     
     [cv registerClass:YCAssetPreviewCell.class forCellWithReuseIdentifier:@"YCAssetPreviewCell"];
-    cv.backgroundColor = [UIColor whiteColor];
+    cv.backgroundColor = self.viewColor;
     
 }
  
@@ -336,10 +338,9 @@
 //    }];
 
     [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.76 initialSpringVelocity:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
         snapView.frame = endFrame;
-//            self.view.backgroundColor = [UIColor blackColor]; // 变黑之后会瞬间变白再变黑，bug
-        self.view.backgroundColor = [UIColor whiteColor];
-
+        self.view.backgroundColor = self.viewColor;
         
     } completion:^(BOOL finished) {
         [snapView removeFromSuperview];
