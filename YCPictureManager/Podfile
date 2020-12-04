@@ -20,6 +20,7 @@ platform :ios, '9.0'
 def common_pods
     pod 'FrameAccessor'
     pod 'Masonry'
+    pod 'SVProgressHUD'
 end
 
 #def common_share_pods

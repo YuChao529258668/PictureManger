@@ -362,6 +362,7 @@
 				0DA22A36255BC015005358F0 /* Sources */,
 				0DA22A37255BC015005358F0 /* Frameworks */,
 				0DA22A38255BC015005358F0 /* Resources */,
+				4061C44CD69890D8D76AE7DC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -418,6 +419,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4061C44CD69890D8D76AE7DC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YCPictureManager/Pods-YCPictureManager-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YCPictureManager/Pods-YCPictureManager-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YCPictureManager/Pods-YCPictureManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		90DD084C73ADD413DB01DFFB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
