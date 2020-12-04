@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FrameAccessor/FrameAccessor.h>
-
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 #endif // __OBJC__

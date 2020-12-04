@@ -3,18 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0D199D432570AD9C00E32E3E /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D199D422570AD9C00E32E3E /* UIImage+Size.m */; };
 		0D199D492570F44100E32E3E /* YCResultSetBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D199D482570F44100E32E3E /* YCResultSetBaseVC.m */; };
 		0D35777B2571F87F0097E0DF /* YCBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D35777A2571F87E0097E0DF /* YCBottomBar.m */; };
-		0D51686025751F0B00130514 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D51685625751F0B00130514 /* SVRadialGradientLayer.m */; };
-		0D51686125751F0B00130514 /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D51685925751F0B00130514 /* SVProgressAnimatedView.m */; };
-		0D51686225751F0B00130514 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D51685C25751F0B00130514 /* SVProgressHUD.m */; };
-		0D51686325751F0B00130514 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D51685D25751F0B00130514 /* SVIndefiniteAnimatedView.m */; };
-		0D51686425751F0B00130514 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0D51685E25751F0B00130514 /* SVProgressHUD.bundle */; };
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
 		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
 		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
@@ -53,16 +48,6 @@
 		0D199D482570F44100E32E3E /* YCResultSetBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCResultSetBaseVC.m; sourceTree = "<group>"; };
 		0D3577792571F87E0097E0DF /* YCBottomBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCBottomBar.h; sourceTree = "<group>"; };
 		0D35777A2571F87E0097E0DF /* YCBottomBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCBottomBar.m; sourceTree = "<group>"; };
-		0D51685625751F0B00130514 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
-		0D51685725751F0B00130514 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
-		0D51685825751F0B00130514 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		0D51685925751F0B00130514 /* SVProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressAnimatedView.m; sourceTree = "<group>"; };
-		0D51685A25751F0B00130514 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
-		0D51685B25751F0B00130514 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
-		0D51685C25751F0B00130514 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
-		0D51685D25751F0B00130514 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		0D51685E25751F0B00130514 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		0D51685F25751F0B00130514 /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
 		0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGesture.h; sourceTree = "<group>"; };
 		0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGesture.m; sourceTree = "<group>"; };
 		0D5456D7256FD76E00CE20DE /* YCPreviewGestureScaleNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureScaleNext.h; sourceTree = "<group>"; };
@@ -136,23 +121,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0D51685525751F0B00130514 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				0D51685625751F0B00130514 /* SVRadialGradientLayer.m */,
-				0D51685725751F0B00130514 /* SVIndefiniteAnimatedView.h */,
-				0D51685825751F0B00130514 /* SVProgressHUD.h */,
-				0D51685925751F0B00130514 /* SVProgressAnimatedView.m */,
-				0D51685A25751F0B00130514 /* SVProgressHUD-Prefix.pch */,
-				0D51685B25751F0B00130514 /* SVRadialGradientLayer.h */,
-				0D51685C25751F0B00130514 /* SVProgressHUD.m */,
-				0D51685D25751F0B00130514 /* SVIndefiniteAnimatedView.m */,
-				0D51685E25751F0B00130514 /* SVProgressHUD.bundle */,
-				0D51685F25751F0B00130514 /* SVProgressAnimatedView.h */,
-			);
-			path = SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		0D5456E1256FD99E00CE20DE /* Gesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				0D5D152F25792C14000AB15C /* opencv2.framework */,
-				0D51685525751F0B00130514 /* SVProgressHUD */,
 				0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */,
 				0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */,
 				0D85C98A256BE67C0044C0F5 /* YCImageCompare.h */,
@@ -412,7 +379,6 @@
 				0DA22A4D255BC016005358F0 /* LaunchScreen.storyboard in Resources */,
 				0DA22A4A255BC016005358F0 /* Assets.xcassets in Resources */,
 				0DA22A48255BC015005358F0 /* Main.storyboard in Resources */,
-				0D51686425751F0B00130514 /* SVProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,14 +434,11 @@
 				0DA22A6F255BD382005358F0 /* YCAssetListBaseCell.m in Sources */,
 				0DA22A76255BD7E8005358F0 /* PMAsset.m in Sources */,
 				0DA22A5F255BCA4B005358F0 /* YCAssetListBaseVC.m in Sources */,
-				0D51686125751F0B00130514 /* SVProgressAnimatedView.m in Sources */,
 				0DA22A8E255D397A005358F0 /* YCAssetsManager.m in Sources */,
-				0D51686325751F0B00130514 /* SVIndefiniteAnimatedView.m in Sources */,
 				0D35777B2571F87F0097E0DF /* YCBottomBar.m in Sources */,
 				0DF41D3F256663B600CFFFDE /* YCPreviewTransitionLayout.m in Sources */,
 				0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */,
 				0DA26FE725622D5F0096B5BB /* YCAlbumListBaseCell.m in Sources */,
-				0D51686225751F0B00130514 /* SVProgressHUD.m in Sources */,
 				0DAE261D25622A07001C7D5A /* YCAlbumListBaseVC.m in Sources */,
 				0D199D432570AD9C00E32E3E /* UIImage+Size.m in Sources */,
 				0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */,
@@ -487,7 +450,6 @@
 				0DA22A7E255BE359005358F0 /* YCUtil.m in Sources */,
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
 				0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */,
-				0D51686025751F0B00130514 /* SVRadialGradientLayer.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,
 				0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */,
 				0DA22A50255BC016005358F0 /* main.m in Sources */,

@@ -88,7 +88,9 @@
             NSIndexPath *ip = [self getCurrentShowIndexPath];
             [self.assetArray removeObject:asset];
             [self.collectionView deleteItemsAtIndexPaths:@[ip]];
+            [SVProgressHUD showErrorWithStatus:@"删除成功"];
         } else {
+            [SVProgressHUD showErrorWithStatus:@"删除失败"];
             NSLog(@"删除失败 %@", error.localizedDescription);
         }
     }];
