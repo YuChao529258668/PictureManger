@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIImageView *snapView;
 @property (nonatomic, strong) YCPreviewGesture *gesture;
+@property (nonatomic, strong) UITapGestureRecognizer *tap;
 
 @property (nonatomic, strong) UIButton *selectCountBtn;
 
@@ -38,6 +39,10 @@
     UIToolbar *bar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
     self.bottomBar = bar;
     [self.view addSubview:bar];
+    
+    // 隐藏显示导航栏，会触发布局，影响隐藏底部栏动画，所以放这里
+    float barY = self.view.frame.size.height - 46;
+    self.bottomBar.frame = CGRectMake(0, barY, self.view.frame.size.width, 46);
     
 //    UIMenuElement *element = [[UIMenuElement alloc] initWithCoder:nil];
 //    UIMenu *menu = [UIMenu menuWithTitle:@"my menu" children:@[element]];
@@ -166,10 +171,7 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    
-    float barY = self.view.frame.size.height - 46;
-    self.bottomBar.frame = CGRectMake(0, barY, self.view.frame.size.width, 46);
-        
+            
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     if ([layout isKindOfClass:UICollectionViewFlowLayout.class]) {
         layout.itemSize = self.view.frame.size;
@@ -271,12 +273,42 @@
 #pragma mark - 手势
 
 - (void)setupGesture {
+    // pan
     if (kGestureKind == 0) {
         self.gesture = [YCPreviewGestureScaleNext new];
     } else if (kGestureKind == 1) {
         self.gesture = [YCPreviewGestureHintNext new];
     }
     self.gesture.vc = self;
+    
+    
+    // 单击手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    self.tap = tap;
+    [self.view addGestureRecognizer:tap];
+
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)tap {
+    BOOL toHide = !self.bottomBar.isHidden;
+    
+    [self showBottomBar:!toHide animated:YES];
+    [self.navigationController setNavigationBarHidden:toHide animated:YES];
+}
+
+- (void)showBottomBar:(BOOL)show animated:(BOOL)animated {
+    float ty = show? 0: self.bottomBar.height;
+    
+    // 显示才能看到动画
+    if (show) {
+        self.bottomBar.hidden = NO;
+    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.bottomBar.transform = CGAffineTransformMakeTranslation(0, ty);
+    } completion:^(BOOL finished) {
+        self.bottomBar.hidden = !show;
+    }];
 }
 
 #pragma mark - 动画
