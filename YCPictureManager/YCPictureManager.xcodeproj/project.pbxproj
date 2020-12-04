@@ -18,10 +18,11 @@
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
 		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
 		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
+		0D5D153025792C14000AB15C /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D152F25792C14000AB15C /* opencv2.framework */; };
+		0D5D153425792DD3000AB15C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D153325792DD3000AB15C /* AssetsLibrary.framework */; };
 		0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */; };
 		0D85C98B256BE67C0044C0F5 /* YCImageCompare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C987256BE6790044C0F5 /* YCImageCompare.mm */; };
 		0D85C98C256BE67C0044C0F5 /* YCGetSimilarity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */; };
-		0D85C98D256BE67C0044C0F5 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D85C989256BE67C0044C0F5 /* opencv2.framework */; };
 		0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */; };
 		0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A3E255BC015005358F0 /* AppDelegate.m */; };
 		0DA22A42255BC015005358F0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA22A41255BC015005358F0 /* SceneDelegate.m */; };
@@ -69,12 +70,13 @@
 		0D5456DC256FD8B500CE20DE /* YCPreviewGestureHintNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureHintNext.h; sourceTree = "<group>"; };
 		0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureHintNext.m; sourceTree = "<group>"; };
 		0D5D152325791C63000AB15C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		0D5D152F25792C14000AB15C /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		0D5D153325792DD3000AB15C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0D85C981256BDA470044C0F5 /* YCLikeTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCLikeTestVC.h; sourceTree = "<group>"; };
 		0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCLikeTestVC.m; sourceTree = "<group>"; };
 		0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCGetSimilarity.h; sourceTree = "<group>"; };
 		0D85C987256BE6790044C0F5 /* YCImageCompare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YCImageCompare.mm; sourceTree = "<group>"; };
 		0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCGetSimilarity.m; sourceTree = "<group>"; };
-		0D85C989256BE67C0044C0F5 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		0D85C98A256BE67C0044C0F5 /* YCImageCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCImageCompare.h; sourceTree = "<group>"; };
 		0D9AF95D255FE834006F6B9B /* UIImageView+YCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YCImageView.m"; sourceTree = "<group>"; };
 		0D9AF95E255FE835006F6B9B /* UIImageView+YCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YCImageView.h"; sourceTree = "<group>"; };
@@ -125,7 +127,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D85C98D256BE67C0044C0F5 /* opencv2.framework in Frameworks */,
+				0D5D153425792DD3000AB15C /* AssetsLibrary.framework in Frameworks */,
+				0D5D153025792C14000AB15C /* opencv2.framework in Frameworks */,
 				DCA1D11045285CDFCABDC011 /* libPods-YCPictureManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,12 +267,12 @@
 		0DA22A72255BD7D9005358F0 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				0D5D152F25792C14000AB15C /* opencv2.framework */,
 				0D51685525751F0B00130514 /* SVProgressHUD */,
 				0D85C986256BE6790044C0F5 /* YCGetSimilarity.h */,
 				0D85C988256BE6790044C0F5 /* YCGetSimilarity.m */,
 				0D85C98A256BE67C0044C0F5 /* YCImageCompare.h */,
 				0D85C987256BE6790044C0F5 /* YCImageCompare.mm */,
-				0D85C989256BE67C0044C0F5 /* opencv2.framework */,
 				0DA22A78255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.h */,
 				0DA22A79255BD87C005358F0 /* NSObject+PerformBlockAfterDelay.m */,
 				0DA22A73255BD7E8005358F0 /* PMAsset */,
@@ -336,13 +339,13 @@
 				8167D8057CD998E6C9D1DBCA /* Pods-YCPictureManager.debug.xcconfig */,
 				864D9FE07FEA4B8273717655 /* Pods-YCPictureManager.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		E904E4E6C9000CA9D0DCAE7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D5D153325792DD3000AB15C /* AssetsLibrary.framework */,
 				2A3170DFB2BBE6B1EC601A87 /* libPods-YCPictureManager.a */,
 			);
 			name = Frameworks;
