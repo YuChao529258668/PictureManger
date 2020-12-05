@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *testL;
 - (void)didEndDisplaying;
+- (void)setXOffset:(float)x;
 
 @end
 

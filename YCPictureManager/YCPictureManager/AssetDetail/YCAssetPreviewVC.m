@@ -438,6 +438,16 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 视差效果
+    for (YCAssetPreviewCell *cell in self.collectionView.visibleCells) {
+        // 计算相对于屏幕的位置
+        UIImageView *iv = cell.imageView;
+        CGRect frame = [cell convertRect:iv.frame toView:nil];
+        // 计算 offset
+        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
+        [cell setXOffset:x];
+    }
+
 //    UIView *view = [scrollView viewWithTag:11];
 //
 //    UIScrollView *sv = scrollView;

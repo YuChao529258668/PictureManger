@@ -24,6 +24,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.clipsToBounds = YES;
         [self config];
     }
     return self;
@@ -44,11 +45,12 @@
     }
     
     // image view
-    UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
-    NSLog(@"%p, 大小: %@ config", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+//    UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     iv.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView = iv;
     [self.scrollView addSubview:iv];
+    NSLog(@"%p, 大小: %@ config", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
     // kvo. 设置 image 后重新布局
     [iv addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
     
@@ -73,7 +75,7 @@
 //        self.imageView.frame = self.imageView.yc_imageRect;
         self.imageView.frame = self.imageView.image.yc_rectForScreen;
         NSLog(@"%p, 大小: %@ ，observeValueForKeyPath222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
-        CGSize size = self.scrollView.frame.size;
+        CGSize size = self.frame.size;
         self.imageView.center = CGPointMake(size.width/2, size.height/2);
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -85,6 +87,7 @@
     
     self.scrollView.frame = self.bounds;
 
+    /*
     NSLog(@"%p, 大小: %@ layoutSubviews", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
     
     if (self.scrollView.zoomScale == 1) {
@@ -108,6 +111,7 @@
             self.imageView.center = CGPointMake(size.width/2, size.height/2);
         }
     }
+    */
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -204,6 +208,20 @@
     self.imageView.frame = self.scrollView.bounds;
     NSLog(@"%p, 大小: %@ didEndDisplaying2222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
 
+}
+
+// 视差，图片偏移
+- (void)setXOffset:(float)x {
+    
+    // 系统自带的照片应用也是在放大照片的情况下，取消视差效果。
+    // 如果在放大图片的时候也有视差效果，会在 ScanViewController 的 scrollViewDidScroll 方法里死循环
+    if (self.scrollView.zoomScale != 1) {
+        return;
+    }
+    
+    CGRect newFrame = CGRectOffset(self.bounds, x, 0);
+//    self.imageView.frame = newFrame;
+    self.scrollView.frame = newFrame;
 }
 
 
