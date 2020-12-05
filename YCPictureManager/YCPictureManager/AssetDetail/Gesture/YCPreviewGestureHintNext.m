@@ -213,8 +213,8 @@
         float alpha = 1 - fabs(translation.y)*2 / height;
         float scale = 1 - fabs(translation.y) / height;
         self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
-//        self.navigationBar.alpha = alpha;
-//        self.toolbar.alpha = alpha;
+        self.vc.navigationController.navigationBar.alpha = alpha;
+        self.vc.bottomBar.alpha = alpha;
         
 //        位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
 //        先缩放再平移，和先平移再缩放，效果完全不一样。
@@ -232,6 +232,8 @@
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.snapView.frame = targetFrame;
             self.view.backgroundColor = [UIColor clearColor];
+            self.vc.navigationController.navigationBar.alpha = 0;
+            self.vc.bottomBar.alpha = 0;
         } completion:^(BOOL finished) {
             [self.delegate panDownAssetFinish:self.selectedAsset];
             [self.vc dismissViewControllerAnimated:NO completion:nil];
@@ -245,6 +247,8 @@
         self.collectionView.hidden = NO;
         [self.snapView removeFromSuperview];
         self.snapView = nil;
+        self.vc.bottomBar.alpha = 1;
+        self.vc.navigationController.navigationBar.alpha = 1;
     }
 }
 

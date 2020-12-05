@@ -133,6 +133,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.title = @"预览";
     self.viewColor = [UIColor blackColor];
     
     CGSize size = [UIScreen mainScreen].bounds.size;

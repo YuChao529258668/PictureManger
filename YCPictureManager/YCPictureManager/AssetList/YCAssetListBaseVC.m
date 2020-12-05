@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.title = @"列表";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupCollectionView];
     [self getAssets];
