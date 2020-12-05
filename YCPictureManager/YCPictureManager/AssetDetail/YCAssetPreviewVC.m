@@ -27,8 +27,6 @@
 
 @property (nonatomic, strong) UIButton *selectCountBtn;
 
-@property (nonatomic, strong) UIToolbar *bottomBar;
-
 @property (nonatomic, strong) UIColor *viewColor;
 @end
 
@@ -362,7 +360,7 @@
     
     // 动画
     self.collectionView.hidden = YES;
-    [self.view addSubview:snapView];
+    [self.view insertSubview:snapView belowSubview:self.bottomBar];
 
     NSTimeInterval duration = 0.44;
     self.view.backgroundColor = [UIColor clearColor];

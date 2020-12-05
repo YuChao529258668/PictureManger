@@ -185,7 +185,7 @@
             }
             
             self.collectionView.hidden = YES;
-            [self.view addSubview:snapView];
+            [self.view insertSubview:snapView belowSubview:self.vc.bottomBar];
             self.snapView = snapView;
         }
 
