@@ -9,6 +9,9 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (nonatomic, strong) UIWindow *window;
+
+- (UIWindow *)getKeyWindow;
 
 @end
 
