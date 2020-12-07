@@ -10,7 +10,6 @@
 #import "UIImage+Size.h"
 
 @interface YCAssetPreviewCell ()<UIScrollViewDelegate>
-@property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 @end
 
 @implementation YCAssetPreviewCell
@@ -34,7 +33,7 @@
     // scroll view
     UIScrollView *sv = [UIScrollView new];
     sv.minimumZoomScale = 1;
-    sv.maximumZoomScale = 2.4;
+    sv.maximumZoomScale = 6;
     sv.delegate = self;
     self.scrollView = sv;
     [self.contentView addSubview:sv];
@@ -55,7 +54,7 @@
     [iv addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
     
     // 双击手势
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     doubleTap.numberOfTapsRequired = 2;
     self.doubleTap = doubleTap;
 //    self.imageView.userInteractionEnabled = YES;
@@ -141,10 +140,17 @@
     }
 }
 
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    // 修复缩小的过程会偏上的 bug
+    CGFloat offsetX = MAX((scrollView.bounds.size.width - scrollView.contentInset.left - scrollView.contentInset.right - scrollView.contentSize.width) * 0.5, 0.0);
+    CGFloat offsetY = MAX((scrollView.bounds.size.height - scrollView.contentInset.top - scrollView.contentInset.bottom - scrollView.contentSize.height) * 0.5, 0.0);
+
+    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX, scrollView.contentSize.height * 0.5 + offsetY);
+}
 
 #pragma mark -
 
-- (void)handleDoubleTap {
+- (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
 //    [self modifyAnchorPointWithGesture:self.doubleTap];
     
 //    float scale = (self.scrollView.zoomScale != self.scrollView.maximumZoomScale)? self.scrollView.maximumZoomScale: self.scrollView.minimumZoomScale;
@@ -159,15 +165,47 @@
 ////        self.scrollView.contentSize = self.imageView.yc_imageRect.size;
 //    }];
             
-    if (self.scrollView.zoomScale != self.scrollView.maximumZoomScale) {
-        [self.scrollView setZoomScale:self.scrollView.maximumZoomScale animated:YES];
-    } else {
-        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
+    if (self.scrollView.zoomScale != self.scrollView.minimumZoomScale) {
+        [self imageScale:self.scrollView.minimumZoomScale withCenter:[tap locationInView:self.imageView]];
+    }else
+    {
+        [self imageScale:self.scrollView.maximumZoomScale withCenter:[tap locationInView:self.imageView]];
     }
+
+//    NSLog(@"handleDoubleTap111 %@", self.imageView);
+//    NSLog(@"handleDoubleTap111 %@", self.scrollView);
+//    if (self.scrollView.zoomScale != self.scrollView.maximumZoomScale) {
+//        [self.scrollView setZoomScale:self.scrollView.maximumZoomScale animated:YES];
+//    } else {
+//        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
+//    }
+//    NSLog(@"handleDoubleTap222 %@", self.scrollView);
 }
+
+- (void)imageScale:(CGFloat)scale withCenter:(CGPoint)loction
+{
+    CGRect zoomRect = [self zoomRectForScale:scale withCenter:loction];
+//    float x = self.imageView.width/2;
+//    float y = 0;
+//    float width = self.imageView.width/2;
+//    float height = self.imageView.height/2;
+//    zoomRect = CGRectMake(x, y, width, height);
+    [self.scrollView zoomToRect:zoomRect animated:YES];
+}
+
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center{
+    CGRect zoomRect;
+    zoomRect.size.height = self.scrollView.frame.size.height / scale;
+    zoomRect.size.width  = self.scrollView.frame.size.width  / scale;
+    zoomRect.origin.x    = center.x - (zoomRect.size.width  * 0.5);
+    zoomRect.origin.y    = center.y - (zoomRect.size.height * 0.5);
+    return zoomRect;
+}
+
 
 // 修改锚点，用于缩放
 - (void)modifyAnchorPointWithGesture:(UIGestureRecognizer *)gesture {
+    return;
     NSLog(@"%p, 大小: %@  modifyAnchorPointWithGesture", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
 
     // 修改

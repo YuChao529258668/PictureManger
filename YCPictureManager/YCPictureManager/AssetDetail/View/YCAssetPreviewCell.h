@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *testL;
+
+@property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+
 - (void)didEndDisplaying;
 - (void)setXOffset:(float)x;
 

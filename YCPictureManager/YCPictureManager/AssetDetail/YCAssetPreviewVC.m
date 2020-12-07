@@ -246,6 +246,9 @@
     cell.testL.text = [NSString stringWithFormat:@"%@", @(indexPath.item)];
     cell.imageView.image = nil;
 //    cell.contentView.backgroundColor = [UIColor greenColor];
+    
+    // 手势冲突 单击双击
+    [self.tap requireGestureRecognizerToFail:cell.doubleTap];
         
     PHAsset *as = [self.assetArray objectAtIndex:indexPath.item];
     
