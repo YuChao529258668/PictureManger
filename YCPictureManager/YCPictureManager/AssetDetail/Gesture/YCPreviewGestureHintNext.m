@@ -304,7 +304,8 @@
     } else {
         // 上滑
         UIScrollView *sv = cell.scrollView;
-        if (sv.contentSize.height > sv.frame.size.height + sv.contentOffset.y) {
+        // 缩放后，小数位数不同样多，所以取整
+        if ((int)sv.contentSize.height > (int)(sv.frame.size.height + sv.contentOffset.y)) {
             return NO;
         } else {
             return YES;
