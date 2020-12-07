@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *testL;
 
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@property (nonatomic, assign) float maxScale; // default is 4
+
 
 - (void)didEndDisplaying;
 - (void)setXOffset:(float)x;

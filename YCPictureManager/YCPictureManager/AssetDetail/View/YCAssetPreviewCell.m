@@ -12,6 +12,8 @@
 @interface YCAssetPreviewCell ()<UIScrollViewDelegate>
 @end
 
+// 修改 image view 的锚点对缩放的位置没有影响
+
 @implementation YCAssetPreviewCell
 
 - (void)dealloc
@@ -24,6 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.clipsToBounds = YES;
+        self.maxScale = 4;
         [self config];
     }
     return self;
@@ -76,6 +79,16 @@
         NSLog(@"%p, 大小: %@ ，observeValueForKeyPath222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
         CGSize size = self.frame.size;
         self.imageView.center = CGPointMake(size.width/2, size.height/2);
+        
+        // 设置最大缩放
+        UIImage *image = self.imageView.image;
+        if (image.size.width + image.size.height) {
+            float maxScale = (float)fmax(fmax(size.width/image.size.width, size.height/image.size.height), self.maxScale);
+            self.scrollView.maximumZoomScale = maxScale;
+        } else {
+            self.scrollView.maximumZoomScale = self.maxScale;
+        }
+        
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -117,95 +130,74 @@
 
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.imageView;
-//    return self.scaleView;
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
-    if (view == self.imageView) {
-//        NSLog(@"缩放1 %@", NSStringFromCGPoint(self.imageView.center));
-//        NSLog(@"缩放1 %@", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
-        
-//        CGPoint location = [scrollView.pinchGestureRecognizer locationInView:self.imageView];
-//        if (!CGPointEqualToPoint(CGPointZero, location)) {
-            [self modifyAnchorPointWithGesture:scrollView.pinchGestureRecognizer];
-//        }
-    }
+//    if (view == self.imageView) {
+////        NSLog(@"缩放1 %@", NSStringFromCGPoint(self.imageView.center));
+////        NSLog(@"缩放1 %@", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+//
+////        CGPoint location = [scrollView.pinchGestureRecognizer locationInView:self.imageView];
+////        if (!CGPointEqualToPoint(CGPointZero, location)) {
+//            [self modifyAnchorPointWithGesture:scrollView.pinchGestureRecognizer];
+////        }
+//    }
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale {
-    if (view == self.imageView) {
-//        NSLog(@"缩放2 %@", NSStringFromCGPoint(self.imageView.center));
-        // 恢复锚点
-        [self modifyAnchorPointWithGesture:nil];
-    }
+//    if (view == self.imageView) {
+////        NSLog(@"缩放2 %@", NSStringFromCGPoint(self.imageView.center));
+//        // 恢复锚点
+//        [self modifyAnchorPointWithGesture:nil];
+//    }
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     // 修复缩小的过程会偏上的 bug
-    CGFloat offsetX = MAX((scrollView.bounds.size.width - scrollView.contentInset.left - scrollView.contentInset.right - scrollView.contentSize.width) * 0.5, 0.0);
-    CGFloat offsetY = MAX((scrollView.bounds.size.height - scrollView.contentInset.top - scrollView.contentInset.bottom - scrollView.contentSize.height) * 0.5, 0.0);
+//    CGFloat offsetX = MAX((scrollView.bounds.size.width - scrollView.contentInset.left - scrollView.contentInset.right - scrollView.contentSize.width) * 0.5, 0.0);
+//    CGFloat offsetY = MAX((scrollView.bounds.size.height - scrollView.contentInset.top - scrollView.contentInset.bottom - scrollView.contentSize.height) * 0.5, 0.0);
+//
+//    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX, scrollView.contentSize.height * 0.5 + offsetY);
+    
+    // 小图片的 x、y 有值，放大后会影响滚动区域
+    if (self.scrollView.zoomScale == self.scrollView.maximumZoomScale) {
+        self.scrollView.contentInset = UIEdgeInsetsMake(-self.imageView.y, -self.imageView.x, self.imageView.y, self.imageView.x);
+    } else {
+        self.scrollView.contentInset = UIEdgeInsetsZero;
+    }
 
-    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX, scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 #pragma mark -
 
+
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
-//    [self modifyAnchorPointWithGesture:self.doubleTap];
+    float scale;
     
-//    float scale = (self.scrollView.zoomScale != self.scrollView.maximumZoomScale)? self.scrollView.maximumZoomScale: self.scrollView.minimumZoomScale;
-//
-//    [UIView animateWithDuration:0.2 animations:^{
-//        self.imageView.transform = CGAffineTransformMakeScale(scale, scale);
-//    } completion:^(BOOL finished) {
-//        [self modifyAnchorPointWithGesture:nil];
-//
-//        self.imageView.transform = CGAffineTransformMakeScale(0, 0);
-//        [self.scrollView setZoomScale:scale animated:NO];
-////        self.scrollView.contentSize = self.imageView.yc_imageRect.size;
-//    }];
-            
     if (self.scrollView.zoomScale != self.scrollView.minimumZoomScale) {
-        [self imageScale:self.scrollView.minimumZoomScale withCenter:[tap locationInView:self.imageView]];
-    }else
-    {
-        [self imageScale:self.scrollView.maximumZoomScale withCenter:[tap locationInView:self.imageView]];
+        scale = self.scrollView.minimumZoomScale;
+    } else {
+        scale = self.scrollView.maximumZoomScale;
     }
+    
+    CGPoint location = [self.doubleTap locationInView:self.imageView];
+    float dx = fabs(location.x) / self.imageView.width;
+    float dy = fabs(location.y) / self.imageView.height;
 
-//    NSLog(@"handleDoubleTap111 %@", self.imageView);
-//    NSLog(@"handleDoubleTap111 %@", self.scrollView);
-//    if (self.scrollView.zoomScale != self.scrollView.maximumZoomScale) {
-//        [self.scrollView setZoomScale:self.scrollView.maximumZoomScale animated:YES];
-//    } else {
-//        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
-//    }
-//    NSLog(@"handleDoubleTap222 %@", self.scrollView);
-}
-
-- (void)imageScale:(CGFloat)scale withCenter:(CGPoint)loction
-{
-    CGRect zoomRect = [self zoomRectForScale:scale withCenter:loction];
-//    float x = self.imageView.width/2;
-//    float y = 0;
-//    float width = self.imageView.width/2;
-//    float height = self.imageView.height/2;
-//    zoomRect = CGRectMake(x, y, width, height);
-    [self.scrollView zoomToRect:zoomRect animated:YES];
-}
-
-- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center{
     CGRect zoomRect;
     zoomRect.size.height = self.scrollView.frame.size.height / scale;
     zoomRect.size.width  = self.scrollView.frame.size.width  / scale;
-    zoomRect.origin.x    = center.x - (zoomRect.size.width  * 0.5);
-    zoomRect.origin.y    = center.y - (zoomRect.size.height * 0.5);
-    return zoomRect;
+    zoomRect.origin.x    = location.x - (zoomRect.size.width  * dx);
+    zoomRect.origin.y    = location.y - (zoomRect.size.height * dy);
+
+    [self.scrollView zoomToRect:zoomRect animated:YES];
+
 }
 
 
 // 修改锚点，用于缩放
 - (void)modifyAnchorPointWithGesture:(UIGestureRecognizer *)gesture {
-    return;
+
     NSLog(@"%p, 大小: %@  modifyAnchorPointWithGesture", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
 
     // 修改
