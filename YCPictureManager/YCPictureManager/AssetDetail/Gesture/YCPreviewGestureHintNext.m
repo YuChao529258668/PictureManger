@@ -7,6 +7,9 @@
 
 #import "YCPreviewGestureHintNext.h"
 
+// 手势有效的最小垂直位移
+#define kGestureTriggerTranslationY 100
+
 @interface YCPreviewGestureHintNext ()
 @property (nonatomic, strong) UIView *hintView;
 
@@ -23,11 +26,15 @@
     UIView *view = [UIView new];
 //    view.backgroundColor = [UIColor whiteColor];
     self.hintView = view;
-    [self.view addSubview:view];
+//    [self.view addSubview:view];
+    [self.view insertSubview:view belowSubview:self.vc.bottomBar];
+    
     [YCUtil addBlurTo:view style:UIBlurEffectStyleDark];// UIBlurEffectStyleDark UIBlurEffectStyleRegular
 
     UILabel *lable = [UILabel new];
-    lable.textColor = [UIColor darkTextColor];
+    lable.textColor = [UIColor whiteColor];
+    lable.backgroundColor = [UIColor blackColor];
+    lable.alpha = 0.8;
     lable.font = [UIFont systemFontOfSize:15];
     lable.text = @"上滑选中图片";
     lable.textAlignment = NSTextAlignmentCenter;
@@ -35,10 +42,11 @@
     
     CGRect frame = self.view.bounds;
     view.frame = frame;
-    frame.origin.y = 80;
-    frame.size.height = 30;
-    lable.frame = frame;
     
+//    frame.origin.y = 80;
+//    frame.size.height = 30;
+//    lable.frame = frame;
+    lable.frame = CGRectMake(20, 80, 180, 24);
     
 }
 
@@ -76,12 +84,20 @@
 
     } else if (pan.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [pan translationInView:self.view];
+        NSLog(@"translation.y = %lf", translation.y);
         float alpha = 1 - fabs(translation.y)*2 / height;
         
         self.snapView.alpha = alpha;
         self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
         
     } else if (pan.state == UIGestureRecognizerStateEnded) {
+                
+        CGPoint tran = [self.panGesture translationInView:self.vc.view];
+        if (fabs(tran.y) < kGestureTriggerTranslationY) {
+            [self cancelPanUp];
+            return;
+        }
+        
         CGRect targetFrame = self.snapView.frame;
         targetFrame.origin.y = - self.view.frame.size.height;
 
@@ -122,26 +138,58 @@
 
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
-        self.collectionView.hidden = NO;
-        self.collectionView.scrollEnabled = YES;
-        
+        [self cancelPanUp];
+    }
+
+}
+
+- (void)cancelPanUp {
+
+    [UIView animateWithDuration:0.2 animations:^{
+        self.hintView.alpha = 1;
+        self.snapView.alpha = 1;
+        self.snapView.transform = CGAffineTransformMakeTranslation(0, 0);
+
+    } completion:^(BOOL finished) {
         [self.snapView removeFromSuperview];
         self.snapView = nil;
 
         self.hintView.hidden = YES;
         self.selectImageView.hidden = NO;
-        self.hintView.alpha = 1;
-        self.snapView.alpha = 1;
         
         self.collectionView.scrollEnabled = YES;
-
-        // todo
+        self.collectionView.hidden = NO;
+    }];
+    
+    // todo
 //        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
 //        self.collectionView.hidden = NO;
 //        [self.snapView removeFromSuperview];
 //        self.snapView = nil;
-    }
 
+}
+
+- (void)cancelPanDown {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.view.backgroundColor = self.view.backgroundColor;
+        self.vc.navigationController.navigationBar.alpha = 1;
+        self.vc.bottomBar.alpha = 1;
+        
+//        位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
+//        先缩放再平移，和先平移再缩放，效果完全不一样。
+        self.snapView.transform = CGAffineTransformMakeTranslation(0, 0);
+        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, 1, 1);
+
+    } completion:^(BOOL finished) {
+        // todo
+        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
+        self.collectionView.hidden = NO;
+        
+        [self.snapView removeFromSuperview];
+        self.snapView = nil;
+        self.vc.bottomBar.alpha = 1;
+        self.vc.navigationController.navigationBar.alpha = 1;
+    }];
 }
 
 - (void)handlePanDown:(UIPanGestureRecognizer *)pan {
@@ -225,6 +273,12 @@
 
         
     } else if (pan.state == UIGestureRecognizerStateEnded) {
+        CGPoint tran = [self.panGesture translationInView:self.vc.view];
+        if (fabs(tran.y) < kGestureTriggerTranslationY) {
+            [self cancelPanDown];
+            return;
+        }
+
         UIView *targetView = [self.delegate targetViewForAsset:self.selectedAsset];
         CGRect targetFrame = [targetView convertRect:targetView.frame toView:self.snapView.superview];
         
@@ -242,13 +296,7 @@
         
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
-        // todo
-        self.collectionView.transform = CGAffineTransformMakeTranslation(0, 0);
-        self.collectionView.hidden = NO;
-        [self.snapView removeFromSuperview];
-        self.snapView = nil;
-        self.vc.bottomBar.alpha = 1;
-        self.vc.navigationController.navigationBar.alpha = 1;
+        [self cancelPanDown];
     }
 }
 
