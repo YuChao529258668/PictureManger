@@ -343,7 +343,10 @@
     
     if (v.y > 0) {
         // 下滑
-        if (cell.scrollView.contentOffset.y > 0) {
+        // 缩放后，小数位数不同样多，所以取整
+        int offsetY = (int)cell.scrollView.contentOffset.y;
+        int insetTop = (int)cell.scrollView.contentInset.top;
+        if (offsetY + insetTop > 0) {
             return NO;
         } else {
             return YES;
@@ -353,7 +356,9 @@
         // 上滑
         UIScrollView *sv = cell.scrollView;
         // 缩放后，小数位数不同样多，所以取整
-        if ((int)sv.contentSize.height > (int)(sv.frame.size.height + sv.contentOffset.y)) {
+        int h1 = (int)(sv.contentSize.height + sv.contentInset.bottom);
+        int h2 = (int)(sv.frame.size.height + sv.contentOffset.y);
+        if (h1 > h2) {
             return NO;
         } else {
             return YES;

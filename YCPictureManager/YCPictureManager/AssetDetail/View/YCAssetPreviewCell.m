@@ -223,7 +223,9 @@
     NSLog(@"锚点 %@", NSStringFromCGPoint(self.imageView.layer.anchorPoint));
 }
 
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSLog(@"hhh %@", scrollView);
+}
 
 #pragma mark -
 
