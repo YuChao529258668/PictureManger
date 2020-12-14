@@ -16,7 +16,9 @@
 #define kGestureKind 1
 
 @interface YCAssetPreviewVC ()
-<UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate>
+<UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate
+, PHPhotoLibraryChangeObserver>
+
 @property (nonatomic, assign) CGSize imageSize;
 @property (nonatomic, assign) BOOL isFitstTime;
 @property (nonatomic, assign) BOOL isPanDown; // 标记上滑还是下滑
@@ -31,6 +33,89 @@
 @end
 
 @implementation YCAssetPreviewVC
+
+
+#pragma mark - Change
+
+- (void)dealloc {
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+}
+
+- (void)registAssetObserver {
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+
+// PHPhotoLibraryChangeObserver
+- (void)photoLibraryDidChange:(PHChange *)changeInfo {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        // 获取当前展示的 asset
+        PHAsset *asset = [self getCurrentShowAsset];
+        if (!asset) {
+            asset = self.asset;
+        }
+
+        // 1、asset 变化
+        PHObjectChangeDetails *albumChanges = [changeInfo changeDetailsForObject:asset]; // 注意 asset 或者相册发生变化都会有值！
+        if (albumChanges) {
+            
+            if (albumChanges.objectWasDeleted) {
+                // 删除的处理
+            } else {
+                // 走这里不一定是发生了变化，可能是相册的变化！
+                // 刷新
+                asset = [albumChanges objectAfterChanges];
+                // self.navigationController.navigationItem.title = self.displayedAlbum.localizedTitle;
+            }
+        }
+ 
+        
+        // 2、相册变化
+        PHFetchResultChangeDetails *collectionChanges = [changeInfo changeDetailsForFetchResult:self.fetchResult];
+        
+        if (collectionChanges) {
+            self.fetchResult = collectionChanges.fetchResultAfterChanges;
+//            [self.collectionView reloadData];
+
+            NSIndexSet *removed = collectionChanges.removedIndexes;
+
+            // 3、处理 selectArray
+            if (self.selectArray.count && removed.count) {
+                PHFetchResult *beforeChanges = collectionChanges.fetchResultBeforeChanges; // 变化前
+                NSMutableArray *toBeDeleteArray = [NSMutableArray array]; // 需要删掉的已选择
+                
+                [removed enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+                    PHAsset *removeAsset = [beforeChanges objectAtIndex:idx]; // 已删除的
+                    
+                    for (int i = 0; i < self.selectArray.count; i++) {
+                        if (i >= self.selectArray.count) {
+                            break;
+                        }
+                        // selectAsset 和 removeAsset 内存地址是相同的！！！
+                        PHAsset *selectAsset = self.selectArray[i]; // 已选择的
+                        // PHObject 好像重写了 isEqual 方法
+                        if ([selectAsset.localIdentifier isEqualToString:removeAsset.localIdentifier]) {
+                            [toBeDeleteArray addObject:selectAsset];
+                        }
+                    }
+                }];
+                
+                [self.selectArray removeObjectsInArray:toBeDeleteArray]; // 已选择的删掉已删掉的
+                [self updateSelectCount:self.selectArray.count];
+            }
+
+            // yctodo 处理全部删除的情况
+            // 提示没有图片了
+        }
+    });
+
+}
+
+
+
+#pragma mark -
+
 
 // 删除、分享、编辑、收藏，添加到、
 - (void)setupBottomBar {
@@ -126,6 +211,8 @@
     if (self) {
         self.isFitstTime = YES;
         self.hidesBottomBarWhenPushed = YES;
+        self.selectArray = [NSMutableArray array];
+        [self registAssetObserver];
     }
     return self;
 }
@@ -195,7 +282,6 @@
     _fetchResult = fetchResult;
     
     self.assetArray = [NSMutableArray arrayWithCapacity:fetchResult.count];
-    self.selectArray = [NSMutableArray array];
     
     [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.assetArray addObject:obj];

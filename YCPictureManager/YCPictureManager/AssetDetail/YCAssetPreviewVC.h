@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCAssetPreviewVC : UIViewController
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, strong) PHAsset *asset; // 外面传进来,滑动 collection view 不会变
 @property (nonatomic, assign) NSInteger index;
 
 @property (nonatomic, strong) PHFetchResult *fetchResult;
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray<PHAsset *> *selectArray; // 选中的图片
 
 @property (nonatomic, weak) id<YCAssetPreviewVCDelegate> delegate;
-@property (nonatomic, strong) PHAsset *selectedAsset;
+@property (nonatomic, strong) PHAsset *selectedAsset; // 手势作用的 asset，默认为空。可以通过 getCurrentShowAsset 获取当前显示的 asset
 
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
