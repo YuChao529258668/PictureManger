@@ -83,13 +83,25 @@
         self.selectImageView = cell.imageView;
 
     } else if (pan.state == UIGestureRecognizerStateChanged) {
-        CGPoint translation = [pan translationInView:self.view];
-        NSLog(@"translation.y = %lf", translation.y);
-        float alpha = 1 - fabs(translation.y)*2 / height;
-        
-        self.snapView.alpha = alpha;
-        self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
-        
+        BOOL scale = YES;
+        if (scale) {
+            CGPoint translation = [pan translationInView:self.view];
+            self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 3, translation.y);
+
+            // 位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
+            // 先缩放再平移，和先平移再缩放，效果完全不一样。
+            float scale = 1 - fabs(translation.y) / height;
+            scale = fmaxf(scale, 0.86);
+
+        } else {
+            CGPoint translation = [pan translationInView:self.view];
+            NSLog(@"translation.y = %lf", translation.y);
+            float alpha = 1 - fabs(translation.y)*2 / height;
+            
+            self.snapView.alpha = alpha;
+            self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
+        }
+
     } else if (pan.state == UIGestureRecognizerStateEnded) {
                 
         CGPoint tran = [self.panGesture translationInView:self.vc.view];
