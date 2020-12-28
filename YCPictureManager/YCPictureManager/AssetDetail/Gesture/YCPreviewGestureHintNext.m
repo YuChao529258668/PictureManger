@@ -8,7 +8,8 @@
 #import "YCPreviewGestureHintNext.h"
 
 // 手势有效的最小垂直位移
-#define kGestureTriggerTranslationY 100
+//#define kGestureTriggerTranslationY 100
+#define kGestureTriggerTranslationY 80
 
 @interface YCPreviewGestureHintNext ()
 @property (nonatomic, strong) UIView *hintView;
@@ -54,7 +55,6 @@
 
 
 - (void)handlePanUp:(UIPanGestureRecognizer *)pan {
-    float height = self.view.frame.size.height;
     
     if (pan.state == UIGestureRecognizerStateBegan) {
         NSLog(@"手势 handlePanUp");
@@ -83,71 +83,10 @@
         self.selectImageView = cell.imageView;
 
     } else if (pan.state == UIGestureRecognizerStateChanged) {
-        BOOL scale = YES;
-        if (scale) {
-            CGPoint translation = [pan translationInView:self.view];
-            self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 3, translation.y);
-
-            // 位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
-            // 先缩放再平移，和先平移再缩放，效果完全不一样。
-            float scale = 1 - fabs(translation.y) / height;
-            scale = fmaxf(scale, 0.86);
-
-        } else {
-            CGPoint translation = [pan translationInView:self.view];
-            NSLog(@"translation.y = %lf", translation.y);
-            float alpha = 1 - fabs(translation.y)*2 / height;
-            
-            self.snapView.alpha = alpha;
-            self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
-        }
+        [self panUpChange:pan];
 
     } else if (pan.state == UIGestureRecognizerStateEnded) {
-                
-        CGPoint tran = [self.panGesture translationInView:self.vc.view];
-        if (fabs(tran.y) < kGestureTriggerTranslationY) {
-            [self cancelPanUp];
-            return;
-        }
-        
-        CGRect targetFrame = self.snapView.frame;
-        targetFrame.origin.y = - self.view.frame.size.height;
-
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-            self.snapView.frame = targetFrame;
-            self.snapView.alpha = 0;
-            self.hintView.alpha = 0;
-//            self.view.backgroundColor = [UIColor clearColor];
-
-        } completion:^(BOOL finished) {
-            self.collectionView.hidden = NO;
-            [self.snapView removeFromSuperview];
-            self.snapView = nil;
-            self.hintView.hidden = YES;
-            self.hintView.alpha = 1;
-            self.selectImageView.hidden = NO;
-        }];
-        
-        self.collectionView.scrollEnabled = YES;
-        
-        // 处理 collection view 滚动
-//        if (self.fetchResult.count > 1) {
-//            NSInteger index = self.selectIndexPath.item;
-//            if (index == self.fetchResult.count - 1) {
-//                index -= 1;
-//            } else {
-//                index += 1;
-//            }
-//            NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
-//            [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        }
-        
-        [self.selectArray addObject:self.selectedAsset];
-        [self.vc updateSelectCount:self.selectArray.count];
-        
-        [self.assetArray removeObject:self.selectedAsset];
-        [self.collectionView deleteItemsAtIndexPaths:@[self.selectIndexPath]];
-
+        [self panUpEnd:pan];
         
     } else if (pan.state == UIGestureRecognizerStateCancelled) {
         [self cancelPanUp];
@@ -385,5 +324,163 @@
     }
     return NO;
 }
+
+
+#pragma mark -
+
+- (BOOL)shouldSelect {
+    CGPoint tran = [self.panGesture translationInView:self.vc.view];
+    
+    if (tran.y > 0) {
+        return NO;
+    }
+    
+    if (fabs(tran.y) < kGestureTriggerTranslationY) {
+        return NO;
+    }
+
+    NSLog(@"YES");
+    return YES;
+}
+
+- (void)onSelect {
+    if ([self shouldSelect]) {
+        float scale = 0.7;
+        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
+        self.snapView.layer.cornerRadius = 8;
+        self.snapView.layer.masksToBounds = YES;
+
+    } else {
+        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, 1, 1);
+        self.snapView.layer.cornerRadius = 0;
+
+    }
+
+}
+
+- (void)panUpChange:(UIPanGestureRecognizer *)pan {
+//    [self panUpChange_move_scale:pan];
+    
+//    [self panUpChange_move:pan];
+
+    [self panUpChange_move_card:pan];
+}
+
+- (void)panUpChange_move_scale:(UIPanGestureRecognizer *)pan {
+    CGPoint translation = [pan translationInView:self.view];
+    self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 3, translation.y);
+
+    // 位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
+    // 先缩放再平移，和先平移再缩放，效果完全不一样。
+    float scale = 1 - fabs(translation.y) / self.view.height;
+    scale = fmaxf(scale, 0.86);
+    self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
+}
+
+- (void)panUpChange_move_alpha:(UIPanGestureRecognizer *)pan {
+    CGPoint translation = [pan translationInView:self.view];
+    NSLog(@"translation.y = %lf", translation.y);
+    
+    float alpha = 1 - fabs(translation.y)*2 / self.view.height;
+    self.snapView.alpha = alpha;
+    
+    self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
+}
+
+- (void)panUpChange_move:(UIPanGestureRecognizer *)pan {
+    CGPoint translation = [pan translationInView:self.view];
+    NSLog(@"translation.y = %lf", translation.y);
+    
+    self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
+    
+    [self onSelect];
+}
+
+- (void)panUpChange_move_card:(UIPanGestureRecognizer *)pan {
+    CGPoint translation = [pan translationInView:self.view];
+    NSLog(@"translation.y = %lf", translation.y);
+        
+//    self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
+    
+    float t = translation.y / kGestureTriggerTranslationY;
+    NSLog(@"bbb t = %lf", t);
+    float scale = 1;
+    if (t < 0 && fabsf(t)>=0.5) {
+        scale = 1.5 - fabsf(t);
+        NSLog(@"bbb scale1 = %lf", scale);
+//        scale = fmaxf(scale, 1);
+        if (scale > 1) {
+            scale = 1;
+        }
+        scale = fmaxf(scale, 0.75);
+        NSLog(@"bbb scale2 = %lf", scale);
+    }
+
+//            CGAffineTransform t1 = CGAffineTransformMakeTranslation(translation.x, translation.y);
+//    CGAffineTransform t1 = CGAffineTransformMakeTranslation(translation.x/scale, translation.y/scale);
+    CGAffineTransform t1 = CGAffineTransformMakeTranslation(0, translation.y/scale);
+//            CGAffineTransform t2 = CGAffineTransformScale(self.snapView.transform, scale, scale);
+    CGAffineTransform t2 = CGAffineTransformMakeScale(scale, scale);
+//        CGAffineTransform t2 = CGAffineTransformMakeScale(1, scale);
+    self.snapView.transform = CGAffineTransformConcat(t1, t2);
+        
+}
+
+
+
+#pragma mark -
+
+- (void)panUpEnd:(UIPanGestureRecognizer *)pan {
+//    CGPoint tran = [self.panGesture translationInView:self.vc.view];
+//    if (fabs(tran.y) < kGestureTriggerTranslationY) {
+//        [self cancelPanUp];
+//        return;
+//    }
+    
+    if (![self shouldSelect]) {
+        [self cancelPanUp];
+        return;
+    }
+    
+    CGRect targetFrame = self.snapView.frame;
+    targetFrame.origin.y = - self.view.frame.size.height;
+
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.snapView.frame = targetFrame;
+        self.snapView.alpha = 0;
+        self.hintView.alpha = 0;
+//            self.view.backgroundColor = [UIColor clearColor];
+
+    } completion:^(BOOL finished) {
+        self.collectionView.hidden = NO;
+        [self.snapView removeFromSuperview];
+        self.snapView = nil;
+        self.hintView.hidden = YES;
+        self.hintView.alpha = 1;
+        self.selectImageView.hidden = NO;
+    }];
+    
+    self.collectionView.scrollEnabled = YES;
+    
+    // 处理 collection view 滚动
+//        if (self.fetchResult.count > 1) {
+//            NSInteger index = self.selectIndexPath.item;
+//            if (index == self.fetchResult.count - 1) {
+//                index -= 1;
+//            } else {
+//                index += 1;
+//            }
+//            NSIndexPath *nextIp = [NSIndexPath indexPathForItem:index inSection:0];
+//            [self.collectionView scrollToItemAtIndexPath:nextIp atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+//        }
+    
+    [self.selectArray addObject:self.selectedAsset];
+    [self.vc updateSelectCount:self.selectArray.count];
+    
+    [self.assetArray removeObject:self.selectedAsset];
+    [self.collectionView deleteItemsAtIndexPaths:@[self.selectIndexPath]];
+
+}
+
 
 @end
