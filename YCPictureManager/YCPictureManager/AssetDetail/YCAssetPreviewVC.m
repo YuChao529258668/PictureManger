@@ -329,7 +329,7 @@
     
     YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetPreviewCell" forIndexPath:indexPath];
     
-    cell.testL.text = [NSString stringWithFormat:@"%@", @(indexPath.item)];
+    cell.testL.text = [NSString stringWithFormat:@" %@: %p", @(indexPath.item), cell.imageView];
     cell.imageView.image = nil;
 //    cell.contentView.backgroundColor = [UIColor greenColor];
     
@@ -352,9 +352,9 @@
 //
 //}
 
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    [(YCAssetPreviewCell *)cell didEndDisplaying];
-}
+//- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+//    [(YCAssetPreviewCell *)cell didEndDisplaying];
+//}
 
 //- (UICollectionViewTransitionLayout *)collectionView:(UICollectionView *)collectionView transitionLayoutForOldLayout:(UICollectionViewLayout *)fromLayout newLayout:(UICollectionViewLayout *)toLayout {
 //    return self.tranLayout;
@@ -527,15 +527,17 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // 视差效果
-    for (YCAssetPreviewCell *cell in self.collectionView.visibleCells) {
-        // 计算相对于屏幕的位置
-        UIImageView *iv = cell.imageView;
-        CGRect frame = [cell convertRect:iv.frame toView:nil];
-        // 计算 offset
-        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
-        [cell setXOffset:x];
-    }
+//    for (YCAssetPreviewCell *cell in self.collectionView.visibleCells) {
+//        // 计算相对于屏幕的位置
+//        UIImageView *iv = cell.imageView;
+//        CGRect frame = [cell convertRect:iv.frame toView:nil];
+//        // 计算 offset
+//        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
+//        [cell setXOffset:x];
+//    }
 
+    
+    
 //    UIView *view = [scrollView viewWithTag:11];
 //
 //    UIScrollView *sv = scrollView;
