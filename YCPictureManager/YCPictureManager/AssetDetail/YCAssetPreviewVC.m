@@ -270,6 +270,7 @@
 
 - (void)setupNav {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 80, 40);
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(clickRightBtn) forControlEvents:UIControlEventTouchUpInside];
     self.selectCountBtn = btn;
@@ -329,7 +330,7 @@
     
     YCAssetPreviewCell *cell = (YCAssetPreviewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"YCAssetPreviewCell" forIndexPath:indexPath];
     
-    cell.testL.text = [NSString stringWithFormat:@" %@: %p", @(indexPath.item), cell.imageView];
+    cell.testL.text = [NSString stringWithFormat:@"%@", @(indexPath.item)];
     cell.imageView.image = nil;
 //    cell.contentView.backgroundColor = [UIColor greenColor];
     
@@ -527,17 +528,15 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // 视差效果
-//    for (YCAssetPreviewCell *cell in self.collectionView.visibleCells) {
-//        // 计算相对于屏幕的位置
-//        UIImageView *iv = cell.imageView;
-//        CGRect frame = [cell convertRect:iv.frame toView:nil];
-//        // 计算 offset
-//        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
-//        [cell setXOffset:x];
-//    }
+    for (YCAssetPreviewCell *cell in self.collectionView.visibleCells) {
+        // 计算相对于屏幕的位置
+        UIImageView *iv = cell.imageView;
+        CGRect frame = [cell convertRect:iv.frame toView:nil];
+        // 计算 offset
+        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
+        [cell setXOffset:x];
+    }
 
-    
-    
 //    UIView *view = [scrollView viewWithTag:11];
 //
 //    UIScrollView *sv = scrollView;
@@ -580,7 +579,7 @@
 
 - (void)updateSelectCount:(NSInteger)count {
 //    if (count) {
-        [self.selectCountBtn setTitle:[NSString stringWithFormat:@"%ld", count] forState:UIControlStateNormal];
+        [self.selectCountBtn setTitle:[NSString stringWithFormat:@"已选择 %ld", count] forState:UIControlStateNormal];
 //        return;
 //    }
     
