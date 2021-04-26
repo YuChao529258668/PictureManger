@@ -359,11 +359,11 @@
 }
 
 - (void)panUpChange:(UIPanGestureRecognizer *)pan {
-//    [self panUpChange_move_scale:pan];
+    [self panUpChange_move_scale:pan];
     
 //    [self panUpChange_move:pan];
 
-    [self panUpChange_move_card:pan];
+//    [self panUpChange_move_card:pan];
 }
 
 - (void)panUpChange_move_scale:(UIPanGestureRecognizer *)pan {
