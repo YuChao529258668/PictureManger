@@ -311,6 +311,11 @@
         return;
     }
     
+    // 图片缩放时，取消视差效果，防止死循环
+    if (!CGAffineTransformEqualToTransform(self.imageView.transform, CGAffineTransformIdentity)) {
+        return;
+    }
+    
     CGRect newFrame = CGRectOffset(self.bounds, x, 0);
 //    self.imageView.frame = newFrame;
     self.scrollView.frame = newFrame;
