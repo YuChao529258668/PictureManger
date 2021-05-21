@@ -265,7 +265,13 @@
         layout.itemSize = self.view.frame.size;
     }
     
-    self.collectionView.frame = self.view.bounds;
+//    self.collectionView.frame = self.view.bounds;
+    float space = [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout minimumLineSpacing];
+    CGRect frame = self.view.bounds;
+    frame.size.width = frame.size.width + space;
+    frame.origin.x -= space/2;
+    self.collectionView.frame = frame;
+
 }
 
 - (void)setupNav {
@@ -297,8 +303,8 @@
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.itemSize = self.view.frame.size;
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
+//    layout.minimumLineSpacing = 0;
+//    layout.minimumInteritemSpacing = 0;
     
     
     UICollectionView *cv = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -315,6 +321,14 @@
     [cv registerClass:YCAssetPreviewCell.class forCellWithReuseIdentifier:@"YCAssetPreviewCell"];
     cv.backgroundColor = self.viewColor;
     
+    [cv registerClass:UICollectionReusableView.class forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"head"];
+    [cv registerClass:UICollectionReusableView.class forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"foot"];
+    layout.headerReferenceSize = CGSizeMake(10, 800);
+    layout.footerReferenceSize = CGSizeMake(10, 800);
+    layout.minimumInteritemSpacing = 20;
+    layout.minimumLineSpacing = 20;
+//    cv.backgroundColor = [UIColor blueColor];
+    
 }
  
 
@@ -324,6 +338,22 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.assetArray.count;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"head" forIndexPath:indexPath];
+        view.backgroundColor = [UIColor redColor];
+        return view;
+        
+    } else if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"foot" forIndexPath:indexPath];
+        view.backgroundColor = [UIColor greenColor];
+        return view;
+        
+    } else {
+        return nil;
+    }
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
