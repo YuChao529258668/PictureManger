@@ -170,7 +170,7 @@
     cell.imageView.hidden = NO;
 }
 
-- (UIView *)targetViewForAsset:(PHAsset *)asset {
+- (UIImageView *)targetViewForAsset:(PHAsset *)asset {
     NSUInteger index = [self.fetchResult indexOfObject:asset];
     NSIndexPath *ip = [NSIndexPath indexPathForItem:index inSection:0];
     YCAssetListBaseCell *cell = (YCAssetListBaseCell *)[self.collectionView cellForItemAtIndexPath:ip];

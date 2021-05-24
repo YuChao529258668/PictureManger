@@ -245,16 +245,13 @@
     [super viewDidAppear:animated];
     
     [self appearAnimation];
-    self.isFitstTime = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.isFitstTime) {
-        NSIndexPath *ip = [NSIndexPath indexPathForItem:self.index inSection:0];
-        [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-    }
+    // collection view 还没显示，无法滚动到特定 cell，所以放到 viewDidAppear 调用
+//    [self appearAnimation];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -439,62 +436,46 @@
         return;
     }
     
-    UIImageView *snapView = [UIImageView new];
+    self.isFitstTime = NO;
     PHAsset *asset = [self.assetArray objectAtIndex:self.index];
-    UIView *targetView = [self.delegate targetViewForAsset:asset];
-    YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
+    UIImageView *targetView = [self.delegate targetViewForAsset:asset];
 
-    // 起始位置
-    CGRect frame = [targetView.superview convertRect:targetView.frame toView:self.view];
-    snapView.frame = frame;
-
-    // 结束位置
-    CGRect endFrame;
-
-//    if (targetView.contentMode == UIViewContentModeScaleAspectFit) {
-//        endFrame = cell.imageView.frame;
-//    } else {
-////        CGRect cellImageViewFrame = cell.imageView.frame;
-//        CGRect cellImageViewFrame = cell.scrollView.bounds;
-//        float hfactor = asset.pixelWidth / cellImageViewFrame.size.width;
-//        float vfactor = asset.pixelHeight / cellImageViewFrame.size.height;
-//        float factor = fmax(hfactor, vfactor);
-//        float newWidth = asset.pixelWidth / factor;
-//        float newHeight = asset.pixelHeight / factor;
-//        float x = (cellImageViewFrame.size.width - newWidth) /2;
-//        float y = (cellImageViewFrame.size.height - newHeight)/2;
-//
-//        endFrame = CGRectMake(x, y, newWidth, newHeight);
-//    }
-    endFrame = cell.imageView.frame;
-    endFrame = [cell.imageView.superview convertRect:endFrame toView:self.view];
     
-    // 图片内容
+    // 位置
+    CGRect frame = [targetView.superview convertRect:targetView.frame toView:self.view];
+    CGRect endFrame = [targetView.image yc_rectForScreen];
+    if (targetView.contentMode == UIViewContentModeScaleAspectFit) {
+        // todo
+        // YCAssetPreviewCell *cell = (YCAssetPreviewCell *)self.collectionView.visibleCells.firstObject;
+        // endFrame = cell.imageView.frame;
+    }
+
+    
+    // ImageView
+    UIImageView *snapView = [UIImageView new];
+    snapView.frame = frame;
     snapView.layer.masksToBounds = YES;
     snapView.contentMode = targetView.contentMode;
-//    snapView.backgroundColor = [UIColor redColor];
+    snapView.image = targetView.image;
+    [self.view insertSubview:snapView belowSubview:self.bottomBar];
 
     [YCAssetsManager requestHighImage:asset size:self.imageSize handler:^(UIImage * _Nullable result, BOOL isLow, PHAsset * _Nonnull asset, NSDictionary * _Nullable info) {
         snapView.image = result;
     }];
     
     
-    // 动画
+    // collectionView
     self.collectionView.hidden = YES;
-    [self.view insertSubview:snapView belowSubview:self.bottomBar];
+    NSIndexPath *ip = [NSIndexPath indexPathForItem:self.index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO]; // 动画结束再滚动会有问题
 
+
+    // 动画
     NSTimeInterval duration = 0.44;
     self.view.backgroundColor = [UIColor clearColor];
-//    [UIView animateWithDuration:duration animations:^{
-////            self.view.backgroundColor = [UIColor blackColor];
-//        self.view.backgroundColor = [UIColor whiteColor];
-//    }];
-
-    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.76 initialSpringVelocity:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.74 initialSpringVelocity:0.8 options:UIViewAnimationOptionCurveEaseOut animations:^{
         snapView.frame = endFrame;
         self.view.backgroundColor = self.viewColor;
-        
     } completion:^(BOOL finished) {
         [snapView removeFromSuperview];
         self.collectionView.hidden = NO;

@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 - (void)panDownAsset:(PHAsset *)asset;
 - (void)panDownAssetFinish:(PHAsset *)asset;
-- (UIView *)targetViewForAsset:(PHAsset *)asset;
+- (UIImageView *)targetViewForAsset:(PHAsset *)asset;
 @end
 
 NS_ASSUME_NONNULL_END
