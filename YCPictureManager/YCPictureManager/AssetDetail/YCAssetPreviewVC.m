@@ -544,7 +544,7 @@
         UIImageView *iv = cell.imageView;
         CGRect frame = [cell convertRect:iv.frame toView:nil];
         // 计算 offset
-        float x = -(frame.origin.x - self.view.frame.origin.x) / 4;
+        float x = -(frame.origin.x - self.view.frame.origin.x) / 6;
         [cell setXOffset:x];
     }
 

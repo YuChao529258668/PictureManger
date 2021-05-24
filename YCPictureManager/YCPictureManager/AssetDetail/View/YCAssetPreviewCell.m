@@ -304,7 +304,6 @@
 
 // 视差，图片偏移
 - (void)setXOffset:(float)x {
-    
     // 系统自带的照片应用也是在放大照片的情况下，取消视差效果。
     // 如果在放大图片的时候也有视差效果，会在 ScanViewController 的 scrollViewDidScroll 方法里死循环
     if (self.scrollView.zoomScale != 1) {
@@ -312,13 +311,20 @@
     }
     
     // 图片缩放时，取消视差效果，防止死循环
-    if (!CGAffineTransformEqualToTransform(self.imageView.transform, CGAffineTransformIdentity)) {
+    if (!CGAffineTransformIsIdentity(self.scaleTransform)) {
         return;
     }
     
-    CGRect newFrame = CGRectOffset(self.bounds, x, 0);
-//    self.imageView.frame = newFrame;
-    self.scrollView.frame = newFrame;
+    if (!CGAffineTransformIsIdentity(self.rotateTransform)) {
+        return;
+    }
+
+    
+//    CGRect newFrame = CGRectOffset(self.bounds, x, 0);
+//    self.scrollView.frame = newFrame; // 会在 YCAssetPreviewVC 的 scrollViewDidScroll 方法里死循环
+        
+//    NSLog(@"%@, %f", NSStringFromSelector(_cmd), x);
+    self.imageView.transform = CGAffineTransformMakeTranslation(x, 0);
 }
 
 
