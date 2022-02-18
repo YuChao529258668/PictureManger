@@ -22,13 +22,7 @@
 
 @implementation YCAssetPreviewCell
 
-- (void)dealloc
-{
-    [_imageView removeObserver:self forKeyPath:@"image"];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.scaleTransform = CGAffineTransformIdentity;
@@ -41,86 +35,6 @@
         [self config];
     }
     return self;
-}
-
-- (void)config {
-    // scroll view
-    UIScrollView *sv = [UIScrollView new];
-    sv.minimumZoomScale = 1;
-    sv.maximumZoomScale = 6;
-//    sv.delegate = self;
-    self.scrollView = sv;
-    [self.contentView addSubview:sv];
-//    sv.backgroundColor = [UIColor lightGrayColor];
-    sv.backgroundColor = [UIColor clearColor];
-    if (@available(iOS 11.0, *)) {
-        sv.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    
-    // image view
-//    UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
-    UIImageView *iv = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    iv.contentMode = UIViewContentModeScaleAspectFit;
-    self.imageView = iv;
-    [self.scrollView addSubview:iv];
-    NSLog(@"%p, 大小: %@ config", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
-    // kvo. 设置 image 后重新布局
-    [iv addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
-    
-    
-    // 双击手势
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-    doubleTap.numberOfTapsRequired = 2;
-    self.doubleTap = doubleTap;
-//    self.imageView.userInteractionEnabled = YES;
-//    [self.imageView addGestureRecognizer:doubleTap];
-    [self.scrollView addGestureRecognizer:doubleTap];
-    
-    
-    // 旋转手势
-    UIRotationGestureRecognizer *rp = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
-    [self.imageView addGestureRecognizer:rp];
-    rp.delegate = self;
-    self.imageView.userInteractionEnabled = YES;
-    
-    
-    // 缩放手势
-    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleScale:)];
-    [self.imageView addGestureRecognizer:pinch];
-    pinch.delegate = self;
-
-
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 160, 30)];
-    label.backgroundColor = [UIColor yellowColor];
-    [self.contentView addSubview:label];
-    self.testL = label;
-    label.textColor = [UIColor blackColor];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"image"]) {
-        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
-//        self.imageView.frame = self.imageView.yc_imageRect;
-        self.imageView.frame = self.imageView.image.yc_rectForScreen;
-        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
-        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath333", self.imageView, NSStringFromCGSize(self.imageView.image.size));
-        CGSize size = self.frame.size;
-        self.imageView.center = CGPointMake(size.width/2, size.height/2);
-        
-        // 设置最大缩放
-        UIImage *image = self.imageView.image;
-        if (image.size.width + image.size.height) {
-            float maxScale = (float)fmax(fmax(size.width/image.size.width, size.height/image.size.height), self.maxScale);
-            self.scrollView.maximumZoomScale = maxScale;
-        } else {
-            self.scrollView.maximumZoomScale = self.maxScale;
-        }
-        
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 - (void)layoutSubviews {
@@ -155,11 +69,78 @@
     */
 }
 
+- (void)dealloc {
+    [_imageView removeObserver:self forKeyPath:@"image"];
+}
+
+
+#pragma mark -
+
+- (void)config {
+    // scroll view
+    UIScrollView *sv = [UIScrollView new];
+    sv.minimumZoomScale = 1;
+    sv.maximumZoomScale = 6;
+    sv.delegate = self;
+    sv.pinchGestureRecognizer.enabled = NO;
+    self.scrollView = sv;
+    [self.contentView addSubview:sv];
+//    sv.backgroundColor = [UIColor lightGrayColor];
+    sv.backgroundColor = [UIColor clearColor];
+    if (@available(iOS 11.0, *)) {
+        sv.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    
+    
+    // image view
+//    UIImageView *iv = [[UIImageView alloc] initWithFrame:self.bounds];
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    iv.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageView = iv;
+    [self.scrollView addSubview:iv];
+    NSLog(@"%p, 大小: %@ config", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+    // kvo. 设置 image 后重新布局
+    [iv addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+    
+    
+    // 双击手势
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTap.numberOfTapsRequired = 2;
+    self.doubleTap = doubleTap;
+//    self.imageView.userInteractionEnabled = YES;
+//    [self.imageView addGestureRecognizer:doubleTap];
+    [self.scrollView addGestureRecognizer:doubleTap];
+    
+    
+    // 旋转手势
+    UIRotationGestureRecognizer *rp = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
+//    [self.imageView addGestureRecognizer:rp];
+    rp.delegate = self;
+    self.imageView.userInteractionEnabled = YES;
+    
+    
+    // 缩放手势
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleScale:)];
+    [self.imageView addGestureRecognizer:pinch];
+    pinch.delegate = self;
+
+
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 160, 30)];
+    label.backgroundColor = [UIColor yellowColor];
+    [self.contentView addSubview:label];
+    self.testL = label;
+    label.textColor = [UIColor blackColor];
+}
+
+
+
 #pragma mark - UIScrollViewDelegate
 
 //- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 //    return self.imageView;
 //}
+
 //
 //- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
 ////    if (view == self.imageView) {
@@ -197,32 +178,45 @@
 //
 //}
 
-#pragma mark -
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSLog(@"hhh %@", scrollView);
+//}
 
 
-- (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
-    float scale;
-    
-    if (self.scrollView.zoomScale != self.scrollView.minimumZoomScale) {
-        scale = self.scrollView.minimumZoomScale;
-    } else {
-        scale = self.scrollView.maximumZoomScale;
+#pragma mark - 视觉差
+
+// 视差，图片偏移
+- (void)setXOffset:(float)x {
+    // 系统自带的照片应用也是在放大照片的情况下，取消视差效果。
+    // 如果在放大图片的时候也有视差效果，会在 ScanViewController 的 scrollViewDidScroll 方法里死循环
+    if (self.scrollView.zoomScale != 1) {
+        return;
     }
     
-    CGPoint location = [self.doubleTap locationInView:self.imageView];
-    float dx = fabs(location.x) / self.imageView.width;
-    float dy = fabs(location.y) / self.imageView.height;
+    // 图片缩放时，取消视差效果，防止死循环
+    if (!CGAffineTransformIsIdentity(self.scaleTransform)) {
+        return;
+    }
+    
+    if (!CGAffineTransformIsIdentity(self.rotateTransform)) {
+        return;
+    }
 
-    CGRect zoomRect;
-    zoomRect.size.height = self.scrollView.frame.size.height / scale;
-    zoomRect.size.width  = self.scrollView.frame.size.width  / scale;
-    zoomRect.origin.x    = location.x - (zoomRect.size.width  * dx);
-    zoomRect.origin.y    = location.y - (zoomRect.size.height * dy);
-
-    [self.scrollView zoomToRect:zoomRect animated:YES];
-
+//    CGRect newFrame = CGRectOffset(self.bounds, x, 0);
+//    self.scrollView.frame = newFrame; // 会在 YCAssetPreviewVC 的 scrollViewDidScroll 方法里死循环
+        
+//    NSLog(@"%@, %f", NSStringFromSelector(_cmd), x);
+    self.imageView.transform = CGAffineTransformMakeTranslation(x, 0);
 }
 
+
+
+
+#pragma mark - 手势
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
 
 // 修改锚点，用于缩放
 - (void)modifyAnchorPointWithGesture:(UIGestureRecognizer *)gesture {
@@ -252,9 +246,113 @@
     NSLog(@"锚点 %@", NSStringFromCGPoint(self.imageView.layer.anchorPoint));
 }
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSLog(@"hhh %@", scrollView);
-//}
+#pragma mark - 缩放
+
+- (void)handleScale:(UIPinchGestureRecognizer *)pinch {
+//    return;
+    NSLog(@"location pinch = %@", NSStringFromCGPoint([pinch locationInView:self.imageView]));
+    
+    
+//    static float lastScale = 1;
+    
+//    float scale = lastScale;
+//    float scale = lastScale + (pinch.scale - 1);
+
+//        if (pinch.scale >= 1) {
+//            scale = lastScale + (pinch.scale - 1);
+//        } else {
+////            scale = lastScale - pinch.scale;
+//            scale = lastScale * pinch.scale;
+//        }
+    
+    float scale = self.lastScale * pinch.scale;
+
+    NSLog(@"scale = %f", scale);
+
+    if (pinch.state == UIGestureRecognizerStateBegan) {
+        
+        
+    } else if (pinch.state == UIGestureRecognizerStateChanged) {
+        
+
+//        self.iv.transform = CGAffineTransformMakeScale(scale, scale);
+        self.scaleTransform = CGAffineTransformMakeScale(scale, scale);
+        self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
+
+        
+    } else {
+        self.lastScale = scale;
+        self.scrollView.contentSize = self.imageView.frame.size;
+//        [self resetCenter];
+        [self resetContentOffset];
+    }
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
+    float scale;
+    
+    if (self.scrollView.zoomScale != self.scrollView.minimumZoomScale) {
+        scale = self.scrollView.minimumZoomScale;
+//        self.scrollView.contentInset = UIEdgeInsetsZero;
+    } else {
+        scale = self.scrollView.maximumZoomScale;
+        // 双击放大后，显示不全的 bug
+//        self.scrollView.contentInset = UIEdgeInsetsMake(-self.imageView.y, 0, self.imageView.y, 0);
+    }
+    
+    CGPoint location = [self.doubleTap locationInView:self.imageView];
+    float dx = fabs(location.x) / self.imageView.width;
+    float dy = fabs(location.y) / self.imageView.height;
+
+    CGRect zoomRect;
+    zoomRect.size.height = self.scrollView.frame.size.height / scale;
+    zoomRect.size.width  = self.scrollView.frame.size.width  / scale;
+    zoomRect.origin.x    = location.x - (zoomRect.size.width  * dx);
+    zoomRect.origin.y    = location.y - (zoomRect.size.height * dy);
+
+    // 需要实现 viewForZoomingInScrollView
+    [self.scrollView zoomToRect:zoomRect animated:YES];
+
+}
+
+
+
+#pragma mark - 旋转
+
+- (void)handleRotation:(UIRotationGestureRecognizer *)rp {
+    NSLog(@"location rotation = %@", NSStringFromCGPoint([rp locationInView:self.imageView]));
+
+    CGFloat rotation = rp.rotation + self.lastRotation;
+//    NSLog(@"%f", rp.rotation);
+//    NSLog(@"r = %f, count = %d", rp.rotation, (int)(rotation/M_PI_2));
+
+    if (rp.state == UIGestureRecognizerStateChanged) {
+//        self.iv.transform = CGAffineTransformMakeRotation(rotation);
+        
+        self.rotateTransform = CGAffineTransformMakeRotation(rotation);
+        self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
+
+    } else if (rp.state == UIGestureRecognizerStateEnded) {
+//        float temp = rotation % M_PI_4;
+//        int count = (int)(rotation/M_PI_4);
+//        int co = (int)(rp.rotation/M_PI_4);
+//        int count2 = (int)(rp.rotation/M_PI_2) + (int)((int)(rp.rotation) % (int)(M_PI_2))/M_PI_4;
+//        int cou = (int)(rp.rotation/M_PI_2 + fmod(rp.rotation, M_PI_2)/M_PI_4);
+        int c = (int)(rp.rotation/M_PI_2) + (int)(fmod(rp.rotation, M_PI_2)/M_PI_4);
+        int count = c;
+
+        float rota = count * M_PI_2 + self.lastRotation;
+        self.lastRotation = rota;
+        [UIView animateWithDuration:0.5 animations:^{
+//            self.iv.transform = CGAffineTransformMakeRotation(rota);
+            self.rotateTransform = CGAffineTransformMakeRotation(rota);
+            self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
+            self.scrollView.contentSize = self.imageView.frame.size;
+        }];
+
+    }
+
+}
 
 #pragma mark -
 
@@ -302,113 +400,6 @@
 
 }
 
-// 视差，图片偏移
-- (void)setXOffset:(float)x {
-    // 系统自带的照片应用也是在放大照片的情况下，取消视差效果。
-    // 如果在放大图片的时候也有视差效果，会在 ScanViewController 的 scrollViewDidScroll 方法里死循环
-    if (self.scrollView.zoomScale != 1) {
-        return;
-    }
-    
-    // 图片缩放时，取消视差效果，防止死循环
-    if (!CGAffineTransformIsIdentity(self.scaleTransform)) {
-        return;
-    }
-    
-    if (!CGAffineTransformIsIdentity(self.rotateTransform)) {
-        return;
-    }
-
-    
-//    CGRect newFrame = CGRectOffset(self.bounds, x, 0);
-//    self.scrollView.frame = newFrame; // 会在 YCAssetPreviewVC 的 scrollViewDidScroll 方法里死循环
-        
-//    NSLog(@"%@, %f", NSStringFromSelector(_cmd), x);
-    self.imageView.transform = CGAffineTransformMakeTranslation(x, 0);
-}
-
-
-
-#pragma mark -
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
-- (void)handleRotation:(UIRotationGestureRecognizer *)rp {
-    NSLog(@"location rotation = %@", NSStringFromCGPoint([rp locationInView:self.imageView]));
-
-    CGFloat rotation = rp.rotation + self.lastRotation;
-//    NSLog(@"%f", rp.rotation);
-//    NSLog(@"r = %f, count = %d", rp.rotation, (int)(rotation/M_PI_2));
-
-    if (rp.state == UIGestureRecognizerStateChanged) {
-//        self.iv.transform = CGAffineTransformMakeRotation(rotation);
-        
-        self.rotateTransform = CGAffineTransformMakeRotation(rotation);
-        self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
-
-    } else if (rp.state == UIGestureRecognizerStateEnded) {
-//        float temp = rotation % M_PI_4;
-//        int count = (int)(rotation/M_PI_4);
-//        int co = (int)(rp.rotation/M_PI_4);
-//        int count2 = (int)(rp.rotation/M_PI_2) + (int)((int)(rp.rotation) % (int)(M_PI_2))/M_PI_4;
-//        int cou = (int)(rp.rotation/M_PI_2 + fmod(rp.rotation, M_PI_2)/M_PI_4);
-        int c = (int)(rp.rotation/M_PI_2) + (int)(fmod(rp.rotation, M_PI_2)/M_PI_4);
-        int count = c;
-
-        float rota = count * M_PI_2 + self.lastRotation;
-        self.lastRotation = rota;
-        [UIView animateWithDuration:0.5 animations:^{
-//            self.iv.transform = CGAffineTransformMakeRotation(rota);
-            self.rotateTransform = CGAffineTransformMakeRotation(rota);
-            self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
-            self.scrollView.contentSize = self.imageView.frame.size;
-        }];
-
-    }
-
-}
-
-- (void)handleScale:(UIPinchGestureRecognizer *)pinch {
-    NSLog(@"location pinch = %@", NSStringFromCGPoint([pinch locationInView:self.imageView]));
-    
-    
-//    static float lastScale = 1;
-    
-//    float scale = lastScale;
-//    float scale = lastScale + (pinch.scale - 1);
-
-//        if (pinch.scale >= 1) {
-//            scale = lastScale + (pinch.scale - 1);
-//        } else {
-////            scale = lastScale - pinch.scale;
-//            scale = lastScale * pinch.scale;
-//        }
-    
-    float scale = self.lastScale * pinch.scale;
-
-    NSLog(@"scale = %f", scale);
-
-    if (pinch.state == UIGestureRecognizerStateBegan) {
-        
-        
-    } else if (pinch.state == UIGestureRecognizerStateChanged) {
-        
-
-//        self.iv.transform = CGAffineTransformMakeScale(scale, scale);
-        self.scaleTransform = CGAffineTransformMakeScale(scale, scale);
-        self.imageView.transform = CGAffineTransformConcat(self.rotateTransform, self.scaleTransform);
-
-        
-    } else {
-        self.lastScale = scale;
-        self.scrollView.contentSize = self.imageView.frame.size;
-//        [self resetCenter];
-        [self resetContentOffset];
-    }
-}
-
 - (void)resetContentOffset {
     UIView *scrollView = self.scrollView;
     UIView *view = self.imageView;
@@ -441,6 +432,30 @@
     view.center = CGPointMake(width/2, height/2);
     [self log];
 
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"image"]) {
+        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+//        self.imageView.frame = self.imageView.yc_imageRect;
+        self.imageView.frame = self.imageView.image.yc_rectForScreen;
+        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath222", self.imageView, NSStringFromCGSize(self.imageView.frame.size));
+        NSLog(@"%p, 大小: %@ ，observeValueForKeyPath333", self.imageView, NSStringFromCGSize(self.imageView.image.size));
+        CGSize size = self.frame.size;
+        self.imageView.center = CGPointMake(size.width/2, size.height/2);
+        
+        // 设置最大缩放
+        UIImage *image = self.imageView.image;
+        if (image.size.width + image.size.height) {
+            float maxScale = (float)fmax(fmax(size.width/image.size.width, size.height/image.size.height), self.maxScale);
+            self.scrollView.maximumZoomScale = maxScale;
+        } else {
+            self.scrollView.maximumZoomScale = self.maxScale;
+        }
+        
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)log {

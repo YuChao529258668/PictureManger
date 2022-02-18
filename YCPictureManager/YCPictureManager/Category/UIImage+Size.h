@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGRect)yc_rectForFrame:(CGRect)frame;
 
+- (CGSize)yc_sizeOfInput:(CGSize)input max:(CGSize)max;
+
 @end
 
 NS_ASSUME_NONNULL_END
