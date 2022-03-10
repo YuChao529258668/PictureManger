@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
+@property (nonatomic, assign) BOOL showAnimation;
+
+
 - (void)updateSelectCount:(NSInteger)count;
 
 @end

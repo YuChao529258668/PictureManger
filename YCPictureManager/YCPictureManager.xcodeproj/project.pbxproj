@@ -13,6 +13,8 @@
 		0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */; };
 		0D5456D9256FD76E00CE20DE /* YCPreviewGestureScaleNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */; };
 		0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */; };
+		0D5AAE2627BF85E3003C620C /* YCAssetDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5AAE2527BF85E3003C620C /* YCAssetDetailVC.m */; };
+		0D5AAE2927BF9169003C620C /* YCPreviewGestureUpNext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5AAE2827BF9169003C620C /* YCPreviewGestureUpNext.m */; };
 		0D5D153025792C14000AB15C /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D152F25792C14000AB15C /* opencv2.framework */; };
 		0D5D153425792DD3000AB15C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D153325792DD3000AB15C /* AssetsLibrary.framework */; };
 		0D85C983256BDA470044C0F5 /* YCLikeTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D85C982256BDA470044C0F5 /* YCLikeTestVC.m */; };
@@ -54,6 +56,10 @@
 		0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureScaleNext.m; sourceTree = "<group>"; };
 		0D5456DC256FD8B500CE20DE /* YCPreviewGestureHintNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureHintNext.h; sourceTree = "<group>"; };
 		0D5456DD256FD8B500CE20DE /* YCPreviewGestureHintNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureHintNext.m; sourceTree = "<group>"; };
+		0D5AAE2427BF85E3003C620C /* YCAssetDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCAssetDetailVC.h; sourceTree = "<group>"; };
+		0D5AAE2527BF85E3003C620C /* YCAssetDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCAssetDetailVC.m; sourceTree = "<group>"; };
+		0D5AAE2727BF9169003C620C /* YCPreviewGestureUpNext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCPreviewGestureUpNext.h; sourceTree = "<group>"; };
+		0D5AAE2827BF9169003C620C /* YCPreviewGestureUpNext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YCPreviewGestureUpNext.m; sourceTree = "<group>"; };
 		0D5D152325791C63000AB15C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		0D5D152F25792C14000AB15C /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		0D5D153325792DD3000AB15C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -130,6 +136,8 @@
 				0D5456D8256FD76E00CE20DE /* YCPreviewGestureScaleNext.m */,
 				0D5456D2256FCE5900CE20DE /* YCPreviewGesture.h */,
 				0D5456D3256FCE5900CE20DE /* YCPreviewGesture.m */,
+				0D5AAE2727BF9169003C620C /* YCPreviewGestureUpNext.h */,
+				0D5AAE2827BF9169003C620C /* YCPreviewGestureUpNext.m */,
 			);
 			path = Gesture;
 			sourceTree = "<group>";
@@ -261,6 +269,8 @@
 		0DA22A80255D2886005358F0 /* AssetDetail */ = {
 			isa = PBXGroup;
 			children = (
+				0D5AAE2427BF85E3003C620C /* YCAssetDetailVC.h */,
+				0D5AAE2527BF85E3003C620C /* YCAssetDetailVC.m */,
 				0DA22A81255D29E6005358F0 /* YCAssetPreviewVC.h */,
 				0DA22A82255D29E6005358F0 /* YCAssetPreviewVC.m */,
 				0DA22A8A255D2B45005358F0 /* View */,
@@ -449,7 +459,9 @@
 				0D9AF95F255FE835006F6B9B /* UIImageView+YCImageView.m in Sources */,
 				0DA22A7E255BE359005358F0 /* YCUtil.m in Sources */,
 				0DA22A5A255BC920005358F0 /* YCTabBarVC.m in Sources */,
+				0D5AAE2627BF85E3003C620C /* YCAssetDetailVC.m in Sources */,
 				0D5456D4256FCE5900CE20DE /* YCPreviewGesture.m in Sources */,
+				0D5AAE2927BF9169003C620C /* YCPreviewGestureUpNext.m in Sources */,
 				0DA22A3F255BC015005358F0 /* AppDelegate.m in Sources */,
 				0D5456DE256FD8B500CE20DE /* YCPreviewGestureHintNext.m in Sources */,
 				0DA22A50255BC016005358F0 /* main.m in Sources */,

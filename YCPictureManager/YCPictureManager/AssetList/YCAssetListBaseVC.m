@@ -10,7 +10,7 @@
 #import "YCAssetPreviewVC.h"
 #import "YCUtil.h"
 #import "YCLikeTestVC.h"
-
+#import "YCAssetDetailVC.h"
 
 #define kCellSpacing 2
 

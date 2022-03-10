@@ -453,6 +453,10 @@
     [self.view insertSubview:snapView belowSubview:self.bottomBar];
 
     NSTimeInterval duration = 0.44;
+    if (!self.showAnimation) {
+        duration = 0;
+    }
+
     self.view.backgroundColor = [UIColor clearColor];
 //    [UIView animateWithDuration:duration animations:^{
 ////            self.view.backgroundColor = [UIColor blackColor];

@@ -1,51 +1,13 @@
 //
-//  YCPreviewGestureHintNext.m
+//  YCPreviewGestureUpNext.m
 //  YCPictureManager
 //
-//  Created by 余超 on 2020/11/26.
+//  Created by 余超 on 2022/2/18.
 //
 
-#import "YCPreviewGestureHintNext.h"
+#import "YCPreviewGestureUpNext.h"
 
-@interface YCPreviewGestureHintNext ()
-@property (nonatomic, strong) UIView *hintView;
-
-@end
-
-
-@implementation YCPreviewGestureHintNext
-
-- (void)setupHintView {
-    if (self.hintView) {
-        return;
-    }
-    
-    UIView *view = [UIView new];
-//    view.backgroundColor = [UIColor whiteColor];
-    self.hintView = view;
-//    [self.view addSubview:view];
-    [self.view insertSubview:view belowSubview:self.vc.bottomBar];
-    
-    [YCUtil addBlurTo:view style:UIBlurEffectStyleDark];// UIBlurEffectStyleDark UIBlurEffectStyleRegular
-
-    UILabel *lable = [UILabel new];
-    lable.textColor = [UIColor whiteColor];
-    lable.backgroundColor = [UIColor blackColor];
-    lable.alpha = 0.8;
-    lable.font = [UIFont systemFontOfSize:15];
-    lable.text = @"上滑选中图片";
-    lable.textAlignment = NSTextAlignmentCenter;
-    [view addSubview:lable];
-    
-    CGRect frame = self.view.bounds;
-    view.frame = frame;
-    
-//    frame.origin.y = 80;
-//    frame.size.height = 30;
-//    lable.frame = frame;
-    lable.frame = CGRectMake(20, 80, 180, 24);
-    
-}
+@implementation YCPreviewGestureUpNext
 
 #pragma mark - Actions
 
@@ -57,9 +19,6 @@
         
         self.collectionView.scrollEnabled = NO;
 
-        [self setupHintView];
-        self.hintView.hidden = NO;
-
         CGPoint location = [pan locationInView:pan.view];
         NSIndexPath *ip = [self.collectionView indexPathForItemAtPoint:location];
         
@@ -68,7 +27,6 @@
         
         UIView *snapView = [cell.imageView snapshotViewAfterScreenUpdates:NO];
         self.snapView = snapView;
-        [self.hintView addSubview:snapView];
 
         CGRect frame = cell.imageView.frame;
         frame = [cell.imageView.superview convertRect:frame toView:self.view];
@@ -93,7 +51,6 @@
 - (void)cancelPanUp {
 
     [UIView animateWithDuration:0.2 animations:^{
-        self.hintView.alpha = 1;
         self.snapView.alpha = 1;
         self.snapView.transform = CGAffineTransformMakeTranslation(0, 0);
 
@@ -101,7 +58,6 @@
         [self.snapView removeFromSuperview];
         self.snapView = nil;
 
-        self.hintView.hidden = YES;
         self.selectImageView.hidden = NO;
         
         self.collectionView.scrollEnabled = YES;
@@ -321,7 +277,6 @@
     return NO;
 }
 
-
 #pragma mark -
 
 - (BOOL)shouldSelect {
@@ -339,21 +294,6 @@
     return YES;
 }
 
-- (void)onSelect {
-    if ([self shouldSelect]) {
-        float scale = 0.7;
-        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
-        self.snapView.layer.cornerRadius = 8;
-        self.snapView.layer.masksToBounds = YES;
-
-    } else {
-        self.snapView.transform = CGAffineTransformScale(self.snapView.transform, 1, 1);
-        self.snapView.layer.cornerRadius = 0;
-
-    }
-
-}
-
 - (void)panUpChange:(UIPanGestureRecognizer *)pan {
 //    [self panUpChange_move_scale:pan];
     
@@ -362,34 +302,13 @@
     [self panUpChange_move_card:pan];
 }
 
-- (void)panUpChange_move_scale:(UIPanGestureRecognizer *)pan {
-    CGPoint translation = [pan translationInView:self.view];
-    self.snapView.transform = CGAffineTransformMakeTranslation(translation.x / 3, translation.y);
-
-    // 位移是相对的，所以如果视图被缩放了，位移会变大。所以位移要相对不会被缩放的视图，比如控制器的视图。
-    // 先缩放再平移，和先平移再缩放，效果完全不一样。
-    float scale = 1 - fabs(translation.y) / self.view.height;
-    scale = fmaxf(scale, 0.86);
-    self.snapView.transform = CGAffineTransformScale(self.snapView.transform, scale, scale);
-}
-
-- (void)panUpChange_move_alpha:(UIPanGestureRecognizer *)pan {
-    CGPoint translation = [pan translationInView:self.view];
-    NSLog(@"translation.y = %lf", translation.y);
-    
-    float alpha = 1 - fabs(translation.y)*2 / self.view.height;
-    self.snapView.alpha = alpha;
-    
-    self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
-}
-
 - (void)panUpChange_move:(UIPanGestureRecognizer *)pan {
     CGPoint translation = [pan translationInView:self.view];
     NSLog(@"translation.y = %lf", translation.y);
     
     self.snapView.transform = CGAffineTransformMakeTranslation(0, translation.y);
     
-    [self onSelect];
+//    [self onSelect];
 }
 
 - (void)panUpChange_move_card:(UIPanGestureRecognizer *)pan {
@@ -444,15 +363,12 @@
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.snapView.frame = targetFrame;
         self.snapView.alpha = 0;
-        self.hintView.alpha = 0;
 //            self.view.backgroundColor = [UIColor clearColor];
 
     } completion:^(BOOL finished) {
         self.collectionView.hidden = NO;
         [self.snapView removeFromSuperview];
         self.snapView = nil;
-        self.hintView.hidden = YES;
-        self.hintView.alpha = 1;
         self.selectImageView.hidden = NO;
     }];
     
@@ -477,6 +393,5 @@
     [self.collectionView deleteItemsAtIndexPaths:@[self.selectIndexPath]];
 
 }
-
 
 @end

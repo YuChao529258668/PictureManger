@@ -13,6 +13,9 @@
 #import "UIImageView+YCImageView.h"
 #import "YCUtil.h"
 
+// 手势有效的最小垂直位移
+//#define kGestureTriggerTranslationY 100
+#define kGestureTriggerTranslationY 80
 
 @interface YCPreviewGesture : NSObject <UIGestureRecognizerDelegate>
 
